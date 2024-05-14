@@ -3,6 +3,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -69,13 +70,17 @@ type PhonologicRhymeSentenceItems struct {
 }
 
 type DecodingTextReading struct {
-	FirstQuestion  string   `json:"firstquestion"`
-	Section        int      `json:"section"`
-	Level          int      `json:"level"`
-	ExerciseNumber int      `json:"exercise"`
-	TextData       string   `json:"textdata"`
-	SecondQuestion string   `json:"secondquestion"`
-	RedWords       []string `json:"redwords"`
+	FirstQuestion            string                     `json:"firstquestion"`
+	SecondQuestion           string                     `json:"secondquestion"`
+	Section                  int                        `json:"section"`
+	Level                    int                        `json:"level"`
+	ExerciseNumber           int                        `json:"exercise"`
+	DecodingTextReadingItems []DecodingTextReadingItems `json:"items"`
+}
+
+type DecodingTextReadingItems struct {
+	TextData string   `json:"textdata"`
+	RedWords []string `json:"redwords"`
 }
 
 type Answer struct {
@@ -111,9 +116,10 @@ func readJSONFile(filePath string, v interface{}) {
 	}
 }
 
-func loadSession() (sessions []Session) {
+func loadSession(sessionNumber int) (sessions []Session) {
 	var data []Session
-	readJSONFile("data/Session.json", &data)
+	fileName := fmt.Sprintf("data/Session%d.json", sessionNumber)
+	readJSONFile(fileName, &data)
 
 	for _, e := range data {
 		session := Session{
@@ -128,7 +134,6 @@ func loadSession() (sessions []Session) {
 }
 
 func loadExercises(sessions []Session) {
-
 	// Load aLL
 	readJSONFile("data/PhonologicRhymePair.json", &phonologicRhymePairExercise)
 	readJSONFile("data/PhonologicRhymeMatch.json", &phonologicRhymeMatchExercise)
@@ -195,6 +200,7 @@ func loadExercises(sessions []Session) {
 }
 
 func serveExercises(w http.ResponseWriter, r *http.Request) {
+
 	// Create an instance of ExerciseData with phonologicExercises
 	exerciseData := PhonologicExercises{
 		PhonologicRhymePair:          phonologicRhymePairExercise,
@@ -247,13 +253,14 @@ func handleAnswer(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	sessions := loadSession()
-
-	loadExercises(sessions)
-
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 	http.HandleFunc("/exercises", serveExercises)
 	http.HandleFunc("/answer", handleAnswer)
+
+	sessionNumber := 2
+
+	sessions := loadSession(sessionNumber)
+	loadExercises(sessions)
 
 	log.Println("Starting server on port 8080")
 	err := http.ListenAndServe(":8080", nil)
