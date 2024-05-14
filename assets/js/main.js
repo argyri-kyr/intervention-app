@@ -1,4 +1,4 @@
-let START_EXERCISE = 5;
+let START_EXERCISE = 0;
 
 function speak(text) {
     var msg = new SpeechSynthesisUtterance(" "+text);
@@ -133,8 +133,11 @@ function updateQuestion(back = false, templateClass) {
 
 function nextQuestion(itemSelector) {
     let templateClass = itemSelector;
-    console.log(templateClass);
     let questions = document.querySelectorAll(templateClass);
+
+    console.log("templateClass = ", templateClass);
+    console.log("questions.length = ", questions.length);
+    
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
         nextExercise();

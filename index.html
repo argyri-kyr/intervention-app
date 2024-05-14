@@ -29,7 +29,7 @@
                 </div>
             </div>
             {{end}}
-        </div>
+            </div>
         {{end}}
 
         <!-- Template 2 -->
@@ -52,7 +52,7 @@
                 <button class="nextButton" onclick="nextQuestion('.phonologic-rhyme-match-item.t_{{$templateIndex}}') ; storeAnswer(this, '.phonologic-rhyme-match-item.t_{{$templateIndex}}', '{{$question}}', '{{$index}}')">Επόμενο</button>
             </div>
             {{end}}
-        </div>
+            </div>
         {{end}}
         
         <!-- Template 3 -->
@@ -107,30 +107,29 @@
         {{end}}
     
         <!-- Template 5 -->
-        {{range .DecodingTextReading}}
+        {{range $templateIndex, $_ := .DecodingTextReading}}
+        {{$firstquestion := .FirstQuestion}}
+        {{$secondquestion := .SecondQuestion}}
         <div class="decoding-text-reading template">
-            {{$question := .FirstQuestion}}
-            <h1>{{.FirstQuestion}}</h1>
-            <div class="decoding-text-reading-textdata">
-                <pre>{{.TextData}}</pre>
-            </div>
-            <button class="nextButton-textreading" onclick="nextQuestion('.decoding-text-reading-textdata')">Επόμενο</button>
+            {{range $index, $_ := .DecodingTextReadingItems}}
+                {{if eq $index 0}}
+                <div class="decoding-text-reading-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
+                    <h1>{{$firstquestion}}</h1>
+                        <pre>{{.TextData}}</pre>
+                </div>
+                {{else}}
+                <div class="decoding-text-reading-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
+                    <h1>{{$secondquestion}}</h1>
+                        {{range .RedWords}}
+                            <div class="decoding-text-reading-redwords-word">{{.}}</div>
+                        {{end}}
+                </div>
+                {{end}}
+            <button class="nextButton" onclick="nextQuestion('.decoding-text-reading-item')">Επόμενο</button>
+            {{end}}
         </div>
         {{end}}
 
-        <!-- Template 6 -->
-        {{range .DecodingTextReading}}
-        <div class="decoding-text-reading template">
-            {{$question := .SecondQuestion}}
-            <h1>{{.SecondQuestion}}</h1>
-            <div class="decoding-text-reading-redwords">
-                {{range .RedWords}}
-                    <div class="decoding-text-reading-redwords-word">{{.}}</div>
-                {{end}}
-            </div>
-            <button class="nextButton-textreading" onclick="nextQuestion('.decoding-text-reading-textdata')">Επόμενο</button>
-        </div>
-    {{end}}
     
     </div> <!-- content -->
     <div id="output"></div>
