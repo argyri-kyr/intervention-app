@@ -256,15 +256,18 @@ body {
     max-height: 800px; /* Adjust as needed */
 }
 
+.decoding-text-reading-redwords {
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom:20px;
+}
+
 .decoding-text-reading-redwords-word {
-    display: inline-block;
-    margin-right: 100px; 
-    margin-bottom: 5px; 
-    white-space: nowrap; /* Prevent words from wrapping */
-    overflow: hidden; /* Hide overflow text */
-    text-overflow: ellipsis; /* Show ellipsis for overflow text */
-    font-family: 'Calibri', Courier, monospace; 
-    font-size: 30px; 
+    width: 50%; /* Each word takes up half the width */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    font-family: 'Calibri', Courier, monospace; /* Font family */
+    font-size: 35px; /* Font size */
+    padding-bottom:20px;
 }
 
 .nextButton-textreading {
@@ -287,7 +290,7 @@ body {
     bottom: 10;
     left: 50%;
     transform: translateX(-50%);
-    margin-top: 15px; /* Adjust as needed */
+    margin-top: 20px; /* Adjust as needed */
 }
 
 @keyframes slideInFromRight {

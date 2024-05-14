@@ -108,27 +108,33 @@
     
         <!-- Template 5 -->
         {{range $templateIndex, $_ := .DecodingTextReading}}
-        {{$firstquestion := .FirstQuestion}}
-        {{$secondquestion := .SecondQuestion}}
         <div class="decoding-text-reading template">
             {{range $index, $_ := .DecodingTextReadingItems}}
                 {{if eq $index 0}}
                 <div class="decoding-text-reading-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
-                    <h1>{{$firstquestion}}</h1>
-                        <pre>{{.TextData}}</pre>
+                    <h1>{{.FirstQuestion}}</h1>
+                    <pre>{{.TextData}}</pre>
                 </div>
-                {{else}}
-                <div class="decoding-text-reading-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
-                    <h1>{{$secondquestion}}</h1>
+                {{else if eq $index 1}}
+                <div class="decoding-text-reading-item i_{{$index}}"  style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: none;">
+                    <h1>{{.SecondQuestion}}</h1>
+                    <div class="decoding-text-reading-redwords">
                         {{range .RedWords}}
                             <div class="decoding-text-reading-redwords-word">{{.}}</div>
                         {{end}}
+                    </div>
+                </div>
+                {{else if eq $index 2}}
+                <div class="decoding-text-reading-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: none;">
+                    <h1>{{.FirstQuestion}}</h1>
+                    <pre>{{.TextData}}</pre>
                 </div>
                 {{end}}
-            <button class="nextButton" onclick="nextQuestion('.decoding-text-reading-item')">Επόμενο</button>
             {{end}}
+            <button class="nextButton-textreading" onclick="nextQuestion('.decoding-text-reading-item')">Επόμενο</button>
         </div>
     {{end}}
+
     <div id="homebutton">
         <img src="/assets/home.svg" onclick="window.location.href='http://localhost:8080/main.html'">
     </div>

@@ -1,4 +1,4 @@
-let START_EXERCISE = 1;
+let START_EXERCISE = 0;
 
 function speak(text) {
     var msg = new SpeechSynthesisUtterance(" "+text);

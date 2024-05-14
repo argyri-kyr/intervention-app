@@ -72,8 +72,6 @@ type PhonologicRhymeSentenceItems struct {
 }
 
 type DecodingTextReading struct {
-	FirstQuestion            string                     `json:"firstquestion"`
-	SecondQuestion           string                     `json:"secondquestion"`
 	Section                  int                        `json:"section"`
 	Level                    int                        `json:"level"`
 	ExerciseNumber           int                        `json:"exercise"`
@@ -81,8 +79,10 @@ type DecodingTextReading struct {
 }
 
 type DecodingTextReadingItems struct {
-	TextData string   `json:"textdata"`
-	RedWords []string `json:"redwords"`
+	FirstQuestion  string   `json:"firstquestion"`
+	TextData       string   `json:"textdata"`
+	SecondQuestion string   `json:"secondquestion"`
+	RedWords       []string `json:"redwords"`
 }
 
 type Answer struct {
@@ -208,7 +208,7 @@ func serveExercises(w http.ResponseWriter, r *http.Request) {
 		sessionNumber, _ = strconv.Atoi(parts[2])
 	} else {
 	}
-	fmt.Println("Session Number: ", sessionNumber)
+
 	sessions := loadSession(sessionNumber)
 	loadExercises(sessions)
 
@@ -226,6 +226,7 @@ func serveExercises(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Failed to parse the HTML template: %v", err)
 	}
+
 	// Execute the HTML template with the ExerciseData instance
 	err = tmpl.Execute(w, exerciseData)
 	if err != nil {

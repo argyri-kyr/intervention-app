@@ -19,7 +19,7 @@ body {
     height: 100vh;
 }
 
-.session-1, .session-2 {
+.session-1, .session-2, .session-3 {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -40,11 +40,15 @@ body {
     background-color: #3d7d3d; /* Green */
 }
 
+.session-3 {
+    background-color: #e88f13; /* Green */
+}
+
 .session-button {
     width: 50%;
     height: 50%;
 }
 
-.session-1:hover, .session-2:hover {
+.session-1:hover, .session-2:hover, .session-3:hover {
     transform: scale(1.1);
 }
