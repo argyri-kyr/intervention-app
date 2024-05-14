@@ -128,9 +128,16 @@
             <button class="nextButton" onclick="nextQuestion('.decoding-text-reading-item')">Επόμενο</button>
             {{end}}
         </div>
-        {{end}}
-
-    
+    {{end}}
+    <div id="homebutton">
+        <img src="/assets/home.svg" onclick="window.location.href='http://localhost:8080/main.html'">
+    </div>
+    <div id="progressBar" class="progress-bar">
+        <div id="exerciseProgressBar" class="progress-bar-inner"></div>
+        <div id="questionProgressBar" class="progress-bar-inner"></div>
+        <div id="exerciseProgressText" class="progress-text"></div>
+        <div id="questionProgressText" class="progress-text"></div>
+    </div>
     </div> <!-- content -->
     <div id="output"></div>
     

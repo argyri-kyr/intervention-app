@@ -8,6 +8,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 )
 
 type Session struct {
@@ -200,6 +202,15 @@ func loadExercises(sessions []Session) {
 }
 
 func serveExercises(w http.ResponseWriter, r *http.Request) {
+	sessionNumber := 1
+	parts := strings.Split(r.URL.Path, "/")
+	if len(parts) > 2 {
+		sessionNumber, _ = strconv.Atoi(parts[2])
+	} else {
+	}
+	fmt.Println("Session Number: ", sessionNumber)
+	sessions := loadSession(sessionNumber)
+	loadExercises(sessions)
 
 	// Create an instance of ExerciseData with phonologicExercises
 	exerciseData := PhonologicExercises{
@@ -254,13 +265,11 @@ func handleAnswer(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
-	http.HandleFunc("/exercises", serveExercises)
+	http.HandleFunc("/exercises/", serveExercises)
 	http.HandleFunc("/answer", handleAnswer)
-
-	sessionNumber := 2
-
-	sessions := loadSession(sessionNumber)
-	loadExercises(sessions)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "main.html")
+	})
 
 	log.Println("Starting server on port 8080")
 	err := http.ListenAndServe(":8080", nil)

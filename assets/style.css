@@ -206,12 +206,10 @@ body {
     background-size: contain;
 }
 
-/* .speak-word.selected {
-    background-color: var(--dark-blue-selected);
-} */
 .speak-word.selected {
-    background-color: rgb(208, 124, 14); /* Change this to your desired orange color */
-}
+    background-color: var(--dark-blue-selected);
+    /*background-color: rgb(208, 124, 14); */
+} 
 
 .main-sentence {
     background-color: white;
@@ -335,3 +333,64 @@ body {
         opacity: 0;
     }
   }
+
+  /* Progress bar container */
+.progress-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 30px;
+    width: 80%;
+    background-color: #f3f3f3;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+/* Progress bar */
+.progress-bar-inner {
+    position: absolute;
+    height: 100%;
+    background-color: #bad2ff;
+    transition: width 0.3s ease-in-out;
+}
+
+/* Progress text */
+.progress-text {
+    width: 100%;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    z-index: 1;
+}
+
+#homebutton {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: 20px;
+    background-color: black;
+    display: inline-block;
+    border: 1px solid #000;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#homebutton:hover {
+    background-color: #848484;
+}
+
+#homebutton img {
+    width: 20px;
+    height: 20px;
+}

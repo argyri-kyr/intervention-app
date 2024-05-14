@@ -1,4 +1,4 @@
-let START_EXERCISE = 0;
+let START_EXERCISE = 1;
 
 function speak(text) {
     var msg = new SpeechSynthesisUtterance(" "+text);
@@ -77,23 +77,32 @@ function hideExercises() {
 
 
 hideExercises();
+let currentExercise = 0;
+let templateDivs = document.querySelectorAll('.template');
+let totalExercises = templateDivs.length;
 
 function nextExercise() {
     console.log('Next exercise');
     let templateDivs = document.querySelectorAll('.template');
-    let currentTemplate = 0;
+    totalExercises = templateDivs.length;
     for(let i = 0; i < templateDivs.length; i++) {
         if (templateDivs[i].style.display === 'block') {
-            currentTemplate = i;
-            console.log(currentTemplate);
+            currentExercise = i;
+            console.log(currentExercise);
             break;
         }
     }
-    templateDivs[currentTemplate].style.display = 'none';
-    templateDivs[(currentTemplate + 1) % templateDivs.length].style.display = 'block';
+    templateDivs[currentExercise].style.display = 'none';
+    templateDivs[(currentExercise + 1) % templateDivs.length].style.display = 'block';
+}
+
+function getTotalQuestions() {
+    return document.querySelectorAll(".phonologic-rhyme-match-item.t_0").length;
 }
 
 let currentQuestion = 0;
+let totalQuestions = getTotalQuestions();
+
 function updateQuestion(back = false, templateClass) {
     let questions = document.querySelectorAll(templateClass);
     console.log(`Template: ${templateClass}`);
@@ -106,6 +115,7 @@ function updateQuestion(back = false, templateClass) {
         nexQ = currentQuestion;
     }
     console.log(`Questions: ${questions.length} next:${nexQ}`);
+    totalQuestions = questions.length;
     let currQuestion = document.querySelector(`${templateClass}.i_${curQ}`);
     let nextQuestion = document.querySelector(`${templateClass}.i_${nexQ}`);
 
@@ -141,11 +151,12 @@ function nextQuestion(itemSelector) {
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
         nextExercise();
+        updateProgressBar();
         return;
     }
     currentQuestion = (currentQuestion + 1) % questions.length;
     updateQuestion(false, templateClass);
-
+    updateProgressBar();
 
     // Call storeAnswer function
     // storeAnswer(button, itemSelector, question, index);
@@ -233,3 +244,18 @@ dropzones.forEach(function(dropzone) {
     dropzone.addEventListener('dragover', allowDrop);
     dropzone.addEventListener('drop', drop);
 });
+
+updateProgressBar();
+
+// Function to calculate progress
+function calculateProgress(current, total) {
+    return (current / total) * 100;
+}
+
+// Function to update progress bar
+function updateProgressBar() {
+    let questionProgress = calculateProgress(currentQuestion, totalQuestions);
+    document.getElementById('questionProgressBar').style.width = questionProgress + '%';
+    document.getElementById('exerciseProgressText').innerText = `Άσκηση: ${currentExercise+1} / ${totalExercises}`;
+    document.getElementById('questionProgressText').innerText = `Ερώτηση: ${currentQuestion+1} / ${totalQuestions}`;
+}
