@@ -1,0 +1,337 @@
+:root {
+    --dark-blue: #3f51b5;
+    --dark-blue-hover: #303f9f;
+    --dark-blue-selected: #0d4f4d;
+    --white: #fff;
+    --grey: #333;
+    --button: #3f444f;
+}
+
+body {
+    font-family: Play, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)), url('./5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    opacity: 0.8;
+
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust this as needed */
+}
+
+.phonologic-rhyme-pair {
+    padding: 10px;
+    font-size: 16pt;
+}
+
+.phonologic-rhyme-pair-item {
+    padding: 10px;
+    font-size: 16pt;
+    text-align: center;
+    border-top: 3px solid #333;
+}
+
+
+.phonologic-rhyme-match-answers {
+    padding: 20px;
+}
+
+.phonologic-rhyme-match-item {
+    padding: 20px;
+    text-align: center;
+    border-top: 3px solid #333;
+}
+
+.nextButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6em 1.2em;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--button);
+    background-color: rgb(225, 97, 47);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-inline: 450px;
+}
+
+.phonologic-rhyme-match-answers button:hover {
+    background-color: var(--dark-blue-hover);
+}
+
+.phonologic-rhyme-pair-item button {
+    padding: 10px;
+    font-size: 14pt;
+    background-color: white;
+}
+
+.phonologic-rhyme-pair-answer {
+    padding: 30px;
+    font-size: 16pt;
+}
+
+.phonologic-rhyme-multiple-match-column {
+    display: block;
+    float: left;
+    width: 60vh;
+}
+
+.phonologic-rhyme-multiple-match {
+    margin: 30px;
+}
+
+.phonologic-rhyme-multiple-match-column > .speak-word {
+    display: flex;
+    margin-bottom: 15px;
+    width: 250px;
+    margin-left: 80px;
+}
+
+.dropzone {
+    border: 1px solid #aaa;
+    width: 660px;
+    margin-bottom: 13px;
+    margin-left: -30px;
+}
+
+.dropzone > .speak-word {
+    margin: 0px;
+    width: 250px;
+}
+
+.phonologic-rhyme-pair-answer button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6em 1.2em;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--button);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-inline: 10px;
+}
+
+.phonologic-rhyme-sentence-answers {
+    padding: 20px;
+}
+
+.phonologic-rhyme-sentence-item {
+    padding: 20px;
+    text-align: center;
+    border-top: 3px solid #333;
+}
+
+.phonologic-rhyme-sentence button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6em 1.2em;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--button);
+    background-color: rgb(225, 97, 47);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-inline: 60px;
+}
+
+.phonologic-rhyme-sentence-answers button:hover {
+    background-color: var(--dark-blue-hover);
+}
+
+.main-match {
+    margin: 50px;
+    font-size: 2.4rem;
+}
+
+.speak-word {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.3em 1.2em;
+    font-size: 1.9rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--dark-blue);
+    background-color: rgb(81, 15, 234);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-inline: 60px;
+}
+
+.speak-word:hover {
+    background-color: var(--dark-blue-hover);
+    background-color: cornflowerblue;
+}
+
+.speak-word:before {
+    content: '';
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    margin-right: 8px;
+    background-image: url('/assets/speak.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* .speak-word.selected {
+    background-color: var(--dark-blue-selected);
+} */
+.speak-word.selected {
+    background-color: rgb(208, 124, 14); /* Change this to your desired orange color */
+}
+
+.main-sentence {
+    background-color: white;
+    color: var(--grey);
+}
+
+.main-sentence button:hover{
+    background-color: #aaa;
+}
+
+.main-match {
+    background-color: var(--dark-blue-selected);
+}
+
+.decoding-text-reading {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Align children horizontally */
+    position: relative; /* Make the parent container a positioned container */
+}
+
+.decoding-text-reading h1 {
+    padding-bottom: 10px;
+    border-bottom: 3px solid #333;
+    align-self: flex-start; /* Align at the start (top) of the container */
+    color: #333; /* Text color */
+    font-size: 35px; /* Font size */
+    margin-bottom: 50px; /* Bottom margin */
+}
+
+.decoding-text-reading pre {
+    background-color: #c2f0fb;  /*Background color */
+    border: 1px solid #ccc; /* Border */
+    padding: 20px; /* Padding */
+    font-family: 'Calibri', Courier, monospace; /* Font family */
+    font-size: 35px; /* Font size */
+    white-space: pre-wrap; /* Preserve line breaks */
+    word-wrap: break-word; /* Break long words */
+}
+
+.decoding-text-reading-redwords {
+    max-width: 800px; /* Adjust as needed */
+    max-height: 800px; /* Adjust as needed */
+}
+
+.decoding-text-reading-redwords-word {
+    display: inline-block;
+    margin-right: 100px; 
+    margin-bottom: 5px; 
+    white-space: nowrap; /* Prevent words from wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Show ellipsis for overflow text */
+    font-family: 'Calibri', Courier, monospace; 
+    font-size: 30px; 
+}
+
+.nextButton-textreading {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6em 1.2em;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--button);
+    background-color: rgb(225, 97, 47);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    bottom: 10;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 15px; /* Adjust as needed */
+}
+
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+  }
+  
+  @keyframes slideOutToLeft {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+  }
+  
+  @keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+  }
+  
+  @keyframes slideOutToRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+  }
