@@ -87,17 +87,31 @@ function nextExercise() {
     totalExercises = templateDivs.length;
     for(let i = 0; i < templateDivs.length; i++) {
         if (templateDivs[i].style.display === 'block') {
-            currentExercise = i;
-            console.log(currentExercise);
+            console.log('templateDiv:', i);
+            console.log('totalExercises:', totalExercises);
+            if (i === totalExercises - 1) {
+                console.log('Last exercise, go Home');
+                //Go to Home
+                window.location.href = '/main.html';
+            }
+            currentExercise = i+1;
+            console.log('got Current exercise from block:', currentExercise);
             break;
         }
     }
-    templateDivs[currentExercise].style.display = 'none';
-    templateDivs[(currentExercise + 1) % templateDivs.length].style.display = 'block';
+    console.log('Current exercise:', currentExercise);
+    templateDivs[currentExercise-1].style.display = 'none';
+    templateDivs[currentExercise].style.display = 'block';
 }
 
 function getTotalQuestions() {
-    return document.querySelectorAll(".phonologic-rhyme-match-item.t_0").length;
+    let templateDivs = document.querySelectorAll('.template');
+    let visibleTemplateDivs = Array.from(templateDivs).filter(div => window.getComputedStyle(div).display !== 'none');
+    console.log(visibleTemplateDivs);
+    let childDivs = Array.from(visibleTemplateDivs[0].children).filter(child => child.tagName === 'DIV');
+    console.log(`Number of child divs: ${childDivs.length}`);
+
+    return childDivs.length;
 }
 
 let currentQuestion = 0;
@@ -151,6 +165,7 @@ function nextQuestion(itemSelector) {
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
         nextExercise();
+        totalQuestions = getTotalQuestions();
         updateProgressBar();
         return;
     }

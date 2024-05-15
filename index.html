@@ -96,11 +96,9 @@
                     <div class="speak-word" onclick="speak('{{.}}'); selectAnswer(this);">{{.}}</div>
                 {{end}}
                 </div>
-                {{if eq $index 6}}
-                <button class="submitButton" onclick="storeAnswer(this, '.phonologic-rhyme-sentence-item', '{{$question}}', '{{$index}}') ; submitAnswers('.PhonologicRhymeSentenceItems')">Υποβολή</button>
-                {{else}}
-                    <button class="nextButton" onclick="nextQuestion('.phonologic-rhyme-sentence-item') ; storeAnswer(this, '.phonologic-rhyme-sentence-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
-                {{end}}
+                
+                <button class="nextButton" onclick="nextQuestion('.phonologic-rhyme-sentence-item') ; storeAnswer(this, '.phonologic-rhyme-sentence-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
+                
             </div>
             {{end}}
         </div>
@@ -111,12 +109,12 @@
         <div class="decoding-text-reading template">
             {{range $index, $_ := .DecodingTextReadingItems}}
                 {{if eq $index 0}}
-                <div class="decoding-text-reading-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
+                <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: block;">
                     <h1>{{.FirstQuestion}}</h1>
                     <pre>{{.TextData}}</pre>
                 </div>
                 {{else if eq $index 1}}
-                <div class="decoding-text-reading-item i_{{$index}}"  style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: none;">
+                <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: none;">
                     <h1>{{.SecondQuestion}}</h1>
                     <div class="decoding-text-reading-redwords">
                         {{range .RedWords}}
@@ -125,18 +123,18 @@
                     </div>
                 </div>
                 {{else if eq $index 2}}
-                <div class="decoding-text-reading-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: none;">
+                <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: none;">
                     <h1>{{.FirstQuestion}}</h1>
                     <pre>{{.TextData}}</pre>
                 </div>
                 {{end}}
             {{end}}
-            <button class="nextButton-textreading" onclick="nextQuestion('.decoding-text-reading-item')">Επόμενο</button>
+            <button class="nextButton-textreading" onclick="nextQuestion('.decoding-text-reading-item.t_{{$templateIndex}}')">Επόμενο</button>
         </div>
     {{end}}
 
-    <div id="homebutton">
-        <img src="/assets/home.svg" onclick="window.location.href='http://localhost:8080/main.html'">
+    <div id="homebutton" onclick="window.location.href='http://localhost:8080/main.html'">
+        <img src="/assets/home.svg">
     </div>
     <div id="progressBar" class="progress-bar">
         <div id="exerciseProgressBar" class="progress-bar-inner"></div>
