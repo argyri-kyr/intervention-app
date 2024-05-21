@@ -170,6 +170,11 @@ body {
     font-size: 2.4rem;
 }
 
+.phonologic-rhyme-match-answers .speak-word img {
+    width: 300px;
+    height: 300px;
+}
+
 .speak-word {
     display: inline-flex;
     align-items: center;

@@ -181,7 +181,6 @@ let answers = [];
 function storeAnswer(button, itemSelector, question, index) {
     let item = button.closest(itemSelector); 
     
-    
     // Determine the selected word
     let selectedWord = null;
     let wordElements = item.querySelectorAll('.speak-word');
@@ -190,10 +189,8 @@ function storeAnswer(button, itemSelector, question, index) {
             selectedWord = word.textContent;
         }
     });
-    
     //item: item.outerHTML
     answers.push({question:question, index: index, selectedWord: selectedWord });
-
     console.log(answers);
 } 
 
@@ -274,3 +271,35 @@ function updateProgressBar() {
     document.getElementById('exerciseProgressText').innerText = `Άσκηση: ${currentExercise+1} / ${totalExercises}`;
     document.getElementById('questionProgressText').innerText = `Ερώτηση: ${currentQuestion+1} / ${totalQuestions}`;
 }
+
+function switchToImages() {
+    let templateDivs = document.querySelectorAll('.phonologic-rhyme-match.template');
+    let question = templateDivs[0].querySelector('h1').innerHTML;
+    //let visibleTemplateDivs = Array.from(templateDivs).filter(div => window.getComputedStyle(div).display !== 'none');
+    //let childDivs = Array.from(visibleTemplateDivs[0].children).filter(child => child.tagName === 'DIV');
+    console.log(`Question: ${question}`);
+    if (question.includes("εικόνα")) {
+        let answerDivs = document.querySelectorAll('.phonologic-rhyme-match-answers');
+        answerDivs.forEach(answerDiv => {
+            let speakWordDivs = Array.from(answerDiv.children).filter(child => child.className === 'speak-word');
+
+            speakWordDivs.forEach(div => {
+                let answer = div.innerText.trim();
+                let originalHTML = div.innerHTML;
+                let img = document.createElement('img');
+                img.src = `/assets/words/${answer}.png`;
+                img.alt = answer;
+                img.onerror = function() {
+                    console.error(`Image /assets/words/${answer}.png does not exist.`);
+                    div.innerHTML = originalHTML; // restore original HTML if image doesn't exist
+                };
+                img.onload = function() {
+                    div.innerHTML = ''; // clear the div's content when image loads successfully
+                    div.appendChild(img); // append the image to the div
+                };
+            });
+        });
+    }
+}
+
+switchToImages();

@@ -119,6 +119,9 @@ func readJSONFile(filePath string, v interface{}) {
 }
 
 func loadSession(sessionNumber int) (sessions []Session) {
+	if sessionNumber < 1 {
+		return
+	}
 	var data []Session
 	fileName := fmt.Sprintf("data/Session%d.json", sessionNumber)
 	readJSONFile(fileName, &data)
