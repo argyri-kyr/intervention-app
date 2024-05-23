@@ -1,0 +1,36 @@
+{
+    "sessions": [
+        {
+            "session": 1,
+            "sections": ["phonological_awareness", "decoding", "reading_comprenhension", "memory"]
+        },
+        {
+            "session": 2,
+            "sections": ["phonological_awareness", "processing_speed", "reading_comprenhension", "memory"]
+        },
+        {
+            "session": 3,
+            "sections": ["phonological_awareness", "decoding", "reading_comprenhension", "processing_speed"]
+        },
+        {
+            "session": 4,
+            "sections": ["phonological_awareness", "memory", "reading_comprenhension", "decoding"]
+        },
+        {
+            "session": 5,
+            "sections": ["phonological_awareness", "decoding", "reading_comprenhension", "processing_speed"]
+        },
+        {
+            "session": 6,
+            "sections": ["reading_comprenhension", "memory", "decoding", "processing_speed"]
+        },
+        {
+            "session": 7,
+            "sections": ["phonological_awareness", "memory", "reading_comprenhension", "decoding"]
+        },
+        {
+            "session": 8,
+            "sections": ["phonological_awareness", "processing_speed", "decoding", "memory"]
+        }
+    ]
+}

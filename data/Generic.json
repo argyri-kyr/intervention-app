@@ -1,0 +1,107 @@
+[
+    {
+        "template": "SelectOption", //OLD: "ReadingComprehensionSentences", //OLD:PhonologicRhymeSentence
+        "question": "Επέλεξε το σωστό ώστε να ομοιοκαταλικτούν οι φράσεις",
+        "mainWord": { 
+            "text": ["Το ………… έχει πολλά βαγόνια."],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["τρένο ", "βάζο", "τρακτέρ"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["τρένο"]
+    },
+    {
+        "template": "MatchMultipleOptions",//OLD: "PhonologicRhymeMultipleMatch",
+        "question": "Αντιστοίχισε τις λέξεις που ομοιοκαταληκτούν",
+        "mainWord": {
+            "text": ["φιλικός","πόρτα","ασανσέρ","γυαλιά","στάση"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["κεράσι","αλλεργικός","χόρτα","ντοκιμαντέρ","χαλιά"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["αλλεργικός", "χόρτα", "ντοκιμαντέρ", "χαλιά", "κεράσι"]
+    },
+    {
+        "template": "CorrectOption", //OLD: "PhonologicRhymePair"
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["καράβι", "ποτάμι"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "template": "AudioRecord",
+        "question": "Πες μια λέξη με την ίδια κατάληξη",
+        "mainWord": {
+            "text":["γλάρος"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "template": "ReadingText",
+        "question": "Διάβασε το παρακάτω κείμενο",
+        "mainWord": {
+            "text": ["Ερευνητές των πανεπιστημίων του Μπέρμιγχαμ στο Ηνωμένο Βασίλειο και του Μαξιμίλιαν στο Μόναχο\n εντόπισαν για πρώτη φορά στον ανθρώπινο εγκέφαλο μια εσωτερική «νευρική πυξίδα» η οποία μας\n βοηθά να προσανατολιζόμαστε και να «πλοηγούμαστε» σε διαφορετικά περιβάλλοντα, σύμφωνα με\n δημοσίευση σε επιστημονικό περιοδικό. Η νέα μελέτη αποκάλυψε ρυθμισμένα μοτίβα εγκεφαλικών\n σημάτων, τα οποία είναι συγκρίσιμα με τους νευρικούς κώδικες που έχουν εντοπιστεί σε τρωκτικά.\n Τα καινούργια ευρήματα, σύμφωνα με τους ερευνητές, αναμένεται να συμβάλλουν στην κατανόηση\n νόσων όπως η Πάρκινσον και η Αλτσχάιμερ, στις οποίες ο προσανατολισμός και η ικανότητα πλοήγησης\n στον χώρο συχνά χάνεται."],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "template": "ReadingWords",
+        "question": "Διάβασε το παρακάτω λέξεις",
+        "mainWord": {
+            "text": ["ασανσέρ","γυαλιά"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "template": "MemorySingleChoice",
+        "question": ["Δες προσεκτικά τις εικόνες και προσπάθησε να τις θυμάσαι.","Επέλεξε ποιά/ποιές εικόνες είδες προηγουμένως."],
+        "mainWord": {
+            "text":["κίτρινο οβάλ", "πράσινο τετράγωνο"],
+            "image":true,
+            "audio":false
+        },
+        "options": {
+            "text": ["κόκκινος ρόμβος"," κίτρινο οβάλ", "πράσινο τετράγωνο"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["κίτρινο οβάλ", "πράσινο τετράγωνο"]
+    }
+]

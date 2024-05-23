@@ -1,0 +1,18 @@
+{
+    "phonological_awareness": [
+        {
+            "game": 1,
+            "difficulty": 1,
+            "template": "SelectOption"
+        },
+        {
+            "game": 3,
+            "difficulty": 1,
+            "template": "SelectOption"
+        }
+    ],
+    "decoding": [],
+    "reading_comprenhension": [],
+    "memory": [],
+    "processing_speed": []
+}
