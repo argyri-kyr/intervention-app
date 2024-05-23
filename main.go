@@ -61,7 +61,6 @@ type PhonologicRhymeSentence struct {
 	Section                      int                            `json:"section"`
 	Level                        int                            `json:"level"`
 	ExerciseNumber               int                            `json:"exercise"`
-	Sentence                     string                         `json:"sentence"`
 	PhonologicRhymeSentenceItems []PhonologicRhymeSentenceItems `json:"items"`
 }
 
@@ -69,6 +68,19 @@ type PhonologicRhymeSentenceItems struct {
 	Sentence string   `json:"sentence"`
 	Answers  []string `json:"answers"`
 	Correct  int      `json:"correct"`
+}
+
+type PhonologicRhymeProductionSentence struct {
+	Question                               string                                   `json:"question"`
+	Section                                int                                      `json:"section"`
+	Level                                  int                                      `json:"level"`
+	ExerciseNumber                         int                                      `json:"exercise"`
+	PhonologicRhymeProductionSentenceItems []PhonologicRhymeProductionSentenceItems `json:"items"`
+}
+
+type PhonologicRhymeProductionSentenceItems struct {
+	Sentence string `json:"sentence"`
+	Word     string `json:"word"`
 }
 
 type DecodingTextReading struct {
@@ -85,17 +97,34 @@ type DecodingTextReadingItems struct {
 	RedWords       []string `json:"redwords"`
 }
 
+type MemoryVisualSingleChoice struct {
+	Section                       int                             `json:"section"`
+	Level                         int                             `json:"level"`
+	ExerciseNumber                int                             `json:"exercise"`
+	MemoryVisualSingleChoiceItems []MemoryVisualSingleChoiceItems `json:"items"`
+}
+
+type MemoryVisualSingleChoiceItems struct {
+	FirstQuestion  string   `json:"firstquestion"`
+	Choice1        []string `json:"choice1"`
+	SecondQuestion string   `json:"secondquestion"`
+	Choice2        []string `json:"choice2"`
+	Correct        []int    `json:"correct"`
+}
+
 type Answer struct {
 	Question string `json:"question"`
 	Answer   string `json:"answer"`
 }
 
 type PhonologicExercises struct {
-	PhonologicRhymePair          []PhonologicRhymePair
-	PhonologicRhymeMatch         []PhonologicRhymeMatch
-	PhonologicRhymeMultipleMatch []PhonologicRhymeMultipleMatch
-	PhonologicRhymeSentence      []PhonologicRhymeSentence
-	DecodingTextReading          []DecodingTextReading
+	PhonologicRhymePair               []PhonologicRhymePair
+	PhonologicRhymeMatch              []PhonologicRhymeMatch
+	PhonologicRhymeMultipleMatch      []PhonologicRhymeMultipleMatch
+	PhonologicRhymeSentence           []PhonologicRhymeSentence
+	PhonologicRhymeProductionSentence []PhonologicRhymeProductionSentence
+	DecodingTextReading               []DecodingTextReading
+	MemoryVisualSingleChoice          []MemoryVisualSingleChoice
 }
 
 var answers []Answer
@@ -104,7 +133,9 @@ var phonologicRhymePairExercise []PhonologicRhymePair
 var phonologicRhymeMatchExercise []PhonologicRhymeMatch
 var phonologicRhymeMultipleMatchExercise []PhonologicRhymeMultipleMatch
 var phonologicRhymeSentenceExercise []PhonologicRhymeSentence
+var phonologicRhymeProductionSentenceExercise []PhonologicRhymeProductionSentence
 var decodingTextReadingExercise []DecodingTextReading
+var memoryVisualSingleChoice []MemoryVisualSingleChoice
 
 func readJSONFile(filePath string, v interface{}) {
 	file, err := os.ReadFile(filePath)
@@ -144,14 +175,18 @@ func loadExercises(sessions []Session) {
 	readJSONFile("data/PhonologicRhymeMatch.json", &phonologicRhymeMatchExercise)
 	readJSONFile("data/PhonologicRhymeMultipleMatch.json", &phonologicRhymeMultipleMatchExercise)
 	readJSONFile("data/PhonologicRhymeSentence.json", &phonologicRhymeSentenceExercise)
+	readJSONFile("data/PhonologicRhymeProductionSentence.json", &phonologicRhymeProductionSentenceExercise)
 	readJSONFile("data/DecodingTextReading.json", &decodingTextReadingExercise)
+	readJSONFile("data/MemoryVisualSingleChoice.json", &memoryVisualSingleChoice)
 
 	// Filter data according to Session input
 	filtered_phonologicRhymePairExercise := make([]PhonologicRhymePair, 0)
 	filtered_phonologicRhymeMatch := make([]PhonologicRhymeMatch, 0)
 	filtered_phonologicRhymeMultipleMatch := make([]PhonologicRhymeMultipleMatch, 0)
 	filtered_phonologicSentence := make([]PhonologicRhymeSentence, 0)
+	filtered_phonologicRhymeProductionSentence := make([]PhonologicRhymeProductionSentence, 0)
 	filtered_decodingTextReading := make([]DecodingTextReading, 0)
+	filtered_memoryVisualSingleChoice := make([]MemoryVisualSingleChoice, 0)
 
 	for _, session := range sessions {
 		// filter PhonologicRhymePair exercises
@@ -186,6 +221,14 @@ func loadExercises(sessions []Session) {
 			}
 		}
 
+		//filter PhonologicRhymeProductionSentence exercises
+		for _, exercise_rps := range phonologicRhymeProductionSentenceExercise {
+			if exercise_rps.Section == session.Section && exercise_rps.Level == session.Level && exercise_rps.ExerciseNumber == session.Exercise {
+				//log.Println("Selected Exercise: ", exercise_rps)
+				filtered_phonologicRhymeProductionSentence = append(filtered_phonologicRhymeProductionSentence, exercise_rps)
+			}
+		}
+
 		//filter DecodingTextReading exercises
 		for _, exercise_dtr := range decodingTextReadingExercise {
 			if exercise_dtr.Section == session.Section && exercise_dtr.Level == session.Level && exercise_dtr.ExerciseNumber == session.Exercise {
@@ -194,14 +237,22 @@ func loadExercises(sessions []Session) {
 			}
 		}
 
+		//filter MemoryVisualSingleChoice exercises
+		for _, exercise_mvsc := range memoryVisualSingleChoice {
+			if exercise_mvsc.Section == session.Section && exercise_mvsc.Level == session.Level && exercise_mvsc.ExerciseNumber == session.Exercise {
+				// log.Println("Selected Exercise: ", exercise_mvsc)
+				filtered_memoryVisualSingleChoice = append(filtered_memoryVisualSingleChoice, exercise_mvsc)
+			}
+		}
 	}
 
 	phonologicRhymePairExercise = filtered_phonologicRhymePairExercise
 	phonologicRhymeMatchExercise = filtered_phonologicRhymeMatch
 	phonologicRhymeMultipleMatchExercise = filtered_phonologicRhymeMultipleMatch
 	phonologicRhymeSentenceExercise = filtered_phonologicSentence
+	phonologicRhymeProductionSentenceExercise = filtered_phonologicRhymeProductionSentence
 	decodingTextReadingExercise = filtered_decodingTextReading
-
+	memoryVisualSingleChoice = filtered_memoryVisualSingleChoice
 }
 
 func serveExercises(w http.ResponseWriter, r *http.Request) {
@@ -217,15 +268,17 @@ func serveExercises(w http.ResponseWriter, r *http.Request) {
 
 	// Create an instance of ExerciseData with phonologicExercises
 	exerciseData := PhonologicExercises{
-		PhonologicRhymePair:          phonologicRhymePairExercise,
-		PhonologicRhymeMatch:         phonologicRhymeMatchExercise,
-		PhonologicRhymeMultipleMatch: phonologicRhymeMultipleMatchExercise,
-		PhonologicRhymeSentence:      phonologicRhymeSentenceExercise,
-		DecodingTextReading:          decodingTextReadingExercise,
+		PhonologicRhymePair:               phonologicRhymePairExercise,
+		PhonologicRhymeMatch:              phonologicRhymeMatchExercise,
+		PhonologicRhymeMultipleMatch:      phonologicRhymeMultipleMatchExercise,
+		PhonologicRhymeSentence:           phonologicRhymeSentenceExercise,
+		PhonologicRhymeProductionSentence: phonologicRhymeProductionSentenceExercise,
+		DecodingTextReading:               decodingTextReadingExercise,
+		MemoryVisualSingleChoice:          memoryVisualSingleChoice,
 	}
 
 	// Parse the HTML template
-	tmpl, err := template.ParseFiles("index.html")
+	tmpl, err := template.New("index.html").Funcs(funcMap).ParseFiles("index.html")
 	if err != nil {
 		log.Fatalf("Failed to parse the HTML template: %v", err)
 	}
@@ -265,6 +318,13 @@ func handleAnswer(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println("Stored answer")
+}
+
+// Define a custom function for modulus operation
+var funcMap = template.FuncMap{
+	"mod": func(a, b int) int {
+		return a % b
+	},
 }
 
 func main() {

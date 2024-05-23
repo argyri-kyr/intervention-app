@@ -19,12 +19,12 @@ body {
     height: 100vh;
 }
 
-.session-1, .session-2, .session-3 {
+.session-1, .session-2, .session-3, .session-4, .session-5 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 200px;
-    height: 200px;
+    width: 100px;
+    height: 100px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -44,11 +44,19 @@ body {
     background-color: #e88f13; /* Green */
 }
 
+.session-4 {
+    background-color: #cc17f1; /* Green */
+}
+
+.session-5 {
+    background-color: #eaf117; /* Green */
+}
+
 .session-button {
     width: 50%;
     height: 50%;
 }
 
-.session-1:hover, .session-2:hover, .session-3:hover {
+.session-1:hover, .session-2:hover, .session-3:hover, .session-4:hover, .session-5:hover {
     transform: scale(1.1);
 }

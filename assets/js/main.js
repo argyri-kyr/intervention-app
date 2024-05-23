@@ -34,6 +34,12 @@ function speak(text) {
 // }
 
 
+// Function to extract the index from the class name
+function extractIndexFromClassName(className) {
+    const match = className.match(/i_(\d+)/);
+    return match ? parseInt(match[1], 10) : null;
+}
+
 function submitAnswers() {
     // Convert answeredPairs and answers arrays to JSON strings
     var answeredPairsJson = JSON.stringify(answeredPairs);
@@ -65,7 +71,7 @@ function hideExercises() {
     let selectedIndex = START_EXERCISE;
     console.log("START_EXERCISE = ",START_EXERCISE)
     let templateDivs = document.querySelectorAll('.template');
-    console.log(templateDivs);
+    // console.log(templateDivs);
     for(let i = 0; i < templateDivs.length; i++) {
         if(i === selectedIndex) {
             templateDivs[i].style.display = 'block';
@@ -80,6 +86,31 @@ hideExercises();
 let currentExercise = 0;
 let templateDivs = document.querySelectorAll('.template');
 let totalExercises = templateDivs.length;
+const stopwatches = {};
+
+function startStopwatch(id, index) {
+    let timer;
+    console.log(index);
+    if (index === 0) {
+        timer = 0;
+    } else {
+        timer = -1;
+    }
+        
+    const updateStopwatch = () => {
+        timer++;
+        const hours = String(Math.floor(timer / 3600)).padStart(2, '0');
+        const minutes = String(Math.floor((timer % 3600) / 60)).padStart(2, '0');
+        const seconds = String(timer % 60).padStart(2, '0');
+        document.getElementById(id).textContent = `${hours}:${minutes}:${seconds}`;
+    };
+    stopwatches[id] = setInterval(updateStopwatch, 1000);
+}
+
+
+function stopStopwatch(id) {
+    clearInterval(stopwatches[id]);
+}
 
 function nextExercise() {
     console.log('Next exercise');
@@ -87,8 +118,6 @@ function nextExercise() {
     totalExercises = templateDivs.length;
     for(let i = 0; i < templateDivs.length; i++) {
         if (templateDivs[i].style.display === 'block') {
-            console.log('templateDiv:', i);
-            console.log('totalExercises:', totalExercises);
             if (i === totalExercises - 1) {
                 console.log('Last exercise, go Home');
                 //Go to Home
@@ -99,17 +128,16 @@ function nextExercise() {
             break;
         }
     }
-    console.log('Current exercise:', currentExercise);
-    templateDivs[currentExercise-1].style.display = 'none';
-    templateDivs[currentExercise].style.display = 'block';
+
+        templateDivs[currentExercise-1].style.display = 'none';
+        templateDivs[currentExercise].style.display = 'block';
+    
 }
 
 function getTotalQuestions() {
     let templateDivs = document.querySelectorAll('.template');
     let visibleTemplateDivs = Array.from(templateDivs).filter(div => window.getComputedStyle(div).display !== 'none');
-    console.log(visibleTemplateDivs);
     let childDivs = Array.from(visibleTemplateDivs[0].children).filter(child => child.tagName === 'DIV');
-    console.log(`Number of child divs: ${childDivs.length}`);
 
     return childDivs.length;
 }
@@ -117,9 +145,8 @@ function getTotalQuestions() {
 let currentQuestion = 0;
 let totalQuestions = getTotalQuestions();
 
-function updateQuestion(back = false, templateClass) {
+function updateQuestion(back = false, templateClass, currentQuestion) {
     let questions = document.querySelectorAll(templateClass);
-    console.log(`Template: ${templateClass}`);
     let curQ, nexQ = 0;
     if (back) {
         curQ = currentQuestion + 1;
@@ -132,6 +159,12 @@ function updateQuestion(back = false, templateClass) {
     totalQuestions = questions.length;
     let currQuestion = document.querySelector(`${templateClass}.i_${curQ}`);
     let nextQuestion = document.querySelector(`${templateClass}.i_${nexQ}`);
+
+    // Stop the current stopwatch
+    const currStopwatch = currQuestion.querySelector('.stopwatch');
+    if (currStopwatch) {
+        stopStopwatch(currStopwatch.id);
+    }
 
     //Hide the current question
     if (back) {
@@ -153,14 +186,18 @@ function updateQuestion(back = false, templateClass) {
     }, 600);
     
     //progressIndicator.textContent = `${currentQuestion + 1} / ${questions.length}`;
+
+    // Start the next stopwatch
+    const nextStopwatch = nextQuestion.querySelector('.stopwatch');
+    if (nextStopwatch) {
+        const index = extractIndexFromClassName(nextQuestion.className);
+        startStopwatch(nextStopwatch.id,index);
+    }
 }
 
 function nextQuestion(itemSelector) {
     let templateClass = itemSelector;
     let questions = document.querySelectorAll(templateClass);
-
-    console.log("templateClass = ", templateClass);
-    console.log("questions.length = ", questions.length);
     
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
@@ -170,7 +207,7 @@ function nextQuestion(itemSelector) {
         return;
     }
     currentQuestion = (currentQuestion + 1) % questions.length;
-    updateQuestion(false, templateClass);
+    updateQuestion(false, templateClass, currentQuestion);
     updateProgressBar();
 
     // Call storeAnswer function
@@ -272,9 +309,97 @@ function updateProgressBar() {
     document.getElementById('questionProgressText').innerText = `Ερώτηση: ${currentQuestion+1} / ${totalQuestions}`;
 }
 
+
+
+// Function to start the stopwatch for a given template
+function startStopwatchesForTemplate(templateClass) {
+    // Start the initial stopwatches
+    document.querySelectorAll(templateClass).forEach(item => {
+        const stopwatch = item.querySelector('.stopwatch');
+        if (stopwatch && item.style.display !== 'none') {
+            const className = item.className; // Get the class attribute
+            const index = extractIndexFromClassName(className); // Extract the index
+            if (index !== null) {
+                startStopwatch(stopwatch.id, index); // Pass the id and extracted index
+            }
+        }
+    });
+}
+
+
+// Start the stopwatches for DecodingTextReading template
+startStopwatchesForTemplate('.decoding-text-reading-item');
+
+
+// Start the stopwatches for MemoryVisualSingleChoice template
+startStopwatchesForTemplate('.memory-visual-single-choice-item');
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Function to initialize voice recognition
+function initializeVoiceRecognition() {
+    let recognition;
+    const recordedChunks = [];
+
+    const startRecording = () => {
+        recordedChunks.length = 0;
+        recognition = new webkitSpeechRecognition();
+        recognition.lang = 'el-GR'; // Set language to Greek
+
+        recognition.onresult = (event) => {
+            recordedChunks.push(event.results[0][0].transcript);
+            document.querySelector('.recognized-text').textContent = recordedChunks.join(' ');
+        };
+
+        recognition.start();
+    };
+
+    const stopRecording = () => {
+        if (recognition) {
+            recognition.stop();
+            const blob = new Blob(recordedChunks, { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'recorded_audio.txt';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 0);
+        }
+    };
+
+    document.querySelector('.start-voice-recognition').addEventListener('click', startRecording);
+    document.querySelector('.stop-voice-recognition').addEventListener('click', stopRecording);
+}
+
+// Initialize voice recognition when the DOM content is loaded
+document.addEventListener("DOMContentLoaded", function() {
+    // Check if the desired template is present
+    const template = document.querySelector('.phonologic-rhyme-production-sentence.template');
+    if (template!=null && template.length > 0) {
+        // Run the initialization function
+        initializeVoiceRecognition();
+    }
+});
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function switchToImages() {
     let templateDivs = document.querySelectorAll('.phonologic-rhyme-match.template');
-    let question = templateDivs[0].querySelector('h1').innerHTML;
+    if (templateDivs.length === 0) {
+        console.error('No phonologic-rhyme-match.template elements found');
+        return;
+    }
+
+    let question = templateDivs[0].querySelector('h1')?.innerHTML;
+    if (!question) {
+        console.error('No question found in the first template div');
+        return;
+    }
+
     //let visibleTemplateDivs = Array.from(templateDivs).filter(div => window.getComputedStyle(div).display !== 'none');
     //let childDivs = Array.from(visibleTemplateDivs[0].children).filter(child => child.tagName === 'DIV');
     console.log(`Question: ${question}`);
@@ -302,4 +427,124 @@ function switchToImages() {
     }
 }
 
-switchToImages();
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Check if the desired template is present
+    const template = document.querySelectorAll('.phonologic-rhyme-match.template')
+    if (template!=null && template.length > 0) {
+        // console.log(template)
+        // Run the initialization function
+        switchToImages();
+    }
+});
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const displayTime = 4000; // 4 seconds
+
+function updateMemoryChoiceTemplate(choice, automatic, nextButton, templateIndex) {
+    const items = document.querySelectorAll(`.memory-visual-single-choice-item.t_${templateIndex}.i_${currentQuestion}`);
+    const item = items[0];
+
+    const choice1 = item.querySelectorAll('.memory-visual-single-choice-choice1')[0];
+    const choice2 = item.querySelectorAll('.memory-visual-single-choice-choice2')[0];
+    
+    if (!item) return;
+    
+
+    // const choice1 = item.querySelector('.memory-visual-single-choice-choice1');
+    // const choice2 = item.querySelector('.memory-visual-single-choice-choice2');
+    
+
+    if (choice === 1) {
+        choice1.style.display = 'block';
+        choice2.style.display = 'none';
+        nextButton.forEach((button, index) => {
+            button.style.display = 'none';
+        });
+        
+        if (automatic) {
+            setTimeout(() => {
+                updateMemoryChoiceTemplate(2, automatic, nextButton, templateIndex);
+            }, displayTime);
+        }
+    } else {
+        choice1.style.display = 'none';
+        choice2.style.display = 'block';
+        nextButton.forEach((button, index) => {
+            button.style.display = 'block';
+        });
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Define displayTime within a scope accessible to updateMemoryChoiceTemplat
+    let showMemorySingleChoiceTimer;
+
+    function nextQuestionMemory(itemSelector, templateIndex, nextButton) {
+        clearTimeout(showMemorySingleChoiceTimer);
+
+        let templateClass = itemSelector;
+        let questions = document.querySelectorAll(templateClass);
+        
+        if (currentQuestion === questions.length - 1) {
+            currentQuestion = 0;
+            templateIndex ++;
+
+            nextExercise();
+            
+            // style in a block the following exercise
+            const items = document.querySelectorAll(`.memory-visual-single-choice-item.t_${templateIndex}.i_${currentQuestion}`);
+            const item = items[0];
+            item.style.display = 'block'
+            updateMemoryChoiceTemplate(1, true, nextButtons, templateIndex);
+
+            totalQuestions = getTotalQuestions();
+            updateProgressBar();
+            return;
+        } 
+        
+        currentQuestion = (currentQuestion + 1) % questions.length;
+        
+        updateMemoryChoiceTemplate(1, true, nextButton, templateIndex);
+        updateQuestion(false, itemSelector, currentQuestion);
+        updateProgressBar();
+    }
+
+    // Check if the desired template is present
+    const template = document.querySelectorAll('.memory-visual-single-choice.template');
+    const nextButtons = document.querySelectorAll('.nextButton-textreading');
+    
+
+    if (template != null && template.length > 0) {
+        // Ensure items are hidden initially
+        const items = document.querySelectorAll('.memory-visual-single-choice-item');
+        items.forEach((item, index) => {
+            item.style.display = 'none';
+        });
+        
+
+        // Display the first item
+        const firstItem = items[currentQuestion];
+        if (firstItem) {
+            firstItem.style.display = 'block';
+            var templateIndex = 0;
+            updateMemoryChoiceTemplate(1, true, nextButtons, templateIndex);
+        }
+    }
+
+    // Bind nextQuestion function to the next button
+    nextButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            let templateIndex = button.closest('.template').getAttribute('data-template-index');
+            const itemSelector = `.memory-visual-single-choice-item.t_${templateIndex}`;
+            button.style.display = 'none';
+            nextQuestionMemory(itemSelector, templateIndex, nextButtons);
+        });
+    });
+
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

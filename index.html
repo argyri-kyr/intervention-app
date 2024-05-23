@@ -112,6 +112,7 @@
                 <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: block;">
                     <h1>{{.FirstQuestion}}</h1>
                     <pre>{{.TextData}}</pre>
+                    <div class="stopwatch" id="timer_{{$templateIndex}}_{{$index}}">00:00:00</div>
                 </div>
                 {{else if eq $index 1}}
                 <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: none;">
@@ -126,12 +127,60 @@
                 <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: none;">
                     <h1>{{.FirstQuestion}}</h1>
                     <pre>{{.TextData}}</pre>
+                    <div class="stopwatch" id="timer_{{$templateIndex}}_{{$index}}">00:00:00</div>
                 </div>
                 {{end}}
             {{end}}
-            <button class="nextButton-textreading" onclick="nextQuestion('.decoding-text-reading-item.t_{{$templateIndex}}')">Επόμενο</button>
+            <button class="nextButton" onclick="nextQuestion('.decoding-text-reading-item.t_{{$templateIndex}}')">Επόμενο</button>
         </div>
-    {{end}}
+        {{end}}
+
+        <!-- Template 6 -->
+        {{range $templateIndex, $_ := .MemoryVisualSingleChoice}}
+        <div class="memory-visual-single-choice template" data-template-index="{{$templateIndex}}">
+            {{range $index, $_ := .MemoryVisualSingleChoiceItems}}
+                <div class="memory-visual-single-choice-item t_{{$templateIndex}} i_{{$index}}" id="item_t{{$templateIndex}}_i{{$index}}" style="display: block;" >
+                    <div class="memory-visual-single-choice-choice1" id="choice1_t{{$templateIndex}}_i{{$index}}" style="display: none;">
+                        <h1>{{.FirstQuestion}}</h1>
+                        {{range .Choice1}}
+                            <div class="memory-visual-single-choice-choice1-options">{{.}}</div>
+                        {{end}}
+                    </div>
+                    <div class="memory-visual-single-choice-choice2" id="choice2_t{{$templateIndex}}_i{{$index}}" style="display: none;">
+                        <h1>{{.SecondQuestion}}</h1>
+                        {{range .Choice2}}
+                            <div class="memory-visual-single-choice-choice2-options">{{.}}</div>
+                        {{end}}
+                    </div>
+                </div>
+            {{end}}
+            <button class="nextButton-textreading">Επόμενο</button>
+        </div>
+        {{end}}
+        
+        <!-- Template 7 -->
+        {{range $templateIndex, $_ := .PhonologicRhymeProductionSentence}}
+        <div class="phonologic-rhyme-production-sentence template">
+            {{$question := .Question}}
+            <h1>{{.Question}}</h1>
+            {{range $index, $_ := .PhonologicRhymeProductionSentenceItems}}
+                {{if eq $index 0}}
+                <div class="phonologic-rhyme-production-sentence-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
+                {{else}}
+                <div class="phonologic-rhyme-production-sentence-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
+                {{end}}
+                <div class="speak-word main-sentence" onclick="speak('{{.Sentence}}')">{{.Sentence}}</div>
+                <div class="voice-reader-template">
+                    <div class="recognized-text"></div>
+                    <button class="start-voice-recognition">Start Voice Recognition</button>
+                    <button class="stop-voice-recognition">Stop Voice Recognition</button>
+                </div>
+                <button class="nextButton-speaking" onclick="nextQuestion('.phonologic-rhyme-production-sentence-item') ; storeAnswer(this, '.phonologic-rhyme-sentence-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
+                
+            </div>
+            {{end}}
+        </div>
+        {{end}}
 
     <div id="homebutton" onclick="window.location.href='http://localhost:8080/main.html'">
         <img src="/assets/home.svg">

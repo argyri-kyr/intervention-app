@@ -237,6 +237,17 @@ body {
     position: relative; /* Make the parent container a positioned container */
 }
 
+.decoding-text-reading-item {
+    position: relative;
+}
+
+.stopwatch {
+    position: absolute;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+    font-size: 35px; /* Font size */
+}
+
 .decoding-text-reading h1 {
     padding-bottom: 10px;
     border-bottom: 3px solid #333;
@@ -296,6 +307,53 @@ body {
     left: 50%;
     transform: translateX(-50%);
     margin-top: 20px; /* Adjust as needed */
+}
+
+.memory-visual-single-choice h1 {
+    padding-bottom: 10px;
+    border-bottom: 3px solid #333;
+    align-self: flex-start; /* Align at the start (top) of the container */
+    color: #333; /* Text color */
+    font-size: 35px; /* Font size */
+    margin-bottom: 50px; /* Bottom margin */
+}
+
+.memory-visual-single-choice-choice1, .memory-visual-single-choice-choice2 {
+    margin-bottom: 40px;
+}
+
+.memory-visual-single-choice-choice1-options, .memory-visual-single-choice-choice2-options {
+    font-family: 'Calibri', Courier, monospace; /* Font family */
+    font-size: 35px; /* Font size */
+    margin-bottom: 15px;
+}
+
+
+.voice-reader-template {
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.recognized-text {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+/* Increase button size */
+button {
+    margin: 10px; /* Increased margin for spacing */
+    padding: 15px 30px; /* Increased padding for button size */
+    font-size: 18px; /* Increased font size for better readability */
+    cursor: pointer;
+    border: none;
+    border-radius: 8px; /* Rounded corners */
+    background-color: #007bff;
+    color: #fff;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
 
 @keyframes slideInFromRight {
