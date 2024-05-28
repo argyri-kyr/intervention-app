@@ -1,0 +1,128 @@
+[
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Το νερό είναι καλό."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Η μαμά μου πήρε μήλα."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Η μαμά μου κάθε μέρα μου κάνει τοστ."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Τα παιδιά παίζουν στον κήπο."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Έχω μια ροζ ζώνη."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Τρώω μέλι με ψωμί."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Το δάσος έχει πολλά ζώα."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Αυτό το δώρο είναι δικό σου."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Διάβασε τις παρσκάτω προτάσεις.",
+        "mainWord": {
+            "text": ["Θέλω να φάω πίτσα."],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    }
+]

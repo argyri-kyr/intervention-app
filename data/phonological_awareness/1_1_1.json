@@ -1,0 +1,198 @@
+[
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["ρήμα", "βήμα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["καπέλο", "φωτιά"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Όχι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["νερό", "φτερό"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["δρόμο", "τρόμο"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["ψωμί", "τυρί"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Όχι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["χρόνο", "πόνο"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["πετάξω", "γράψω"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Όχι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["ουρανό", "μωρό"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Όχι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["μεγάλος", "άλλος"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["πειράζω", "σκεπάζω"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["κήπο", "χρύπο"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["ποτίζω", "καθαρίζω"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["μέλι", "ζάχαρη"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Όχι"]
+    },
+    {
+        "question": "Έχουν ίδια ομοιοκαταληξία οι λέξεις;",
+        "mainWord": {
+            "text": ["εφημερίδα", "νυχτερίδα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["Ναι", "Όχι"],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Ναι"]
+    }
+]

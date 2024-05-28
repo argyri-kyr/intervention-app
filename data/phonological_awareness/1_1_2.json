@@ -1,0 +1,212 @@
+[
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["χέρι"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["κράνος", "μαχαίρι"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["μαχαίρι"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["ποτήρι"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["κάλτσα", "ποτιστήρι"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["ποτιστήρι"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["χήνα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["στέμμα", "κίνα"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["κίνα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["ποίημα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["βήμα", "ομπρέλα"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["βήμα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["πιπίλα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["μίλα", "κοάλα"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["μίλα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["ντομάτα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["πατάτα", "ψάθα"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["πατάτα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["αντοχή"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["ψάρι", "εξοχή"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["εξοχή"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["χρώμα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["αστέρι", "στρώμα"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["στρώμα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["πηλό"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["στυλό", "κήπο"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["στυλό"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["σαλιγκάρι"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["καβούρι", "μανιτάρι"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["μανιτάρι"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["νυφίτσα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["πίτσα", "πάστα"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["πίτσα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["κουζίνα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["πείνα", "καμπάνα"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["πείνα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["μπανάνα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["κανάτα", "πάνα"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["πάνα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["πατίνι"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["πανί", "γαλήνη"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["γαλήνη"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["εργαστήριο"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["εισιτήριο", "πλανητάριο"],
+            "image": false,
+            "audio": true
+        },
+        "answer": ["εισητήριο"]
+    }
+]

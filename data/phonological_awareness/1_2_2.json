@@ -1,0 +1,212 @@
+[
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα ","πόδι", " θέλω ….."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα τσάντα θέλω ….."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα πακέτο θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα ντομάτα θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα ρόδι θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα αχλάδι θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα βιβλιοθήκη θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα φιδάκι θέλω …"],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα ζύμη θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα ποτήρι θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα σούπα θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα γάλα θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα μπαλκόνι θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα παιχνίδι θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },
+    {
+        "question": "Πες μια λέξη με την ίδια κατάληξη.",
+        "mainWord": {
+            "text": ["Είδα φρένα θέλω …."],
+            "image": true,
+            "audio": true
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    }
+]

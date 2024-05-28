@@ -8,9 +8,29 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
+
+type MainWord struct {
+	Text  []string `json:"text"`
+	Image bool     `json:"image"`
+	Audio bool     `json:"audio"`
+}
+
+type Options struct {
+	Text  []string `json:"text"`
+	Image bool     `json:"image"`
+	Audio bool     `json:"audio"`
+}
+
+type Game struct {
+	Question string   `json:"question"`
+	MainWord MainWord `json:"mainWord"`
+	Options  Options  `json:"options"`
+	Answer   []string `json:"answer"`
+}
 
 type Session struct {
 	Section  int `json:"section"`
@@ -136,6 +156,15 @@ var phonologicRhymeSentenceExercise []PhonologicRhymeSentence
 var phonologicRhymeProductionSentenceExercise []PhonologicRhymeProductionSentence
 var decodingTextReadingExercise []DecodingTextReading
 var memoryVisualSingleChoice []MemoryVisualSingleChoice
+
+var (
+	sectors      = []string{"phonological_awareness", "phonological_awareness"}
+	sections     = []int{1, 1}
+	difficulties = []int{1, 1}
+	games        = []int{1, 2}
+	basePath     = "./data"
+	gameData     = make(map[int][]Game)
+)
 
 func readJSONFile(filePath string, v interface{}) {
 	file, err := os.ReadFile(filePath)
@@ -327,6 +356,49 @@ var funcMap = template.FuncMap{
 	},
 }
 
+func loadData() error {
+	for i := range sections {
+		sector := sectors[i]
+		section := sections[i]
+		difficulty := difficulties[i]
+		game := games[i]
+
+		filePath := filepath.Join(basePath, sector, fmt.Sprintf("%d_%d_%d.json", section, difficulty, game))
+
+		file, err := os.Open(filePath)
+		if err != nil {
+			return fmt.Errorf("failed to open file: %w", err)
+		}
+		defer file.Close()
+
+		var gameSlice []Game
+		decoder := json.NewDecoder(file)
+		err = decoder.Decode(&gameSlice)
+		if err != nil {
+			return fmt.Errorf("failed to decode JSON data: %w", err)
+		}
+
+		// Add games to the appropriate array
+		gameData[game] = append(gameData[game], gameSlice...)
+	}
+
+	return nil
+}
+
+func serveData(w http.ResponseWriter, r *http.Request, gameData map[int][]Game) {
+	// Parse the HTML template
+	tmpl, err := template.New("new_index.html").ParseFiles("new_index.html")
+	if err != nil {
+		log.Fatalf("Failed to parse the HTML template: %v", err)
+	}
+
+	// Execute the HTML template with the combined games data
+	err = tmpl.Execute(w, gameData)
+	if err != nil {
+		log.Fatalf("Failed to execute the HTML template: %v", err)
+	}
+}
+
 func main() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 	http.HandleFunc("/exercises/", serveExercises)
@@ -335,9 +407,16 @@ func main() {
 		http.ServeFile(w, r, "main.html")
 	})
 
-	log.Println("Starting server on port 8080")
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+	err2 := loadData()
+	if err2 != nil {
+		log.Fatalf("Failed to load data: %v", err2)
 	}
+	fmt.Println("\n\ngame Data = ", gameData)
+
+	log.Println("Starting server on port 8080")
+	err1 := http.ListenAndServe(":8080", nil)
+	if err1 != nil {
+		log.Fatalf("Failed to start server: %v", err1)
+	}
+
 }

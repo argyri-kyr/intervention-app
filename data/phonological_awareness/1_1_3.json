@@ -1,0 +1,213 @@
+[
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["πυροσβεστήρας"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["πετάλι", "αναπτήρας", "ομπρέλα"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["αναπτήρας"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["υπογραφή"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["ελιά", "καταγραφή", "ύπνος"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["καταγραφή"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["δρόμοι"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["ακόμη", "καρδιά", "ερημιά"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["ακόμη"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["καρδιά"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["ποτήρι", "πάνα", "φαρδιά"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["φαρδιά"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["ελπίδες"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["όνειρο", "καταιγίδες", "πετάλι"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["καταιγίδες"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["πουλιά"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["δουλειά", "φτερά", "όνειρα"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["δουλειά"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["μυστικό"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["τρομερό", "φτερό", "θηλυκό"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["θηλυκό"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["υπολογιστής"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["τρόμπα", "λάμπα", "ληστής"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["ληστής"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["κορυφή"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["αλοιφή", "λυγίζω", "αμοιβή"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["αλοιφή"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["βασιλικός"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["κανάτα", "θεϊκός", "φοβερός"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["θεϊκός"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["βελανίδια"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["καρύδια", "φίδι", "λάστιχο"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["καρύδια"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["δρόμος"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["φωτιά", "ψάρι", "αστυνόμος"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["αστυνόμος"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["ψηλά"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["μήλο", "ωραίο", "χαμηλά"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["χαμηλά"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["εικόνα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["ρόμπα", "βελόνα", "γόμα"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["βελόνα"]
+    },
+    {
+        "question": "Βρες τη λέξη που ομοιοκαταληκτεί.",
+        "mainWord": {
+            "text": ["γάτα"],
+            "image": false,
+            "audio": true
+        },
+        "options": {
+            "text": ["στόμα", "χείλη", "σαλάτα"],
+            "image": true,
+            "audio": false
+        },
+        "answer": ["σαλάτα"]
+    }
+
+]
