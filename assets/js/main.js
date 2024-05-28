@@ -129,8 +129,19 @@ function nextExercise() {
         }
     }
 
-        templateDivs[currentExercise-1].style.display = 'none';
-        templateDivs[currentExercise].style.display = 'block';
+    templateDivs[currentExercise-1].style.display = 'none';
+    templateDivs[currentExercise].style.display = 'block';
+
+    // Edw orizv na mpainw stin updateMemoryChoiceTemplate 1h fora meta apo allou typou askhsh
+    if (templateDivs[currentExercise].classList.contains('memory-visual-single-choice')) {
+        if(currentQuestion===0){
+            var choice = 1;
+            var automatic = true;
+            const nextButtons = document.querySelectorAll('.nextButton-textreading');
+            var templateIndex = 0;
+            updateMemoryChoiceTemplate(choice, automatic, nextButtons, templateIndex);
+        }
+    }
     
 }
 
