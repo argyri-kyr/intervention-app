@@ -357,6 +357,7 @@ var funcMap = template.FuncMap{
 }
 
 func loadData() error {
+	//TODO: load sectors from file sessions.json and get section,difficulty and game from progression.json
 	for i := range sections {
 		sector := sectors[i]
 		section := sections[i]
@@ -385,7 +386,8 @@ func loadData() error {
 	return nil
 }
 
-func serveData(w http.ResponseWriter, r *http.Request, gameData map[int][]Game) {
+func serveData(w http.ResponseWriter, r *http.Request) {
+	loadData()
 	// Parse the HTML template
 	tmpl, err := template.New("new_index.html").ParseFiles("new_index.html")
 	if err != nil {
@@ -401,7 +403,8 @@ func serveData(w http.ResponseWriter, r *http.Request, gameData map[int][]Game) 
 
 func main() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
-	http.HandleFunc("/exercises/", serveExercises)
+	//http.HandleFunc("/exercises/", serveExercises)
+	http.HandleFunc("/exercises/", serveData)
 	http.HandleFunc("/answer", handleAnswer)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "main.html")
