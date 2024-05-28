@@ -1,18 +1,93 @@
 {
     "phonological_awareness": [
         {
-            "game": 1,
+            "section": 1,
             "difficulty": 1,
+            "game": 1,
+            "template": "CorrectOption"
+        },
+        {
+            "section": 1,
+            "difficulty": 1,
+            "game": 2,
             "template": "SelectOption"
         },
         {
-            "game": 3,
+            "sextion": 1,
             "difficulty": 1,
+            "game": 3,
+            "template": "SelectOption"
+        },
+        {
+            "section": 1,
+            "difficulty": 1,
+            "game": 5,
+            "template": "SelectOption"
+        },
+        {
+            "section": 1,
+            "difficulty": 1,
+            "game": 4,
+            "template": "MatchMultipleOptions"
+        },
+        {
+            "section": 1,
+            "difficulty": 2,
+            "game": 2,
+            "template": "ImagewithAudioRecord"
+        },
+        {
+            "section": 4,
+            "difficulty": 1,
+            "game": 1,
+            "template": "AudioRecord"
+        }
+    ],
+
+    "decoding": [
+        {
+            "section": 6,
+            "difficulty": 1,
+            "game": 1,     
+            "template": "AudioRecord"
+        }
+    ],
+
+    "reading_comprenhension": [        
+        {
+            "section": 8,
+            "difficulty": 1,
+            "game": 1,
+            "template": "SelectOption"
+        },
+        {
+            "section": 8,
+            "difficulty": 1,
+            "game": 2,
+            "template": "SelectOption"
+        },
+        {
+            "section": 9,
+            "difficulty": 2,
+            "game": 1,
             "template": "SelectOption"
         }
     ],
-    "decoding": [],
-    "reading_comprenhension": [],
+
     "memory": [],
-    "processing_speed": []
+
+    "processing_speed": [
+        {
+            "section": 18,
+            "difficulty": 1,
+            "game": 1,
+            "template": "AudioRecord"
+        },
+        {
+            "section": 18,
+            "difficulty": 1,
+            "game": 2,
+            "template": "AudioRecord"
+        }
+    ]
 }
