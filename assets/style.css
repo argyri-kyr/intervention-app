@@ -132,17 +132,17 @@ body {
     margin-inline: 10px;
 }
 
-.phonologic-rhyme-sentence-answers {
+.SelectOption-answers {
     padding: 20px;
 }
 
-.phonologic-rhyme-sentence-item {
+.SelectOption-item {
     padding: 20px;
     text-align: center;
     border-top: 3px solid #333;
 }
 
-.phonologic-rhyme-sentence button {
+.SelectOption button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -161,7 +161,7 @@ body {
     margin-inline: 60px;
 }
 
-.phonologic-rhyme-sentence-answers button:hover {
+.SelectOption-answers button:hover {
     background-color: var(--dark-blue-hover);
 }
 

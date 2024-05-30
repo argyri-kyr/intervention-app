@@ -9,179 +9,40 @@
 </head>
 <body>
     <div class="content">
-        <!-- Template 1 -->
-        {{range .PhonologicRhymePair}}
-        <div class="phonologic-rhyme-pair template">
-            {{$question := .Question}}
-            <h1>{{.Question}}</h1>
-            {{range $index, $pairItem := .PhonologicRhymePairItems}}
-            {{if eq $index 0}}
-            <div class="phonologic-rhyme-pair-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
-            {{else}}
-            <div class="phonologic-rhyme-pair-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
-            {{end}}
-                {{range $pairItem.Words}}
-                <div class="speak-word" onclick="speak('{{.}}')">{{.}}</div>
-                {{end}}
-                <div class="phonologic-rhyme-pair-answer">
-                    <button onclick="nextQuestion('.phonologic-rhyme-pair-item') ; storeAnswer(this, '.phonologic-rhyme-pair-item', '{{$question}}', '{{$index}}')">Ναι</button>
-                    <button onclick="nextQuestion('.phonologic-rhyme-pair-item') ; storeAnswer(this, '.phonologic-rhyme-pair-item', '{{$question}}', '{{$index}}')">Όχι</button>
-                </div>
-            </div>
-            {{end}}
-            </div>
-        {{end}}
-
-        <!-- Template 2 -->
-        {{range $templateIndex, $_ := .PhonologicRhymeMatch}}
-        <div class="phonologic-rhyme-match template">
-            {{$question := .Question}}
-            <h1>{{.Question}}</h1>
-            {{range $index, $_ := .PhonologicRhymeMatchItems}}
-            {{if eq $index 0}}
-            <div class="phonologic-rhyme-match-item t_{{$templateIndex}} i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
-            {{else}}
-            <div class="phonologic-rhyme-match-item t_{{$templateIndex}} i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
-            {{end}}
-                <div class="speak-word main-match" onclick="speak('{{.Word}}')">{{.Word}}</div>
-                <div class="phonologic-rhyme-match-answers">
-                {{range .Answers}}
-                    <div class="speak-word" onclick="speak('{{.}}'); selectAnswer(this);">{{.}}</div>
-                {{end}}
-                </div>
-                <button class="nextButton" onclick="nextQuestion('.phonologic-rhyme-match-item.t_{{$templateIndex}}') ; storeAnswer(this, '.phonologic-rhyme-match-item.t_{{$templateIndex}}', '{{$question}}', '{{$index}}')">Επόμενο</button>
-            </div>
-            {{end}}
-            </div>
-        {{end}}
-        
-        <!-- Template 3 -->
-        {{range $templateIndex, $_ := .PhonologicRhymeMultipleMatch}}
-        <div class="phonologic-rhyme-multiple-match template">
-            {{$question := .Question}}
-            <h1>{{.Question}}</h1>
-            <div class="phonologic-rhyme-multiple-match t_{{$templateIndex}} i_0">
-                <div id = "phonologic-rhyme-multiple-match-column-column1" class="phonologic-rhyme-multiple-match-column">
-                {{range .Column1}}
-                    <div class="dropzone">
-                        <div class="speak-word" onclick="speak('{{.}}')">{{.}}</div>
-                    </div>
-                {{end}}
-                </div>
-                <div id = "phonologic-rhyme-multiple-match-column-column2" class="phonologic-rhyme-multiple-match-column t_{{$templateIndex}}">
-                {{range $index, $_ := .Column2}}
-                    <div id="match-{{$index}}" class="speak-word" draggable="true" ondragstart="drag(event)" onclick="speak('{{.}}')">{{.}}</div>
-                {{end}}
-                </div>
-            </div>
-            <button class="nextButton" onclick="nextQuestion('.phonologic-rhyme-multiple-match.t_{{$templateIndex}}') ; storeAnswersPairs('.phonologic-rhyme-multiple-match.t_{{$templateIndex}}', '{{$question}}')">Επόμενο</button>
-        </div>
-        {{end}}
-        
-        <!-- Template 4 -->
-        {{range $templateIndex, $_ := .PhonologicRhymeSentence}}
-        <div class="phonologic-rhyme-sentence template">
-            {{$question := .Question}}
-            <h1>{{.Question}}</h1>
-            {{range $index, $_ := .PhonologicRhymeSentenceItems}}
+    {{range $key, $value := .}}
+        <!-- Array of games -->
+        {{$template := .Template}}
+        <div class="{{$template}} template">
+        {{if eq $template "SelectOption"}}
+            {{range $index, $_ := .Games}}
+                {{$question := .Question}}
+                <h1>{{$question}}</h1>
                 {{if eq $index 0}}
-                <div class="phonologic-rhyme-sentence-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
+                    <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
                 {{else}}
-                <div class="phonologic-rhyme-sentence-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
+                    <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
                 {{end}}
-                <div class="speak-word main-sentence" onclick="speak('{{.Sentence}}')">{{.Sentence}}</div>
-                <div class="phonologic-rhyme-sentence-answers">
-                    <div class="phonologic-rhyme-sentence-answers"></div>
-                {{range .Answers}}
-                    <div class="speak-word" onclick="speak('{{.}}'); selectAnswer(this);">{{.}}</div>
+                {{range .MainWord.Text}}
+                    <div class="speak-word main-sentence" onclick="speak('{{.}}')">{{.}}</div>
                 {{end}}
+                <div class="{{$template}}-answers">
+                    {{range .Options.Text}}
+                        <div class="speak-word" onclick="speak('{{.}}'); selectAnswer(this);">{{.}}</div>
+                    {{end}}
                 </div>
                 
-                <button class="nextButton" onclick="nextQuestion('.phonologic-rhyme-sentence-item') ; storeAnswer(this, '.phonologic-rhyme-sentence-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
-                
-            </div>
+                <button class="nextButton" onclick="nextQuestion('.{{$template}}-item') ; storeAnswer(this, '.{{$template}}-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
             {{end}}
-        </div>
+        {{else if eq $template "MatchMultipleOptions"}}
+        {{else if eq $template "CorrectOption"}}
+        {{else if eq $template "AudioRecord"}}
+        {{else if eq $template "ReadingText"}}
+        {{else if eq $template "ReadingWords"}}
+        {{else if eq $template "MemorySingleChoice"}}
         {{end}}
-    
-        <!-- Template 5 -->
-        {{range $templateIndex, $_ := .DecodingTextReading}}
-        <div class="decoding-text-reading template">
-            {{range $index, $_ := .DecodingTextReadingItems}}
-                {{if eq $index 0}}
-                <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: block;">
-                    <h1>{{.FirstQuestion}}</h1>
-                    <pre>{{.TextData}}</pre>
-                    <div class="stopwatch" id="timer_{{$templateIndex}}_{{$index}}">00:00:00</div>
-                </div>
-                {{else if eq $index 1}}
-                <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: none;">
-                    <h1>{{.SecondQuestion}}</h1>
-                    <div class="decoding-text-reading-redwords">
-                        {{range .RedWords}}
-                            <div class="decoding-text-reading-redwords-word">{{.}}</div>
-                        {{end}}
-                    </div>
-                </div>
-                {{else if eq $index 2}}
-                <div class="decoding-text-reading-item t_{{$templateIndex}} i_{{$index}}" style="display: none;">
-                    <h1>{{.FirstQuestion}}</h1>
-                    <pre>{{.TextData}}</pre>
-                    <div class="stopwatch" id="timer_{{$templateIndex}}_{{$index}}">00:00:00</div>
-                </div>
-                {{end}}
-            {{end}}
-            <button class="nextButton" onclick="nextQuestion('.decoding-text-reading-item.t_{{$templateIndex}}')">Επόμενο</button>
-        </div>
-        {{end}}
-
-        <!-- Template 6 -->
-        {{range $templateIndex, $_ := .MemoryVisualSingleChoice}}
-        <div class="memory-visual-single-choice template" data-template-index="{{$templateIndex}}">
-            {{range $index, $_ := .MemoryVisualSingleChoiceItems}}
-                <div class="memory-visual-single-choice-item t_{{$templateIndex}} i_{{$index}}" id="item_t{{$templateIndex}}_i{{$index}}" style="display: block;" >
-                    <div class="memory-visual-single-choice-choice1" id="choice1_t{{$templateIndex}}_i{{$index}}" style="display: none;">
-                        <h1>{{.FirstQuestion}}</h1>
-                        {{range .Choice1}}
-                            <div class="memory-visual-single-choice-choice1-options">{{.}}</div>
-                        {{end}}
-                    </div>
-                    <div class="memory-visual-single-choice-choice2" id="choice2_t{{$templateIndex}}_i{{$index}}" style="display: none;">
-                        <h1>{{.SecondQuestion}}</h1>
-                        {{range .Choice2}}
-                            <div class="memory-visual-single-choice-choice2-options">{{.}}</div>
-                        {{end}}
-                    </div>
-                </div>
-            {{end}}
-            <button class="nextButton-textreading">Επόμενο</button>
-        </div>
-        {{end}}
+        </div><!-- template end -->
+    {{end}}
         
-        <!-- Template 7 -->
-        {{range $templateIndex, $_ := .PhonologicRhymeProductionSentence}}
-        <div class="phonologic-rhyme-production-sentence template">
-            {{$question := .Question}}
-            <h1>{{.Question}}</h1>
-            {{range $index, $_ := .PhonologicRhymeProductionSentenceItems}}
-                {{if eq $index 0}}
-                <div class="phonologic-rhyme-production-sentence-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
-                {{else}}
-                <div class="phonologic-rhyme-production-sentence-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
-                {{end}}
-                <div class="speak-word main-sentence" onclick="speak('{{.Sentence}}')">{{.Sentence}}</div>
-                <div class="voice-reader-template">
-                    <div class="recognized-text"></div>
-                    <button class="start-voice-recognition">Start Voice Recognition</button>
-                    <button class="stop-voice-recognition">Stop Voice Recognition</button>
-                </div>
-                <button class="nextButton-speaking" onclick="nextQuestion('.phonologic-rhyme-production-sentence-item') ; storeAnswer(this, '.phonologic-rhyme-sentence-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
-                
-            </div>
-            {{end}}
-        </div>
-        {{end}}
-
     <div id="homebutton" onclick="window.location.href='http://localhost:8080/main.html'">
         <img src="/assets/home.svg">
     </div>
