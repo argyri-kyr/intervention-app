@@ -1,0 +1,282 @@
+[
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Λεμόνι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Πιλότος"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Μητέρα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Πατέρας"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Σινεμά"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Γόνατο"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Ποτάμι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Πατάτα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Χωράφι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Θάλασσα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Χειμώνας"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Κεφάλι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Κομμάτι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Ζάχαρη"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Μουσείο"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Μαγαζί"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Ποίηση"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Γέννηση"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Παιδεία"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    },    
+    {
+        "question": ["Διάβασε τη λέξη φωναχτά."],
+        "mainWord": {
+            "text": ["Κορίτσι "],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": [""]
+    }
+]

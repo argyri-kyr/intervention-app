@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"os"
@@ -26,11 +27,41 @@ type Options struct {
 }
 
 type Game struct {
-	Question string   `json:"question"`
+	Question []string `json:"question"`
 	MainWord MainWord `json:"mainWord"`
 	Options  Options  `json:"options"`
 	Answer   []string `json:"answer"`
 }
+
+type Sessions struct {
+	Session int      `json:"session"`
+	Sectors []string `json:"sectors"`
+}
+
+type SectorEntry struct {
+	Section    int    `json:"section"`
+	Difficulty int    `json:"difficulty"`
+	GameNo     int    `json:"game"`
+	Template   string `json:"template"`
+}
+
+type Progression struct {
+	PhonologicalAwareness []SectorEntry `json:"phonological_awareness"`
+	Decoding              []SectorEntry `json:"decoding"`
+	ReadingComprehension  []SectorEntry `json:"reading_comprehension"`
+	Memory                []SectorEntry `json:"memory"`
+	ProcessingSpeed       []SectorEntry `json:"processing_speed"`
+}
+
+type SectorDetails struct {
+	Sector     string
+	Section    int
+	Difficulty int
+	GameNo     int
+	Template   string
+}
+
+/////////////////////////////////////////
 
 type Session struct {
 	Section  int `json:"section"`
@@ -158,12 +189,9 @@ var decodingTextReadingExercise []DecodingTextReading
 var memoryVisualSingleChoice []MemoryVisualSingleChoice
 
 var (
-	sectors      = []string{"phonological_awareness", "phonological_awareness"}
-	sections     = []int{1, 1}
-	difficulties = []int{1, 1}
-	games        = []int{1, 2}
-	basePath     = "./data"
-	gameData     = make(map[int][]Game)
+	sessionNo = 1
+	basePath  = "./data"
+	gameData  = make(map[int][]Game)
 )
 
 func readJSONFile(filePath string, v interface{}) {
@@ -356,19 +384,72 @@ var funcMap = template.FuncMap{
 	},
 }
 
-func loadData() error {
-	//TODO: load sectors from file sessions.json and get section,difficulty and game from progression.json
-	for i := range sections {
-		sector := sectors[i]
-		section := sections[i]
-		difficulty := difficulties[i]
-		game := games[i]
+func loadSessionData(sessions []Sessions, progression Progression) []SectorDetails {
+	var details []SectorDetails
+	for _, session := range sessions {
+		if session.Session == sessionNo {
+			sectors := session.Sectors
+			for _, sector := range sectors {
+				var firstElement SectorEntry
+				switch sector {
+				case "phonological_awareness":
+					if len(progression.PhonologicalAwareness) > 0 {
+						firstElement = progression.PhonologicalAwareness[0]
+					}
+				case "decoding":
+					if len(progression.Decoding) > 0 {
+						firstElement = progression.Decoding[0]
+					}
+				case "reading_comprehension":
+					if len(progression.ReadingComprehension) > 0 {
+						firstElement = progression.ReadingComprehension[0]
+					}
+				case "memory":
+					if len(progression.Memory) > 0 {
+						firstElement = progression.Memory[0]
+					}
+				case "processing_speed":
+					if len(progression.ProcessingSpeed) > 0 {
+						firstElement = progression.ProcessingSpeed[0]
+					}
+				default:
+					fmt.Printf("Unknown sector: %s\n", sector)
+					continue
+				}
 
-		filePath := filepath.Join(basePath, sector, fmt.Sprintf("%d_%d_%d.json", section, difficulty, game))
+				detail := SectorDetails{
+					Sector:     sector,
+					Section:    firstElement.Section,
+					Difficulty: firstElement.Difficulty,
+					GameNo:     firstElement.GameNo,
+					Template:   firstElement.Template,
+				}
+				details = append(details, detail)
+			}
+		}
+	}
+	return details
+}
 
-		file, err := os.Open(filePath)
+func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
+	counter := 1
+	for _, detail := range sectorDetails {
+		sector := detail.Sector
+		section := detail.Section
+		difficulty := detail.Difficulty
+		game := detail.GameNo
+
+		datafilePath := filepath.Join(basePath, sector, fmt.Sprintf("%d_%d_%d.json", section, difficulty, game))
+
+		// Check if the path exists
+		if _, err := os.Stat(datafilePath); os.IsNotExist(err) {
+			fmt.Printf("File does not exist: %s\n", datafilePath)
+			continue
+		}
+
+		file, err := os.Open(datafilePath)
 		if err != nil {
-			return fmt.Errorf("failed to open file: %w", err)
+			return nil, fmt.Errorf("file exists but failed to open: %w", err)
 		}
 		defer file.Close()
 
@@ -376,12 +457,67 @@ func loadData() error {
 		decoder := json.NewDecoder(file)
 		err = decoder.Decode(&gameSlice)
 		if err != nil {
-			return fmt.Errorf("failed to decode JSON data: %w", err)
+			return nil, fmt.Errorf("failed to decode JSON data: %w", err)
 		}
 
-		// Add games to the appropriate array
-		gameData[game] = append(gameData[game], gameSlice...)
+		// Append games to the appropriate array in gameData
+		gameData[counter] = append(gameData[counter], gameSlice...)
+		counter++
 	}
+
+	return gameData, nil
+}
+
+func loadData() error {
+	//TODO: load sectors from file sessions.json and get section,difficulty and game from progression.json
+
+	// Load sessions data
+	sessionsFilePath := filepath.Join(basePath, "sessions.json")
+	sessionsFile, err := os.Open(sessionsFilePath)
+	if err != nil {
+		return fmt.Errorf("failed to open file: %w", err)
+	}
+	defer sessionsFile.Close()
+
+	var sessions []Sessions
+	bytes, err := io.ReadAll(sessionsFile)
+	if err != nil {
+		return fmt.Errorf("failed to read file: %w", err)
+	}
+	err = json.Unmarshal(bytes, &sessions)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal JSON data: %w", err)
+	}
+
+	// Load progressions data
+	progressionsFilePath := filepath.Join(basePath, "progression.json")
+	progressionsFile, err := os.Open(progressionsFilePath)
+	if err != nil {
+		return fmt.Errorf("failed to open file: %w", err)
+	}
+	defer progressionsFile.Close()
+
+	var progression Progression
+	bytes, err = io.ReadAll(progressionsFile)
+	if err != nil {
+		return fmt.Errorf("failed to read file: %w", err)
+	}
+	err = json.Unmarshal(bytes, &progression)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal JSON data: %w", err)
+	}
+
+	// Process data (example: print it)
+	sectorDetails := loadSessionData(sessions, progression)
+	fmt.Println("sectorDetails = ", sectorDetails)
+
+	// Load game data based on sector details
+	gameData, err := loadGameData(sectorDetails)
+	if err != nil {
+		return fmt.Errorf("error loading game data: %w", err)
+	}
+
+	fmt.Println("\n\ngame Data = ", gameData)
 
 	return nil
 }
@@ -389,7 +525,7 @@ func loadData() error {
 func serveData(w http.ResponseWriter, r *http.Request) {
 	loadData()
 	// Parse the HTML template
-	tmpl, err := template.New("new_index.html").ParseFiles("new_index.html")
+	tmpl, err := template.New("index.html").ParseFiles("index.html")
 	if err != nil {
 		log.Fatalf("Failed to parse the HTML template: %v", err)
 	}
@@ -414,7 +550,6 @@ func main() {
 	if err2 != nil {
 		log.Fatalf("Failed to load data: %v", err2)
 	}
-	fmt.Println("\n\ngame Data = ", gameData)
 
 	log.Println("Starting server on port 8080")
 	err1 := http.ListenAndServe(":8080", nil)

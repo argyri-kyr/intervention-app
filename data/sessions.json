@@ -1,36 +1,34 @@
-{
-    "sessions": [
-        {
-            "session": 1,
-            "sections": ["phonological_awareness", "decoding", "reading_comprenhension", "memory"]
-        },
-        {
-            "session": 2,
-            "sections": ["phonological_awareness", "processing_speed", "reading_comprenhension", "memory"]
-        },
-        {
-            "session": 3,
-            "sections": ["phonological_awareness", "decoding", "reading_comprenhension", "processing_speed"]
-        },
-        {
-            "session": 4,
-            "sections": ["phonological_awareness", "memory", "reading_comprenhension", "decoding"]
-        },
-        {
-            "session": 5,
-            "sections": ["phonological_awareness", "decoding", "reading_comprenhension", "processing_speed"]
-        },
-        {
-            "session": 6,
-            "sections": ["reading_comprenhension", "memory", "decoding", "processing_speed"]
-        },
-        {
-            "session": 7,
-            "sections": ["phonological_awareness", "memory", "reading_comprenhension", "decoding"]
-        },
-        {
-            "session": 8,
-            "sections": ["phonological_awareness", "processing_speed", "decoding", "memory"]
-        }
-    ]
-}
+[
+    {
+        "session": 1,
+        "sectors": ["phonological_awareness", "decoding", "reading_comprehension", "memory"]
+    },
+    {
+        "session": 2,
+        "sectors": ["phonological_awareness", "processing_speed", "reading_comprehension", "memory"]
+    },
+    {
+        "session": 3,
+        "sectors": ["phonological_awareness", "decoding", "reading_comprehension", "processing_speed"]
+    },
+    {
+        "session": 4,
+        "sectors": ["phonological_awareness", "memory", "reading_comprehension", "decoding"]
+    },
+    {
+        "session": 5,
+        "sectors": ["phonological_awareness", "decoding", "reading_comprehension", "processing_speed"]
+    },
+    {
+        "session": 6,
+        "sectors": ["reading_comprehension", "memory", "decoding", "processing_speed"]
+    },
+    {
+        "session": 7,
+        "sectors": ["phonological_awareness", "memory", "reading_comprehension", "decoding"]
+    },
+    {
+        "session": 8,
+        "sectors": ["phonological_awareness", "processing_speed", "decoding", "memory"]
+    }
+]

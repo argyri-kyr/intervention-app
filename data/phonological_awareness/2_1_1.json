@@ -1,0 +1,178 @@
+[
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Σό \n\n δα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Σι \n\n γά"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Δό \n\n ρι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Δό \n\n ντι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Τού \n\n λι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Τά \n\n πα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Γά \n\n τα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Γό \n\n μα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Κά \n\n πα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Κό \n\n ρη"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Λου \n\n ρί"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Μέ \n\n λι"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Μά \n\n να"],
+            "image": false,
+            "audio": false
+        }
+    }
+]
