@@ -90,7 +90,7 @@
         "answer": [""]
     },
     {
-        "template": "MemorySingleChoice",
+        "template": "RecallImageChoice",   //OLD: "MemorySingleChoice"
         "question": ["Δες προσεκτικά τις εικόνες και προσπάθησε να τις θυμάσαι.","Επέλεξε ποιά/ποιές εικόνες είδες προηγουμένως."],
         "mainWord": {
             "text":["κίτρινο οβάλ", "πράσινο τετράγωνο"],

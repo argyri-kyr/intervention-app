@@ -1,0 +1,44 @@
+[
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Τσα \n\n ντα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Πόρ \n\n τα"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    },
+    {
+        "question": ["Πες τη λέξη που σχηματίζεται."],
+        "mainWord": {
+            "text": ["Ντρο \n\n πή"],
+            "image": false,
+            "audio": false
+        },
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": []
+    }
+]

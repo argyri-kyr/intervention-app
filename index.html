@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,50 +8,134 @@
 </head>
 <body>
     <div class="content">
-    {{range $key, $value := .}}
-        <!-- Array of games -->
-        {{$template := .Template}}
-        <div class="{{$template}} template">
-        {{if eq $template "SelectOption"}}
-            {{range $index, $_ := .Games}}
-                {{$question := .Question}}
-                <h1>{{$question}}</h1>
-                {{if eq $index 0}}
-                    <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
-                {{else}}
-                    <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
-                {{end}}
-                {{range .MainWord.Text}}
-                    <div class="speak-word main-sentence" onclick="speak('{{.}}')">{{.}}</div>
-                {{end}}
-                <div class="{{$template}}-answers">
-                    {{range .Options.Text}}
-                        <div class="speak-word" onclick="speak('{{.}}'); selectAnswer(this);">{{.}}</div>
+        {{range $key, $value := .}}
+            <!-- Debugging: Display template type and key -->
+            {{$template := .Template}}
+            <div class="{{$template}} template">
+
+                {{if eq $template "SelectOption"}}
+                    {{range $index, $_ := .Games}}
+                        {{if eq $index 0}}
+                            <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
+                        {{else}}
+                            <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
+                        {{end}}
+                        
+                        {{$question := index .Question 0}}
+                        <h1>{{$question}}</h1>
+
+                        {{range .MainWord.Text}}
+                            <div class="speak-word main-sentence" onclick="speak('{{.}}')">{{.}}</div>
+                        {{end}}
+                        <div class="{{$template}}-answers">
+                            {{range .Options.Text}}
+                                <div class="speak-word" onclick="speak('{{.}}'); selectAnswer(this);">{{.}}</div>
+                            {{end}}
+                        </div>
+                            
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item') ; storeAnswer(this, '.{{$template}}-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
+                        </div>    
                     {{end}}
-                </div>
+
+
+                {{else if eq $template "MatchMultipleOptions"}}
+                    {{range $index, $_ := .Games}}
+                        <div class="{{$template}} t_{{$index}}">
+                            <div id = "{{$template}}-column-column1" class="{{$template}}-column t_{{$index}}">
+
+                                {{$question := index .Question 0}}
+                                <h1>{{$question}}</h1>
+
+                                {{range .Column1}}
+                                    <div class="dropzone">
+                                        <div class="speak-word" onclick="speak('{{.}}')">{{.}}</div>
+                                    </div>
+                                {{end}}
+                            </div>
+                            <div id = "{{$template}}-column-column2" class="{{$template}}-column t_{{$index}}">
+                                {{range $itemindex, $_ := .Column2}}
+                                    <div id="{{$template}}-{{$itemindex}}" class="speak-word" draggable="true" ondragstart="drag(event)" onclick="speak('{{.}}')">{{.}}</div>
+                                {{end}}
+                            </div>
+                        </div>
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}.t_{{$index}}') ; storeAnswersPairs('.{{$template}}.t_{{$index}}', '{{$question}}')">Επόμενο</button>
+                    {{end}}
+
+
+                {{else if eq $template "CorrectOption"}}
+                    {{range $index, $_ := .Games}}
+                        {{if eq $index 0}}
+                            <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
+                        {{else}}
+                            <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
+                        {{end}}
+                    
+                        {{$question := index .Question 0}}
+                        <h1>{{$question}}</h1>
+
+                        {{range .MainWord.Text}}
+                            <div class="speak-word main-sentence" onclick="speak('{{.}}')">{{.}}</div>
+                        {{end}}
+                        <div class="{{$template}}-answers">
+                            {{range .Options.Text}}
+                                <button onclick="nextQuestion('.{{$template}}-item') ; storeAnswer(this, '.{{$template}}-item', '{{$question}}', '{{$index}}')">{{.}}</button>
+                            {{end}}
+                        </div>
+                    </div>
+                    {{end}}
                 
-                <button class="nextButton" onclick="nextQuestion('.{{$template}}-item') ; storeAnswer(this, '.{{$template}}-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
-            {{end}}
-        {{else if eq $template "MatchMultipleOptions"}}
-        {{else if eq $template "CorrectOption"}}
-        {{else if eq $template "AudioRecord"}}
-        {{else if eq $template "ReadingText"}}
-        {{else if eq $template "ReadingWords"}}
-        {{else if eq $template "MemorySingleChoice"}}
+           
+                {{else if eq $template "AudioRecord"}}
+                    <!-- Add content or debug statement for AudioRecord -->
+                {{else if eq $template "ReadingText"}}
+                    <!-- Add content or debug statement for ReadingText -->
+                {{else if eq $template "ReadingWords"}}
+                    <!-- Add content or debug statement for ReadingWords -->
+
+          
+                {{else if eq $template "RecallImageChoice"}}
+                    {{range $index, $game := .Games}}
+                        <div class="RecallImageChoice-item i_{{$index}}" id="item_i{{$index}}" data-template-index="{{$index}}" style="display: none;">
+                            <div class="RecallImageChoice-choice1" style="display: none;">
+                                {{$question := index $game.Question 0}}
+                                <h1>{{$question}}</h1>
+                                {{range $game.MainWord.Text}}
+                                    <div class="RecallImageChoice-choice1-options">{{.}}</div>
+                                {{end}}
+                            </div>
+                            <div class="RecallImageChoice-choice2" style="display: none;">
+                                {{$question := index $game.Question 1}}
+                                <h1>{{$question}}</h1>
+                                {{range $game.Options.Text}}
+                                    <div class="RecallImageChoice-choice2-options">{{.}}</div>
+                                {{end}}
+                            </div>
+                            <button class="nextButton-textreading" style="display: none;">Επόμενο</button>
+                        </div>
+                    {{end}}
+            
+            
+                        
+                    
+
+                {{else if eq $template "RecallAudioChoice"}}
+                    <!-- Add content or debug statement for RecallAudioChoice -->
+                {{else}}
+                    <div>Unknown template type: {{$template}}</div>
+                {{end}}
+            </div> <!-- Close template div -->
         {{end}}
-        </div><!-- template end -->
-    {{end}}
         
-    <div id="homebutton" onclick="window.location.href='http://localhost:8080/main.html'">
-        <img src="/assets/home.svg">
-    </div>
-    <div id="progressBar" class="progress-bar">
-        <div id="exerciseProgressBar" class="progress-bar-inner"></div>
-        <div id="questionProgressBar" class="progress-bar-inner"></div>
-        <div id="exerciseProgressText" class="progress-text"></div>
-        <div id="questionProgressText" class="progress-text"></div>
-    </div>
-    </div> <!-- content -->
+        <div id="homebutton" onclick="window.location.href='http://localhost:8080/main.html'">
+            <img src="/assets/home.svg">
+        </div>
+        <div id="progressBar" class="progress-bar">
+            <div id="exerciseProgressBar" class="progress-bar-inner"></div>
+            <div id="questionProgressBar" class="progress-bar-inner"></div>
+            <div id="exerciseProgressText" class="progress-text"></div>
+            <div id="questionProgressText" class="progress-text"></div>
+        </div>
+    </div> <!-- Close content div -->
     <div id="output"></div>
     
 </body>

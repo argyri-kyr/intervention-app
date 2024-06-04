@@ -474,7 +474,6 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 }
 
 func loadData() ([]GameToHtml, error) {
-	//TODO: load sectors from file sessions.json and get section,difficulty and game from progression.json
 	var gameDataToHtml []GameToHtml
 	// Load sessions data
 	sessionsFilePath := filepath.Join(basePath, "sessions.json")
@@ -528,14 +527,12 @@ func loadData() ([]GameToHtml, error) {
 		return nil, fmt.Errorf("error loading game data: %w", err)
 	}
 
-	fmt.Println("game Data = ", gameDataToHtml)
-
 	return gameDataToHtml, nil
 }
 
 func serveData(w http.ResponseWriter, r *http.Request) {
 	gameData, err := loadData()
-	
+
 	if err != nil {
 		log.Fatalf("Failed to load data: %v", err)
 	}
@@ -544,6 +541,10 @@ func serveData(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Failed to parse the HTML template: %v", err)
 	}
+
+	// fmt.Println("game Data = ", gameData)
+	// length := len(gameData)
+	// fmt.Println("Length of gameData:", length)
 
 	// Execute the HTML template with the combined games data
 	err = tmpl.Execute(w, gameData)

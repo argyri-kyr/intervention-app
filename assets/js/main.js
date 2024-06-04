@@ -132,14 +132,11 @@ function nextExercise() {
     templateDivs[currentExercise-1].style.display = 'none';
     templateDivs[currentExercise].style.display = 'block';
 
+
     // Edw orizv na mpainw stin updateMemoryChoiceTemplate 1h fora meta apo allou typou askhsh
-    if (templateDivs[currentExercise].classList.contains('memory-visual-single-choice')) {
+    if (templateDivs[currentExercise].className==='RecallImageChoice template') {
         if(currentQuestion===0){
-            var choice = 1;
-            var automatic = true;
-            const nextButtons = document.querySelectorAll('.nextButton-textreading');
-            var templateIndex = 0;
-            updateMemoryChoiceTemplate(choice, automatic, nextButtons, templateIndex);
+            initializeRecallImageChoice();
         }
     }
     
@@ -455,107 +452,108 @@ document.addEventListener("DOMContentLoaded", function() {
 
 const displayTime = 4000; // 4 seconds
 
-function updateMemoryChoiceTemplate(choice, automatic, nextButton, templateIndex) {
-    const items = document.querySelectorAll(`.memory-visual-single-choice-item.t_${templateIndex}.i_${currentQuestion}`);
+// Define your updateMemoryChoiceTemplate function
+function updateMemoryChoiceTemplate(choice, automatic, nextButtons) {
+    const items = document.querySelectorAll(`.RecallImageChoice-item.i_${currentQuestion}`);
     const item = items[0];
 
-    const choice1 = item.querySelectorAll('.memory-visual-single-choice-choice1')[0];
-    const choice2 = item.querySelectorAll('.memory-visual-single-choice-choice2')[0];
-    
     if (!item) return;
-    
 
-    // const choice1 = item.querySelector('.memory-visual-single-choice-choice1');
-    // const choice2 = item.querySelector('.memory-visual-single-choice-choice2');
+    const choice1 = item.querySelector('.RecallImageChoice-choice1');
+    const choice2 = item.querySelector('.RecallImageChoice-choice2');
     
-
     if (choice === 1) {
         choice1.style.display = 'block';
         choice2.style.display = 'none';
-        nextButton.forEach((button, index) => {
+        nextButtons.forEach(button => {
             button.style.display = 'none';
         });
         
         if (automatic) {
             setTimeout(() => {
-                updateMemoryChoiceTemplate(2, automatic, nextButton, templateIndex);
+                updateMemoryChoiceTemplate(2, automatic, nextButtons);
             }, displayTime);
         }
     } else {
         choice1.style.display = 'none';
         choice2.style.display = 'block';
-        nextButton.forEach((button, index) => {
+        nextButtons.forEach(button => {
             button.style.display = 'block';
         });
     }
 }
 
-document.addEventListener("DOMContentLoaded", function() {
-    // Define displayTime within a scope accessible to updateMemoryChoiceTemplat
-    let showMemorySingleChoiceTimer;
+// Define your nextQuestionMemory function
+function nextQuestionMemory(itemSelector, nextButtons) {
+    let templateClass = itemSelector;
+    let questions = document.querySelectorAll(templateClass);
 
-    function nextQuestionMemory(itemSelector, templateIndex, nextButton) {
-        clearTimeout(showMemorySingleChoiceTimer);
-
-        let templateClass = itemSelector;
-        let questions = document.querySelectorAll(templateClass);
+    if (currentQuestion === questions.length - 1) {
+        currentQuestion = 0;
         
-        if (currentQuestion === questions.length - 1) {
-            currentQuestion = 0;
-            templateIndex ++;
+        nextExercise(); // You need to define this function
 
-            nextExercise();
-            
-            // style in a block the following exercise
-            const items = document.querySelectorAll(`.memory-visual-single-choice-item.t_${templateIndex}.i_${currentQuestion}`);
-            const item = items[0];
-            item.style.display = 'block'
-            updateMemoryChoiceTemplate(1, true, nextButtons, templateIndex);
+        // Display the first item of the next template
+        const items = document.querySelectorAll(`.RecallImageChoice-item.i_${currentQuestion}`);
+        const item = items[0];
+        item.style.display = 'block';
+        updateMemoryChoiceTemplate(1, true, nextButtons);
 
-            totalQuestions = getTotalQuestions();
-            updateProgressBar();
-            return;
-        } 
-        
-        currentQuestion = (currentQuestion + 1) % questions.length;
-        
-        updateMemoryChoiceTemplate(1, true, nextButton, templateIndex);
-        updateQuestion(false, itemSelector, currentQuestion);
-        updateProgressBar();
+        updateProgressBar(); // You need to define this function
+        return;
     }
-
-    // Check if the desired template is present
-    const template = document.querySelectorAll('.memory-visual-single-choice.template');
-    const nextButtons = document.querySelectorAll('.nextButton-textreading');
     
+    currentQuestion = (currentQuestion + 1) % questions.length;
+    console.log()
+    updateMemoryChoiceTemplate(1, true, nextButtons);
+    updateQuestion(false, itemSelector, currentQuestion); // You need to define this function
+    updateProgressBar(); // You need to define this function
+}
 
-    if (template != null && template.length > 0) {
+// Define your initialization function
+function initializeRecallImageChoice() {
+    // Check if the desired template is present
+    const template = document.querySelectorAll('.RecallImageChoice-item');
+    const nextButtons = document.querySelectorAll('.nextButton-textreading');
+
+    
+    if (template.length > 0) {
         // Ensure items are hidden initially
-        const items = document.querySelectorAll('.memory-visual-single-choice-item');
-        items.forEach((item, index) => {
+        template.forEach(item => {
             item.style.display = 'none';
         });
-        
 
         // Display the first item
-        const firstItem = items[currentQuestion];
+        const firstItem = template[currentQuestion];
         if (firstItem) {
             firstItem.style.display = 'block';
-            var templateIndex = 0;
-            updateMemoryChoiceTemplate(1, true, nextButtons, templateIndex);
+            updateMemoryChoiceTemplate(1, true, nextButtons);
         }
     }
 
     // Bind nextQuestion function to the next button
     nextButtons.forEach(button => {
         button.addEventListener('click', function() {
-            let templateIndex = button.closest('.template').getAttribute('data-template-index');
-            const itemSelector = `.memory-visual-single-choice-item.t_${templateIndex}`;
+            const itemSelector = `.RecallImageChoice-item`;
             button.style.display = 'none';
-            nextQuestionMemory(itemSelector, templateIndex, nextButtons);
+            nextQuestionMemory(itemSelector, nextButtons);
         });
     });
+}
 
+
+// Check if the desired template is present outside the DOMContentLoaded event listener
+const templates = document.querySelectorAll('.RecallImageChoice.template')
+let isVisible = false;
+templates.forEach(template => {
+    if (template.style.display === 'block') {
+        isVisible = true;
+    }
 });
+
+// This is for the cases where i want to start with the memory block as first exercise in order to be initialized
+if (templates!=null && templates.length > 0 && isVisible) {
+    initializeRecallImageChoice();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

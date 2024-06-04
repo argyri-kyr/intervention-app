@@ -1,7 +1,7 @@
 [
     {
         "session": 1,
-        "sectors": ["phonological_awareness", "decoding", "reading_comprehension", "memory"]
+        "sectors": ["reading_comprehension", "memory", "phonological_awareness", "decoding"]
     },
     {
         "session": 2,
