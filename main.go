@@ -388,7 +388,8 @@ var funcMap = template.FuncMap{
 	},
 }
 
-func loadSessionData(sessions []Sessions, progression Progression) []SectorDetails {
+func loadSessionData(sessions []Sessions, progression Progression, sessionNumber int) []SectorDetails {
+	sessionNumber = sessionNumber - 1
 	var details []SectorDetails
 	for _, session := range sessions {
 		if session.Session == sessionNo {
@@ -398,23 +399,23 @@ func loadSessionData(sessions []Sessions, progression Progression) []SectorDetai
 				switch sector {
 				case "phonological_awareness":
 					if len(progression.PhonologicalAwareness) > 0 {
-						firstElement = progression.PhonologicalAwareness[0]
+						firstElement = progression.PhonologicalAwareness[sessionNumber]
 					}
 				case "decoding":
 					if len(progression.Decoding) > 0 {
-						firstElement = progression.Decoding[0]
+						firstElement = progression.Decoding[sessionNumber]
 					}
 				case "reading_comprehension":
 					if len(progression.ReadingComprehension) > 0 {
-						firstElement = progression.ReadingComprehension[0]
+						firstElement = progression.ReadingComprehension[sessionNumber]
 					}
 				case "memory":
 					if len(progression.Memory) > 0 {
-						firstElement = progression.Memory[0]
+						firstElement = progression.Memory[sessionNumber]
 					}
 				case "processing_speed":
 					if len(progression.ProcessingSpeed) > 0 {
-						firstElement = progression.ProcessingSpeed[0]
+						firstElement = progression.ProcessingSpeed[sessionNumber]
 					}
 				default:
 					fmt.Printf("Unknown sector: %s\n", sector)
@@ -439,6 +440,7 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 	gameData := make(map[int][]Game)
 	counter := 1
 	for _, detail := range sectorDetails {
+		//fmt.Println("Sector", detail.Sector)
 		sector := detail.Sector
 		section := detail.Section
 		difficulty := detail.Difficulty
@@ -473,7 +475,7 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 	return gameData, nil
 }
 
-func loadData() ([]GameToHtml, error) {
+func loadData(sessionNumber int) ([]GameToHtml, error) {
 	var gameDataToHtml []GameToHtml
 	// Load sessions data
 	sessionsFilePath := filepath.Join(basePath, "sessions.json")
@@ -482,7 +484,6 @@ func loadData() ([]GameToHtml, error) {
 		return gameDataToHtml, fmt.Errorf("failed to open file: %w", err)
 	}
 	defer sessionsFile.Close()
-
 	var sessions []Sessions
 	bytes, err := io.ReadAll(sessionsFile)
 	if err != nil {
@@ -512,17 +513,16 @@ func loadData() ([]GameToHtml, error) {
 	}
 
 	// Process data (example: print it)
-	sectorDetails := loadSessionData(sessions, progression)
+	sectorDetails := loadSessionData(sessions, progression, sessionNumber)
 	//fmt.Println("sectorDetails = ", sectorDetails)
 
 	// Load game data based on sector details
 	gameData, err := loadGameData(sectorDetails)
-
-	for key, value := range gameData {
-		key = key - 1
-		//fmt.Println("key = ", key, "value = ", value)
-		gameDataToHtml = append(gameDataToHtml, GameToHtml{Template: sectorDetails[key].Template, Games: value})
+	//fmt.Println("gameData = ", gameData)
+	for i := 0; i < len(gameData); i++ {
+		gameDataToHtml = append(gameDataToHtml, GameToHtml{Template: sectorDetails[i].Template, Games: gameData[i+1]})
 	}
+
 	if err != nil {
 		return nil, fmt.Errorf("error loading game data: %w", err)
 	}
@@ -531,11 +531,20 @@ func loadData() ([]GameToHtml, error) {
 }
 
 func serveData(w http.ResponseWriter, r *http.Request) {
-	gameData, err := loadData()
-
+	sessionNumber := 1
+	parts := strings.Split(r.URL.Path, "/")
+	if len(parts) > 2 {
+		sessionNumber, _ = strconv.Atoi(parts[2])
+	} else {
+	}
+	//fmt.Println("Session Number = ", sessionNumber)
+	gameData, err := loadData(sessionNumber)
 	if err != nil {
 		log.Fatalf("Failed to load data: %v", err)
 	}
+	// for _, g := range gameData {
+	// 	fmt.Println(g.Template)
+	// }
 	// Parse the HTML template
 	tmpl, err := template.New("index.html").ParseFiles("index.html")
 	if err != nil {

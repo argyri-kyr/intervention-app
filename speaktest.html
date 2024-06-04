@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exercises</title>
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+    <link rel="stylesheet" type="text/css" href="/assets/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Play&display=swap">
+</head>
+<body>
+    <div class="content">
+        <p onclick="speak('Πα');speak('Πι')">Πα - πι</p>
+    </div>
+</body>
+<script>
+    function speak(text) {
+    var msg = new SpeechSynthesisUtterance(" "+text);
+    msg.lang = 'el-GR';
+    var voices = window.speechSynthesis.getVoices();
+    // console.log(voices);
+    msg.pitch = 2;
+    msg.rate = 1;
+    msg.volume = 1;
+    window.speechSynthesis.speak(msg);
+}
+</script>

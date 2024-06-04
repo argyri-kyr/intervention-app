@@ -2,7 +2,7 @@
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Σό \n\n δα"],
+            "text": ["Σό", "δα"],
             "image": false,
             "audio": false
         },
