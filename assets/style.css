@@ -51,25 +51,6 @@ body {
     border-top: 3px solid #333;
 }
 
-.nextButton {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.6em 1.2em;
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: #fff;
-    background-color: var(--button);
-    background-color: rgb(225, 97, 47);
-    border: none;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-    margin-inline: 450px;
-}
-
 .phonologic-rhyme-match-answers button:hover {
     background-color: var(--dark-blue-hover);
 }
@@ -132,22 +113,46 @@ body {
     margin-inline: 10px;
 }
 
-.SelectOption-answers {
+h1 {
+    position:relative;
+    font-size: 30pt;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 50px;
+}
+
+h1::after {
+    content: ''; /* Creates an empty pseudo-element */
+    position: absolute;
+    bottom: 0; /* Positions it at the bottom of the <h1> */
+    left: -5%; /* Adjust as needed to extend to the left */
+    right: -5%; /* Adjust as needed to extend to the right */
+    height: 5px; /* Height of the border */
+    background-color: #333; /* Color of the border */
+}
+
+.CorrectOption-answers-item {
+    margin-top: 40px;
+    padding: 20px;
+    font-size: 20pt;
+    text-align: center;
+}
+
+.SelectOption-answers, .AudioRecord-answers {
     padding: 20px;
 }
 
-.SelectOption-item {
+.SelectOption-item, .CorrectOption-item, .AudioRecord-item {
     padding: 20px;
     text-align: center;
-    border-top: 3px solid #333;
 }
 
-.SelectOption button {
+.SelectOption button, .AudioRecord button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.6em 1.2em;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: 500;
     color: #fff;
     background-color: var(--button);
@@ -180,13 +185,13 @@ body {
     align-items: center;
     justify-content: center;
     padding: 0.3em 1.2em;
-    font-size: 1.9rem;
+    font-size: 2.3rem;
     font-weight: 500;
     color: #fff;
     background-color: var(--dark-blue);
     background-color: rgb(81, 15, 234);
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
     cursor: pointer;
     text-decoration: none;
@@ -205,7 +210,7 @@ body {
     height: 48px;
     width: 48px;
     margin-right: 8px;
-    background-image: url('/assets/speak.svg');
+    background-image: url('/assets/icons/speak.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -217,25 +222,25 @@ body {
 } 
 
 .main-sentence {
-    background-color: white;
-    height: 48px;
-    width: 48px;
-    color: var(--grey);
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.3em 1.2em;
-    font-size: 1.9rem;
+    font-size: 2.3rem;
     font-weight: 500;
+    background-color: white;
+    color: var(--grey);
     color: #fff;
     background-color: var(--dark-blue);
     background-color: rgb(81, 15, 234);
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
     text-decoration: none;
     transition: background-color 0.3s ease;
     margin-inline: 60px;
 }
+
 
 .main-sentence button:hover{
     background-color: #aaa;
@@ -244,6 +249,44 @@ body {
 .main-match {
     background-color: var(--dark-blue-selected);
 }
+
+
+.nextButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6em 1.2em;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #fff;
+    background-color: var(--button);
+    background-color: rgb(225, 97, 47);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    margin-inline: 450px;
+}
+
+
+.main-sentence.image-word {
+    width: 600px; /* Set the width of the div */
+    height: 500px; /* Set the height of the div */
+    border: 2px solid #333; /* Add a border around the div */
+    margin-top: 10px;
+    padding-top: 30px; /* Add some padding inside the div */
+    text-align: center; /* Center align the content */
+}
+
+.main-sentence.image-word img {
+    max-width: 100%; /* Make the image responsive */
+    height: auto; /* Maintain the aspect ratio */
+}
+
+
+
 
 .decoding-text-reading {
     margin-bottom: 20px;

@@ -534,10 +534,18 @@ func serveData(w http.ResponseWriter, r *http.Request) {
 	sessionNumber := 1
 	parts := strings.Split(r.URL.Path, "/")
 	if len(parts) > 2 {
-		sessionNumber, _ = strconv.Atoi(parts[2])
+		var err error
+		sessionNumber, err = strconv.Atoi(parts[2])
+		if err == nil {
+			// Perform actions with sessionNumber
+		} else {
+			sessionNumber = 1
+			// fmt.Println("parts[2] is not an integer")
+			// Do nothing or handle the error
+		}
 	} else {
 	}
-	//fmt.Println("Session Number = ", sessionNumber)
+
 	gameData, err := loadData(sessionNumber)
 	if err != nil {
 		log.Fatalf("Failed to load data: %v", err)
