@@ -216,6 +216,18 @@ h1::after {
     background-size: contain;
 }
 
+.speak-word-once {
+    content: '';
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    margin-right: 8px;
+    background-image: none;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain; 
+}
+
 .speak-word.selected {
     background-color: var(--dark-blue-selected);
     /*background-color: rgb(208, 124, 14); */
