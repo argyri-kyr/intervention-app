@@ -76,11 +76,12 @@ func loadSessionData(sessions []Sessions, progression Progression, sessionNumber
 				}
 
 				detail := SectorDetails{
-					Sector:     sector,
-					Section:    firstElement.Section,
-					Difficulty: firstElement.Difficulty,
-					GameNo:     firstElement.GameNo,
-					Template:   firstElement.Template,
+					Sector:      sector,
+					Section:     firstElement.Section,
+					Difficulty:  firstElement.Difficulty,
+					GameNo:      firstElement.GameNo,
+					MaxExamples: firstElement.MaxExamples,
+					Template:    firstElement.Template,
 				}
 				details = append(details, detail)
 			}
@@ -97,6 +98,7 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 		sector := detail.Sector
 		section := detail.Section
 		difficulty := detail.Difficulty
+		// maxExamples := detail.MaxExamples
 		game := detail.GameNo
 
 		datafilePath := filepath.Join(basePath, sector, fmt.Sprintf("%d_%d_%d.json", section, difficulty, game))
@@ -119,6 +121,8 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 		if err != nil {
 			return nil, fmt.Errorf("failed to decode JSON data: %w", err)
 		}
+
+		fmt.Println(gameSlice)
 
 		// Append games to the appropriate array in gameData
 		gameData[counter] = append(gameData[counter], gameSlice...)

@@ -139,6 +139,7 @@ h1::after {
 }
 
 .SelectOption-answers, .AudioRecord-answers {
+    display: flex;
     padding: 20px;
 }
 
@@ -286,10 +287,12 @@ h1::after {
 .main-sentence.image-word {
     width: 600px; /* Set the width of the div */
     height: 500px; /* Set the height of the div */
-    border: 2px solid #333; /* Add a border around the div */
+    /* border: 2px solid #333;  Add a border around the div */
     margin-top: 10px;
     padding-top: 30px; /* Add some padding inside the div */
     text-align: center; /* Center align the content */
+    box-sizing: border-box; /* Ensure padding and border are included in the width and height */
+    background-color: rgba(81, 15, 234, 0); /* 0.5 represents 50% opacity */
 }
 
 .main-sentence.image-word img {

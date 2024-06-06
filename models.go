@@ -30,10 +30,11 @@ type Sessions struct {
 }
 
 type SectorEntry struct {
-	Section    int    `json:"section"`
-	Difficulty int    `json:"difficulty"`
-	GameNo     int    `json:"game"`
-	Template   string `json:"template"`
+	Section     int    `json:"section"`
+	Difficulty  int    `json:"difficulty"`
+	GameNo      int    `json:"game"`
+	MaxExamples int    `json:"maxExamples"`
+	Template    string `json:"template"`
 }
 
 type Progression struct {
@@ -45,11 +46,12 @@ type Progression struct {
 }
 
 type SectorDetails struct {
-	Sector     string
-	Section    int
-	Difficulty int
-	GameNo     int
-	Template   string
+	Sector      string
+	Section     int
+	Difficulty  int
+	GameNo      int
+	MaxExamples int
+	Template    string
 }
 
 type Session struct {

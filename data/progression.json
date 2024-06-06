@@ -4,42 +4,49 @@
             "section": 1,
             "difficulty": 1,
             "game": 1,
+            "maxExamples": 15,
             "template": "CorrectOption"
         },
         {
             "section": 1,
             "difficulty": 1,
             "game": 2,
+            "maxExamples": 15,
             "template": "SelectOption"
         },
         {
             "section": 1,
             "difficulty": 1,
             "game": 3,
+            "maxExamples": 15,
             "template": "SelectOption"
         },
         {
             "section": 2,
             "difficulty": 1,
             "game": 1,
+            "maxExamples": 15,
             "template": "AudioRecord"
         },
         {
             "section": 1,
             "difficulty": 1,
             "game": 4,
+            "maxExamples": 15,
             "template": "MatchMultipleOptions"
         },
         {
             "section": 1,
             "difficulty": 1,
             "game": 5,
+            "maxExamples": 15,
             "template": "SelectOption"
         },
         {
             "section": 1,
             "difficulty": 2,
             "game": 2,
+            "maxExamples": 15,
             "template": "AudioRecord"
         }
     ],
@@ -48,19 +55,22 @@
         {
             "section": 4,
             "difficulty": 1,
-            "game": 1,     
+            "game": 1,    
+            "maxExamples": 21, 
             "template": "AudioRecord"
         },
         {
             "section": 4,
             "difficulty": 2,
             "game": 1,     
+            "maxExamples": 21, 
             "template": "AudioRecord"
         },
         {
             "section": 6,
             "difficulty": 1,
             "game": 1,     
+            "maxExamples": 10, 
             "template": "AudioRecord"
         }
     ],
@@ -70,30 +80,35 @@
             "section": 8,
             "difficulty": 1,
             "game": 1,
+            "maxExamples": 10, 
             "template": "SelectOption"
         },
         {
             "section": 8,
             "difficulty": 1,
             "game": 2,
+            "maxExamples": 10, 
             "template": "SelectOption"
         },
         {
             "section": 9,
             "difficulty": 1,
             "game": 1,
+            "maxExamples": 8, 
             "template": "SelectOption"
         },
         {
             "section": 9,
             "difficulty": 1,
             "game": 2,
+            "maxExamples": 8, 
             "template": "SelectOption"
         },
         {
             "section": 9,
             "difficulty": 2,
             "game": 1,
+            "maxExamples": 10, 
             "template": "SelectOption"
         }
     ],
@@ -103,18 +118,21 @@
             "section": 11,
             "difficulty": 1,
             "game": 1,
+            "maxExamples": 10, 
             "template": "RecallImageChoice"
         },
         {
             "section": 11,
             "difficulty": 1,
             "game": 2,
+            "maxExamples": 10,
             "template": "RecallImageChoice"
         },
         {
             "section": 14,
             "difficulty": 1,
             "game": 1,
+            "maxExamples": 10,
             "template": "RecallAudioChoice"
         }
     ],
@@ -124,12 +142,14 @@
             "section": 18,
             "difficulty": 1,
             "game": 1,
+            "maxExamples": 16,
             "template": "AudioRecord"
         },
         {
             "section": 18,
             "difficulty": 1,
             "game": 2,
+            "maxExamples": 16,
             "template": "AudioRecord"
         }
     ]
