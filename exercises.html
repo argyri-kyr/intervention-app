@@ -158,21 +158,46 @@
 
                 {{else if eq $template "RecallImageChoice"}}
                     {{range $index, $game := .Games}}
+                        {{$audioMainword := index .MainWord.Audio}}
+                        {{$audioOptions := index .Options.Audio}}
+                        {{$imageMainword := index .MainWord.Image}}
+                        {{$imageOptions := index .Options.Image}}
                         <div class="RecallImageChoice-item i_{{$index}}" id="item_i{{$index}}" data-template-index="{{$index}}" style="display: none;">
+                            
                             <div class="RecallImageChoice-choice1" style="display: none;">
                                 {{$question := index $game.Question 0}}
                                 <h1>{{$question}}</h1>
                                 {{range $game.MainWord.Text}}
-                                    <div class="RecallImageChoice-choice1-options">{{.}}</div>
+                                    {{if and $audioMainword $imageMainword}}
+                                        <div class="RecallImageChoice-choice1-options speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png"></div>
+                                    {{else if and $audioMainword (not $imageMainword)}}
+                                        <div class="RecallImageChoice-choice1-options speak-word image-word" onclick="speak('{{.}}')">{{.}}</div>
+                                    {{else if and $imageMainword (not $audioMainword)}}
+                                        <div class="RecallImageChoice-choice1-options main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                    {{else}}
+                                        <div class="RecallImageChoice-choice1-options main-sentence">{{.}}</div>
+                                    {{end}}
                                 {{end}}
                             </div>
+
                             <div class="RecallImageChoice-choice2" style="display: none;">
                                 {{$question := index $game.Question 1}}
                                 <h1>{{$question}}</h1>
                                 {{range $game.Options.Text}}
-                                    <div class="RecallImageChoice-choice2-options">{{.}}</div>
+                                    {{if and $audioOptions $imageOptions}}
+                                        <div class="RecallImageChoice-choice2-options speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);"><img src="/assets/words/{{.}}.png"></div>
+                                    {{else if and $audioOptions (not $imageOptions)}}
+                                        <div class="RecallImageChoice-choice2-options speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);">{{.}}</div>
+                                    {{else if and $imageOptions (not $audioOptions)}}
+                                        <div class="RecallImageChoice-choice2-options main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                    {{else}}
+                                        <div class="RecallImageChoice-choice2-options main-sentence">{{.}}</div>
+                                    {{end}}
                                 {{end}}
+
+
                             </div>
+
                             <button class="nextButton-textreading" style="display: none;">Επόμενο</button>
                         </div>
                     {{end}}
