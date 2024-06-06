@@ -62,5 +62,6 @@ type Session struct {
 
 type Answer struct {
 	Question string `json:"question"`
+	Index    int    `json:"index"`
 	Answer   string `json:"answer"`
 }

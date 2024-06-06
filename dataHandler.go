@@ -1,33 +1,58 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 var answers []Answer
 
+func decodeAudio(base64data string) {
+    // Split the base64 string. The actual data is after the comma.
+    splitData := strings.Split(base64data, ",")
+    if len(splitData) != 2 {
+        log.Fatalf("Invalid base64 data")
+    }
+
+    // Decode the base64 string
+    data, err := base64.StdEncoding.DecodeString(splitData[1])
+    if err != nil {
+        log.Fatalf("Failed to decode base64 string: %v", err)
+    }
+
+    // Write the data to an ogg file
+    err = ioutil.WriteFile("output.ogg", data, 0644)
+    if err != nil {
+        log.Fatalf("Failed to write to file: %v", err)
+    }
+}
+
 func HandleAnswer(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Handling answers")
+
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
 	}
-
-	err := r.ParseForm()
+	var answers []Answer
+	fmt.Println(r.Body)
+	err := json.NewDecoder(r.Body).Decode(&answers)
+	fmt.Println(answers[0].Question)
+	fmt.Println(answers[0].Index)
+	fmt.Println(answers[0].Answer)
+	decodeAudio(answers[0].Answer)
 	if err != nil {
-		http.Error(w, "Failed to parse form", http.StatusBadRequest)
+		http.Error(w, "Failed to decode JSON body", http.StatusBadRequest)
 		return
 	}
-
-	question := r.FormValue("question")
-	answer := r.FormValue("answer")
-
-	answers = append(answers, Answer{Question: question, Answer: answer})
 
 	jsonData, err := json.Marshal(answers)
 	if err != nil {

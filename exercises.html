@@ -102,7 +102,7 @@
                         {{end}}
                         <div class="{{$template}}-answers">
                             {{range .Options.Text}}
-                                <button class="{{$template}}-answers-item" onclick="nextQuestion('.{{$template}}-item') ; storeAnswer(this, '.{{$template}}-item', '{{$question}}', '{{$index}}')">{{.}}</button>
+                                <button class="{{$template}}-answers-item" onclick="nextQuestion('.{{$template}}-item', '{{.}}')">{{.}}</button>
                             {{end}}
                         </div>
                     </div>
@@ -143,9 +143,9 @@
                         {{end}}
 
                         <div class="{{$template}}-answers">
-                            <button class="button-record" ><img src="/assets/icons/mic.svg"></button>
+                            <button class="button-record" onclick="toggleRecording(this)"><img src="/assets/icons/mic.svg"></button>
                         </div>
-                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item') ; storeAnswer(this, '.{{$template}}-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item')">Επόμενο</button>
                     </div>
                     {{end}}
 

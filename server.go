@@ -54,7 +54,7 @@ func serveData(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 	http.HandleFunc("/exercises/", serveData)
-	http.HandleFunc("/answer", HandleAnswer)
+	http.HandleFunc("/answers", HandleAnswer)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "index.html")
 	})

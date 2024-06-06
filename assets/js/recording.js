@@ -1,8 +1,17 @@
 let mediaRecorder;
 let recordedChunks = [];
+let audioData = null;
 
-function startRecording() {
-    navigator.mediaDevices.getUserMedia({ audio: true })
+function toggleRecording(btn) {
+    console.log(btn);
+    let img = btn.querySelector('img');
+    console.log(img);
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        img.src = '/assets/icons/mic.svg'; 
+    } else {
+        img.src = '/assets/icons/stop.svg';
+        navigator.mediaDevices.getUserMedia({ audio: true })
         .then(stream => {
             mediaRecorder = new MediaRecorder(stream);
             mediaRecorder.start();
@@ -15,32 +24,20 @@ function startRecording() {
                 let blob = new Blob(recordedChunks, {
                     type: 'audio/ogg; codecs=opus'
                 });
-                let url = URL.createObjectURL(blob);
+                let audioURL = URL.createObjectURL(blob);
                 // Do something with the URL here, like download it or play it back
                 //Play it back
-                let audio = new Audio(url);
+                let audio = new Audio(audioURL);
                 audio.play();
+
+                let reader = new FileReader();
+                reader.onloadend = function() {
+                    audioData = reader.result;
+                    console.log(audioData);
+                }
+                reader.readAsDataURL(blob);
             };
         })
         .catch(err => console.error('getUserMedia() failed: ', err));
-}
-
-function stopRecording() {
-    if (mediaRecorder) {
-        mediaRecorder.stop();
     }
 }
-
-let recordButtons = document.querySelectorAll('.button-record');
-recordButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        let img = button.querySelector('img');
-        if (mediaRecorder && mediaRecorder.state === 'recording') {
-            stopRecording();
-            img.src = '/assets/icons/mic.svg'; // Change the image to mic.svg when not recording
-        } else {
-            startRecording();
-            img.src = '/assets/icons/stop.svg'; // Change the image to stop.svg when recording
-        }
-    });
-});

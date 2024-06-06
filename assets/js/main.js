@@ -1,4 +1,5 @@
 let START_EXERCISE = 0;
+let answers = [];
 
 function speak(text) {
     var msg = new SpeechSynthesisUtterance(" "+text);
@@ -23,60 +24,30 @@ function speakonce(text, element) {
     element.className = 'speak-word-once';
 }
     
-// function submitAnswer(question, answer) {
-//     fetch('/answer', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/x-www-form-urlencoded',
-//         },
-//         body: new URLSearchParams({
-//             'question': question,
-//             'answer': answer
-//         })
-//     }).then(response => {
-//         if (!response.ok) {
-//             throw new Error('Network response was not ok');
-//         }
-//         return response.json();
-//     }).then(data => {
-//         // Handle the response data here
-//     }).catch(error => {
-//         console.error('There has been a problem with your fetch operation:', error);
-//     });
-// }
+function submitAnswers() {
+    fetch('/answers', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(answers)
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    }).then(data => {
+        // Handle the response data here
+    }).catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+    });
+}
 
 
 // Function to extract the index from the class name
 function extractIndexFromClassName(className) {
     const match = className.match(/i_(\d+)/);
     return match ? parseInt(match[1], 10) : null;
-}
-
-function submitAnswers() {
-    // Convert answeredPairs and answers arrays to JSON strings
-    var answeredPairsJson = JSON.stringify(answeredPairs);
-    var answersJson = JSON.stringify(answers);
-    console.log("answeredPairsJson = ", answeredPairsJson)
-    console.log("answersJson = ", answersJson)
-
-    // Concatenate the JSON strings with some separator
-    var content = "Answered Pairs:\n" + answeredPairsJson + "\n\nAnswers:\n" + answersJson;
-    
-    // Create a Blob with the content
-    var blob = new Blob([content], { type: "text/plain" });
-    
-    // Create a File from the Blob
-    var file = new File([blob], "answers.txt", { type: "text/plain" });
-    
-    // Create a download link
-    var downloadLink = document.createElement("a");
-    downloadLink.href = URL.createObjectURL(file);
-    downloadLink.download = "answers.txt"; // Set the file name
-    
-    // Programmatically click the download link
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-    document.body.removeChild(downloadLink);
 }
 
 function hideExercises() {
@@ -215,10 +186,25 @@ function updateQuestion(back = false, templateClass, currentQuestion) {
     }
 }
 
-function nextQuestion(itemSelector) {
+function nextQuestion(itemSelector, answer) {
     let templateClass = itemSelector;
     let questions = document.querySelectorAll(templateClass);
-    
+
+    let qdiv = document.querySelector(`${templateClass}.i_${currentQuestion}`);
+
+    let selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
+
+    //Check if answer is submitted, not valid for CorrectOption template
+    if ((templateClass.startsWith(".AudioRecord")) && (audioData === null)) {
+        alert("Please record your answer");
+        return;
+    }
+    //if (templateClass.startsWith(".CorrectOption"))
+    //     ((!templateClass.startsWith(".CorrectOption")) && (!selectedAnswer))) {
+    //     alert("Please answer");
+    //     return;
+    // }
+
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
         nextExercise();
@@ -230,11 +216,31 @@ function nextQuestion(itemSelector) {
     updateQuestion(false, templateClass, currentQuestion);
     updateProgressBar();
 
-    // Call storeAnswer function
-    // storeAnswer(button, itemSelector, question, index);
+    var question = qdiv.parentElement.querySelector('h1').textContent;
+    if (templateClass.startsWith(".CorrectOption")) {
+        // console.log("Question:", question);
+        // console.log("Index:", currentQuestion);
+        // console.log("Answer:", answer);
+        storeAnswerCorrectOption(question, currentQuestion, answer);
+    } else if (templateClass.startsWith(".AudioRecord")) {
+        storeAnswerAudioRecord(question, currentQuestion, audioData);
+        //submitAnswers();
+        //audioData = null;
+    }
+    // if (templateClass === '.memory-visual-single-choice-item') {
+    //     storeAnswerCorrectOption(questions[currentQuestion].querySelector('h1').textContent, currentQuestion, selectedAnswer.textContent);
+    // }
+    // storeAnswerCorrectOption
 }
 
-let answers = [];
+function storeAnswerAudioRecord(question, index, answer) {
+    answers.push({question:question, index: index, answer: answer});
+}
+
+function storeAnswerCorrectOption(question, index, answer) {
+    answers.push({question:question, index: index, answer: answer});
+}
+
 function storeAnswer(button, itemSelector, question, index) {
     let item = button.closest(itemSelector); 
     
@@ -246,7 +252,7 @@ function storeAnswer(button, itemSelector, question, index) {
             selectedWord = word.textContent;
         }
     });
-    //item: item.outerHTML
+    
     answers.push({question:question, index: index, selectedWord: selectedWord });
     console.log(answers);
 } 
