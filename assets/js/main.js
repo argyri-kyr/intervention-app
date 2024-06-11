@@ -193,7 +193,8 @@ function updateQuestion(back = false, templateClass, currentQuestion) {
 function chosenOption(templateClass) {
     // Find the selected option
     var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
-    
+    console.log("selectedAnswer = ", selectedAnswer)
+    console.log("templateClass = ", templateClass)
     
     // Define an object to store the selected option and image name
     var result = {
@@ -237,7 +238,6 @@ function chosenOption(templateClass) {
 
 
 function nextQuestion(itemSelector, mainwordtext, answer) {
-    console.log("mainwordtext = ", mainwordtext)
     let templateClass = itemSelector;
     let questions = document.querySelectorAll(templateClass);
     var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
@@ -248,7 +248,7 @@ function nextQuestion(itemSelector, mainwordtext, answer) {
         return;
     }
     if ((templateClass.startsWith(".SelectOption")) && (selectedAnswer===null)) {
-        alert("Please select an option");
+        alert("Please give an answer");
         return;
     }
     //if (templateClass.startsWith(".CorrectOption"))
@@ -291,10 +291,13 @@ function storeAnswerNew(templateClass, mainwordtext, answer) {
         //submitAnswers();
         //audioData = null;
     }
-    else if (templateClass.startsWith(".SelectOption")) {
+    else if (templateClass.startsWith(".SelectOption") || templateClass.startsWith(".RecallImageChoice") ) {
         var result = chosenOption(templateClass);
         var imageName = result.imageName;
         var mainwordoption = result.mainWordText;
+        console.log("result = ", result)
+        console.log("imageName = ", imageName)
+        console.log("mainwordoption = ", mainwordoption)
         answers.push({question:question, mainwordtext: mainwordoption, answer: imageName});
         // storeAnswerOption(question, mainwordoption, imageName)
     }
@@ -329,18 +332,25 @@ function storeAnswer(button, itemSelector, question, index) {
 } 
 
 let answeredPairs = [];
-
 function storeAnswersPairs(selector, question) {
+    // Get the container element using the provided selector
     var container = document.querySelector(selector);
 
+    // Loop through each dropzone in the container
     container.querySelectorAll('.dropzone').forEach(function(dropzone) {
         var word1 = dropzone.querySelector('.speak-word').innerText;
         var word2 = dropzone.querySelector('.speak-word[draggable="true"]').innerText;
+
+        // var pair = {};
+        // pair[word1] = word2;
+
         answeredPairs.push({question:question, "column1":word1, "column2":word2});
     });
 
     // Display the pairs in the console for testing
     console.log(answeredPairs);
+
+    // You can now do whatever you want with the pairs array, like sending it to the server
 }
 
 
@@ -388,10 +398,10 @@ function selectAnswer(element) {
             element.classList.add('selected');
         }
     } else {
-        for (let i = 0; i < sameClassElements.length; i++) {
-            sameClassElements[i].classList.remove('selected');
-        }
-        element.classList.add('selected');
+    for (let i = 0; i < sameClassElements.length; i++) {
+        sameClassElements[i].classList.remove('selected');
+    }
+    element.classList.add('selected');
     }
 }
 
@@ -598,9 +608,19 @@ function updateMemoryChoiceTemplate(choice, automatic, nextButtons) {
 }
 
 // Define your nextQuestionMemory function
-function nextQuestionMemory(itemSelector, nextButtons) {
+function nextQuestionMemory(itemSelector, mainwordtext, answer) {
+    console.log("mainwordtext = ", mainwordtext)
     let templateClass = itemSelector;
     let questions = document.querySelectorAll(templateClass);
+    const nextButtons = document.querySelectorAll('.nextButton-textreading');
+    var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
+
+    if ((templateClass.startsWith(".RecallImageChoice")) && (selectedAnswer===null)) {
+        alert("Please give an answer");
+        return;
+    }
+
+    storeAnswerNew(templateClass, mainwordtext, answer);
 
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
@@ -645,14 +665,14 @@ function initializeRecallImageChoice() {
         }
     }
 
-    // Bind nextQuestion function to the next button
-    nextButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const itemSelector = `.RecallImageChoice-item`;
-            button.style.display = 'none';
-            nextQuestionMemory(itemSelector, nextButtons);
-        });
-    });
+    // // Bind nextQuestion function to the next button
+    // nextButtons.forEach(button => {
+    //     button.addEventListener('click', function() {
+    //         const itemSelector = `.RecallImageChoice-item`;
+    //         button.style.display = 'none';
+    //         nextQuestionMemory(itemSelector, nextButtons);
+    //     });
+    // });
 }
 
 

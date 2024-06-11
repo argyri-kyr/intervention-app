@@ -161,6 +161,9 @@
                         {{$audioOptions := index .Options.Audio}}
                         {{$imageMainword := index .MainWord.Image}}
                         {{$imageOptions := index .Options.Image}}
+
+                        {{$mainwordtext := .MainWord.Text}}
+
                         <div class="RecallImageChoice-item i_{{$index}}" id="item_i{{$index}}" data-template-index="{{$index}}" style="display: none;">
                             
                             <div class="RecallImageChoice-choice1" style="display: none;">
@@ -195,7 +198,7 @@
                                 {{end}}
                             </div>
 
-                            <button class="nextButton-textreading" style="display: none;">Επόμενο</button>
+                            <button class="nextButton-textreading" style="display: none;" onclick="nextQuestionMemory('.{{$template}}-item', '{{$mainwordtext}}');">Επόμενο</button>
                         </div>
                     {{end}}
 
