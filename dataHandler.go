@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -16,23 +16,23 @@ import (
 var answers []Answer
 
 func decodeAudio(base64data string) {
-    // Split the base64 string. The actual data is after the comma.
-    splitData := strings.Split(base64data, ",")
-    if len(splitData) != 2 {
-        log.Fatalf("Invalid base64 data")
-    }
+	// Split the base64 string. The actual data is after the comma.
+	splitData := strings.Split(base64data, ",")
+	if len(splitData) != 2 {
+		log.Fatalf("Invalid base64 data")
+	}
 
-    // Decode the base64 string
-    data, err := base64.StdEncoding.DecodeString(splitData[1])
-    if err != nil {
-        log.Fatalf("Failed to decode base64 string: %v", err)
-    }
+	// Decode the base64 string
+	data, err := base64.StdEncoding.DecodeString(splitData[1])
+	if err != nil {
+		log.Fatalf("Failed to decode base64 string: %v", err)
+	}
 
-    // Write the data to an ogg file
-    err = ioutil.WriteFile("output.ogg", data, 0644)
-    if err != nil {
-        log.Fatalf("Failed to write to file: %v", err)
-    }
+	// Write the data to an ogg file
+	err = os.WriteFile("output.ogg", data, 0644)
+	if err != nil {
+		log.Fatalf("Failed to write to file: %v", err)
+	}
 }
 
 func HandleAnswer(w http.ResponseWriter, r *http.Request) {
@@ -115,6 +115,38 @@ func loadSessionData(sessions []Sessions, progression Progression, sessionNumber
 	return details
 }
 
+func getRandomElements(gameSlice []Game, count int) ([]Game, []int) {
+	// Check if gameSlice has less than count elements
+	if len(gameSlice) < count {
+		return gameSlice, nil
+	}
+
+	// Create a slice to store the selected games
+	selectedGames := make([]Game, count)
+	// Create a slice to store the indices of selected games
+	selectedIndices := make([]int, count)
+
+	// Create a map to track used indices
+	usedIndices := make(map[int]bool)
+
+	// Loop to select random elements
+	for i := 0; i < count; i++ {
+		// Generate a random index
+		randIndex := rand.Intn(len(gameSlice))
+		// Check if the index is already used
+		for usedIndices[randIndex] {
+			randIndex = rand.Intn(len(gameSlice))
+		}
+		// Mark the index as used
+		usedIndices[randIndex] = true
+		// Store the selected game and its index
+		selectedGames[i] = gameSlice[randIndex]
+		selectedIndices[i] = randIndex
+	}
+
+	return selectedGames, selectedIndices
+}
+
 func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 	gameData := make(map[int][]Game)
 	counter := 1
@@ -123,7 +155,7 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 		sector := detail.Sector
 		section := detail.Section
 		difficulty := detail.Difficulty
-		// maxExamples := detail.MaxExamples
+		maxExamples := detail.MaxExamples
 		game := detail.GameNo
 
 		datafilePath := filepath.Join(basePath, sector, fmt.Sprintf("%d_%d_%d.json", section, difficulty, game))
@@ -147,10 +179,12 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 			return nil, fmt.Errorf("failed to decode JSON data: %w", err)
 		}
 
-		fmt.Println(gameSlice)
+		selectedGames, _ := getRandomElements(gameSlice, maxExamples)
+		// fmt.Println("\n\nselectedIndices = ", selectedIndices)
+		// fmt.Println("\n\nrandomGames = ", selectedGames)
 
 		// Append games to the appropriate array in gameData
-		gameData[counter] = append(gameData[counter], gameSlice...)
+		gameData[counter] = append(gameData[counter], selectedGames...)
 		counter++
 	}
 

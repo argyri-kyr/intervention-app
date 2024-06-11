@@ -40,19 +40,21 @@
                         {{end}}
                         <div class="{{$template}}-answers">
                         {{range .Options.Text}}
-                            {{if and $audioOptions $imageOptions}}
-                                <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);"><img src="/assets/words/{{.}}.png"></div>
-                            {{else if and $audioOptions (not $imageOptions)}}
-                                <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);">{{.}}</div>
-                            {{else if and $imageOptions (not $audioOptions)}}
-                                <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
-                            {{else}}
-                                <div class="main-sentence">{{.}}</div>
-                            {{end}}
+                            <div class="option" onclick="selectOption(this)">
+                                {{if and $audioOptions $imageOptions}}
+                                    <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);"><img src="/assets/words/{{.}}.png"></div>
+                                {{else if and $audioOptions (not $imageOptions)}}
+                                    <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);">{{.}}</div>
+                                {{else if and $imageOptions (not $audioOptions)}}
+                                    <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                {{else}}
+                                    <div class="main-sentence">{{.}}</div>
+                                {{end}}
+                            </div>
                         {{end}}
                         </div>
                             
-                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item') ; storeAnswer(this, '.{{$template}}-item', '{{$question}}', '{{$index}}')">Επόμενο</button>
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item')">Επόμενο</button>
                         </div>    
                     {{end}}
 
@@ -77,7 +79,7 @@
                                 {{end}}
                             </div>
                         </div>
-                        <button class="nextButton" onclick="nextQuestion('.{{$template}}.t_{{$index}}') ; storeAnswersPairs('.{{$template}}.t_{{$index}}', '{{$question}}')">Επόμενο</button>
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}.t_{{$index}}')">Επόμενο</button>
                     {{end}}
 
 
@@ -92,6 +94,8 @@
                         {{$question := index .Question 0}}
                         <h1>{{$question}}</h1>
                         {{$audioMainword := index .MainWord.Audio}}
+                        
+                        {{$mainwordtext := .MainWord.Text}}
 
                         {{range .MainWord.Text}}
                             {{if $audioMainword}}
@@ -102,7 +106,7 @@
                         {{end}}
                         <div class="{{$template}}-answers">
                             {{range .Options.Text}}
-                                <button class="{{$template}}-answers-item" onclick="nextQuestion('.{{$template}}-item', '{{.}}')">{{.}}</button>
+                                <button class="{{$template}}-answers-item" onclick="nextQuestion('.{{$template}}-item', '{{$mainwordtext}}', '{{.}}')">{{.}}</button>
                             {{end}}
                         </div>
                     </div>
@@ -122,6 +126,8 @@
                         {{$audioMainword := index .MainWord.Audio}}
                         {{$audioOptions := index .Options.Audio}}
                         {{$length := len .MainWord.Text}}
+
+                        {{$mainwordtext := .MainWord.Text}}
 
                         <!-- When there are a lot of Text(s) then it is 2.1.1 we want the button to be clicked only once and do not show text -->
                         {{if eq $length 1 }} <!--1.2.2, 4.1.1-->
@@ -145,7 +151,7 @@
                         <div class="{{$template}}-answers">
                             <button class="button-record" onclick="toggleRecording(this)"><img src="/assets/icons/mic.svg"></button>
                         </div>
-                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item')">Επόμενο</button>
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item', '{{$mainwordtext}}')">Επόμενο</button>
                     </div>
                     {{end}}
 
@@ -194,8 +200,6 @@
                                         <div class="RecallImageChoice-choice2-options main-sentence">{{.}}</div>
                                     {{end}}
                                 {{end}}
-
-
                             </div>
 
                             <button class="nextButton-textreading" style="display: none;">Επόμενο</button>

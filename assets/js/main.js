@@ -95,6 +95,7 @@ function stopStopwatch(id) {
     clearInterval(stopwatches[id]);
 }
 
+
 function nextExercise() {
     console.log('Next exercise');
     let templateDivs = document.querySelectorAll('.template');
@@ -125,6 +126,7 @@ function nextExercise() {
     
 }
 
+
 function getTotalQuestions() {
     let templateDivs = document.querySelectorAll('.template');
     let visibleTemplateDivs = Array.from(templateDivs).filter(div => window.getComputedStyle(div).display !== 'none');
@@ -132,6 +134,7 @@ function getTotalQuestions() {
 
     return childDivs.length;
 }
+
 
 let currentQuestion = 0;
 let totalQuestions = getTotalQuestions();
@@ -186,17 +189,66 @@ function updateQuestion(back = false, templateClass, currentQuestion) {
     }
 }
 
-function nextQuestion(itemSelector, answer) {
+
+function chosenOption(templateClass) {
+    // Find the selected option
+    var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
+    
+    
+    // Define an object to store the selected option and image name
+    var result = {
+        mainWordText: null,
+        imageName: null
+    };
+
+    // Deselect all options
+    // var options = document.querySelectorAll('.option');
+    // options.forEach(function(opt) {
+    //     opt.classList.remove('selected');
+    // });
+
+
+    if (selectedAnswer) {
+        selectedAnswer.classList.add('selected');
+
+        // Retrieve the main word text
+        var mainWordTextElement = selectedAnswer.closest('.SelectOption-item').querySelector('.main-sentence, .speak-word');
+        if (mainWordTextElement) {
+            result.mainWordText = mainWordTextElement.textContent.trim();
+        }
+        
+        console.log("selectedAnswer = ", selectedAnswer)
+        var isImage = selectedAnswer.querySelector('img') !== null;
+
+        if (isImage) {
+            var selectedImageSrc = selectedAnswer.querySelector('img').getAttribute('src');
+            var imageName = selectedImageSrc.substring(selectedImageSrc.lastIndexOf('/') + 1);
+            console.log("Selected image name:", imageName);
+            result.imageName = decodeURIComponent(imageName);
+            
+        } else {
+            console.log("Selected item is not an image");
+        }
+    }
+
+    return result;
+}
+
+
+
+function nextQuestion(itemSelector, mainwordtext, answer) {
+    console.log("mainwordtext = ", mainwordtext)
     let templateClass = itemSelector;
     let questions = document.querySelectorAll(templateClass);
+    var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
 
-    let qdiv = document.querySelector(`${templateClass}.i_${currentQuestion}`);
-
-    let selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
-
-    //Check if answer is submitted, not valid for CorrectOption template
+    //Check if next button is pressed without give an answer
     if ((templateClass.startsWith(".AudioRecord")) && (audioData === null)) {
         alert("Please record your answer");
+        return;
+    }
+    if ((templateClass.startsWith(".SelectOption")) && (selectedAnswer===null)) {
+        alert("Please select an option");
         return;
     }
     //if (templateClass.startsWith(".CorrectOption"))
@@ -204,6 +256,8 @@ function nextQuestion(itemSelector, answer) {
     //     alert("Please answer");
     //     return;
     // }
+
+    storeAnswerNew(templateClass, mainwordtext, answer);
 
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
@@ -216,29 +270,46 @@ function nextQuestion(itemSelector, answer) {
     updateQuestion(false, templateClass, currentQuestion);
     updateProgressBar();
 
-    var question = qdiv.parentElement.querySelector('h1').textContent;
-    if (templateClass.startsWith(".CorrectOption")) {
-        // console.log("Question:", question);
-        // console.log("Index:", currentQuestion);
-        // console.log("Answer:", answer);
-        storeAnswerCorrectOption(question, currentQuestion, answer);
-    } else if (templateClass.startsWith(".AudioRecord")) {
-        storeAnswerAudioRecord(question, currentQuestion, audioData);
-        //submitAnswers();
-        //audioData = null;
-    }
+
     // if (templateClass === '.memory-visual-single-choice-item') {
     //     storeAnswerCorrectOption(questions[currentQuestion].querySelector('h1').textContent, currentQuestion, selectedAnswer.textContent);
     // }
     // storeAnswerCorrectOption
 }
 
-function storeAnswerAudioRecord(question, index, answer) {
-    answers.push({question:question, index: index, answer: answer});
+function storeAnswerNew(templateClass, mainwordtext, answer) {
+    let qdiv = document.querySelector(`${templateClass}.i_${currentQuestion}`);
+    var question = qdiv.parentElement.querySelector('h1').textContent;
+    
+    if (templateClass.startsWith(".CorrectOption")) {
+        // storeAnswerOption(question, mainwordtext, answer);
+        answers.push({question:question, mainwordtext: mainwordtext, answer: answer});
+    } 
+    else if (templateClass.startsWith(".AudioRecord")) {
+        answers.push({question:question, mainwordtext: mainwordtext, answer: audioData});
+        // storeAnswerAudioRecord(question, currentQuestion, audioData);
+        //submitAnswers();
+        //audioData = null;
+    }
+    else if (templateClass.startsWith(".SelectOption")) {
+        var result = chosenOption(templateClass);
+        var imageName = result.imageName;
+        var mainwordoption = result.mainWordText;
+        answers.push({question:question, mainwordtext: mainwordoption, answer: imageName});
+        // storeAnswerOption(question, mainwordoption, imageName)
+    }
+
+    console.log("answers = ", answers)
+    
 }
 
-function storeAnswerCorrectOption(question, index, answer) {
-    answers.push({question:question, index: index, answer: answer});
+
+function storeAnswerAudioRecord(question, mainwordtext, answer) {
+    answers.push({question:question, mainwordtext: mainwordtext, answer: answer});
+}
+
+function storeAnswerOption(question, mainwordtext, answer) {
+    answers.push({question:question, mainwordtext: mainwordtext, answer: answer});
 }
 
 function storeAnswer(button, itemSelector, question, index) {
@@ -278,6 +349,19 @@ function storeAnswersPairs(selector, question) {
 
     // You can now do whatever you want with the pairs array, like sending it to the server
 }
+
+
+function selectOption(option) {
+    // Deselect all options
+    var options = document.querySelectorAll('.option');
+    options.forEach(function(opt) {
+        opt.classList.remove('selected');
+    });
+    
+    // Select the clicked option
+    option.classList.add('selected');
+}
+
 
 // Add event listeners to word elements to handle selection
 let wordElements = document.querySelectorAll('.speak-word');
