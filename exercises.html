@@ -155,14 +155,7 @@
                     </div>
                     {{end}}
 
-                    
-                {{else if eq $template "ReadingText"}}
-                    <!-- Add content or debug statement for ReadingText -->
-                {{else if eq $template "ReadingWords"}}
-                    <!-- Add content or debug statement for ReadingWords -->
-
-
-                {{else if eq $template "RecallImageChoice"}}
+                    {{else if eq $template "RecallImageChoice"}}
                     {{range $index, $game := .Games}}
                         {{$audioMainword := index .MainWord.Audio}}
                         {{$audioOptions := index .Options.Audio}}
@@ -195,7 +188,7 @@
                                     {{else if and $audioOptions (not $imageOptions)}}
                                         <div class="RecallImageChoice-choice2-options speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);">{{.}}</div>
                                     {{else if and $imageOptions (not $audioOptions)}}
-                                        <div class="RecallImageChoice-choice2-options main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                        <div class="RecallImageChoice-choice2-options main-sentence image-word" onclick="selectAnswer(this)"><img src="/assets/words/{{.}}.png"></div>
                                     {{else}}
                                         <div class="RecallImageChoice-choice2-options main-sentence">{{.}}</div>
                                     {{end}}
@@ -209,7 +202,10 @@
 
                 {{else if eq $template "RecallAudioChoice"}}
                     <!-- Add content or debug statement for RecallAudioChoice -->
-
+                {{else if eq $template "ReadingText"}}
+                    <!-- Add content or debug statement for ReadingText -->
+                {{else if eq $template "ReadingWords"}}
+                    <!-- Add content or debug statement for ReadingWords -->
                 {{else}}
                     <div>Unknown template type: {{$template}}</div>
                 {{end}}

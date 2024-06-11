@@ -2,6 +2,7 @@
     --dark-blue: #3f51b5;
     --dark-blue-hover: #303f9f;
     --dark-blue-selected: #0d4f4d;
+    --light-blue-selected: lightblue;
     --white: #fff;
     --grey: #333;
     --button: #3f444f;
@@ -231,7 +232,6 @@ h1::after {
 
 .speak-word.selected {
     background-color: var(--dark-blue-selected);
-    /*background-color: rgb(208, 124, 14); */
 } 
 
 .main-sentence {
@@ -264,8 +264,7 @@ h1::after {
 }
 
 .option.selected {
-    background-color: lightblue;
-    /* Add any other styling for selected state */
+    background-color: var(--light-blue-selected);
 }
 
 .nextButton {
@@ -287,16 +286,14 @@ h1::after {
     margin-inline: 450px;
 }
 
-
 .main-sentence.image-word {
-    width: 600px; /* Set the width of the div */
-    height: 500px; /* Set the height of the div */
-    /* border: 2px solid #333;  Add a border around the div */
+    width: 25%; 
+    height: auto; 
     margin-top: 10px;
-    padding-top: 30px; /* Add some padding inside the div */
-    text-align: center; /* Center align the content */
-    box-sizing: border-box; /* Ensure padding and border are included in the width and height */
-    background-color: rgba(81, 15, 234, 0); /* 0.5 represents 50% opacity */
+    padding-top: 10px; 
+    text-align: center;
+    box-sizing: border-box;
+    background-color: rgba(81, 15, 234, 0);
 }
 
 .main-sentence.image-word img {
@@ -304,8 +301,9 @@ h1::after {
     height: auto; /* Maintain the aspect ratio */
 }
 
-
-
+.image-word.selected {
+    background-color: var(--light-blue-selected);
+}
 
 .decoding-text-reading {
     margin-bottom: 20px;
