@@ -24,8 +24,12 @@ function speakonce(text, element) {
     element.className = 'speak-word-once';
 }
     
-function submitAnswers() {
-    fetch('/answers', {
+function submitAnswers(gameNum) {
+    let pathArray = window.location.pathname.split('/');
+    let lastPath = pathArray[pathArray.length - 1];
+    console.log('Submitting answers for session ', lastPath);
+    console.log('Submitting answers for game ', gameNum);
+    fetch(`/answers/${lastPath}/${gameNum}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -35,14 +39,17 @@ function submitAnswers() {
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
+        return response.text();
     }).then(data => {
-        // Handle the response data here
+        if (data) {
+            return JSON.parse(data);
+        } else {
+            console.log('No data returned from server');
+        }
     }).catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
     });
 }
-
 
 // Function to extract the index from the class name
 function extractIndexFromClassName(className) {
@@ -115,7 +122,7 @@ function nextExercise() {
 
     templateDivs[currentExercise-1].style.display = 'none';
     templateDivs[currentExercise].style.display = 'block';
-
+    submitAnswers(currentExercise);
 
     // Edw orizv na mpainw stin updateMemoryChoiceTemplate 1h fora meta apo allou typou askhsh
     if (templateDivs[currentExercise].className==='RecallImageChoice template') {

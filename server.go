@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-const basePath  = "./data"
+const basePath = "./data"
 const htmlFile = "exercises.html"
 
 func serveData(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +24,6 @@ func serveData(w http.ResponseWriter, r *http.Request) {
 			// fmt.Println("parts[2] is not an integer")
 			// Do nothing or handle the error
 		}
-	} else {
 	}
 
 	gameData, err := LoadData(sessionNumber)
@@ -54,7 +53,7 @@ func serveData(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 	http.HandleFunc("/exercises/", serveData)
-	http.HandleFunc("/answers", HandleAnswer)
+	http.HandleFunc("/answers/", HandleAnswer)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "index.html")
 	})

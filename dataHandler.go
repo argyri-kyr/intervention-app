@@ -10,10 +10,9 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 )
-
-var answers []Answer
 
 func decodeAudio(base64data string) {
 	// Split the base64 string. The actual data is after the comma.
@@ -35,36 +34,60 @@ func decodeAudio(base64data string) {
 	}
 }
 
-func HandleAnswer(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Handling answers")
+func storeAnswers(answers []Answer, sessionNumber int, gameNumber int) {
+	// Get gameData
+	//gameData, err := LoadData(1)
+	jsonData, err := json.Marshal(answers)
+	if err != nil {
+		log.Fatalf("Failed to encode answers to JSON: %v", err)
+	}
+	filename := fmt.Sprintf("%d_%d_answers.json", sessionNumber, gameNumber)
+	err = os.WriteFile(filename, jsonData, 0644)
+	if err != nil {
+		log.Fatalf("Failed to write answers to JSON file: %v", err)
+	}
+}
 
+func getScore(answers []Answer) int {
+	fmt.Println(answers[0].Question)
+	fmt.Println(answers[0].Index)
+	fmt.Println(answers[0].Answer)
+	//decodeAudio(answers[0].Answer)
+	return 0
+}
+
+func HandleAnswer(w http.ResponseWriter, r *http.Request) {
+	sessionNumber := 0
+	gameNumber := 0
+	parts := strings.Split(r.URL.Path, "/")
+	if len(parts) > 3 {
+		var err error
+		sessionNumber, err = strconv.Atoi(parts[2])
+		if err != nil {
+			sessionNumber = 1
+			// handle the error
+		}
+		gameNumber, err = strconv.Atoi(parts[3])
+		if err != nil {
+			gameNumber = 1
+			// handle the error
+		}
+		// Perform actions with sessionNumber and gameNumber
+	}
+	fmt.Printf("Handling answers for session %d and game %d\n", sessionNumber, gameNumber)
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
 		return
 	}
 	var answers []Answer
-	fmt.Println(r.Body)
 	err := json.NewDecoder(r.Body).Decode(&answers)
-	fmt.Println(answers[0].Question)
-	fmt.Println(answers[0].Index)
-	fmt.Println(answers[0].Answer)
-	decodeAudio(answers[0].Answer)
+	fmt.Println(len(answers))
+
 	if err != nil {
 		http.Error(w, "Failed to decode JSON body", http.StatusBadRequest)
 		return
 	}
-
-	jsonData, err := json.Marshal(answers)
-	if err != nil {
-		log.Fatalf("Failed to encode answers to JSON: %v", err)
-	}
-
-	err = os.WriteFile("answers.json", jsonData, 0644)
-	if err != nil {
-		log.Fatalf("Failed to write answers to JSON file: %v", err)
-	}
-
-	log.Println("Stored answer")
+	storeAnswers(answers, sessionNumber, gameNumber)
 }
 
 func loadSessionData(sessions []Sessions, progression Progression, sessionNumber int) []SectorDetails {
@@ -192,6 +215,7 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 }
 
 func LoadData(sessionNumber int) ([]GameToHtml, error) {
+	fmt.Println("Loading data for session number:", sessionNumber)
 	var gameDataToHtml []GameToHtml
 	// Load sessions data
 	sessionsFilePath := filepath.Join(basePath, "sessions.json")
@@ -227,8 +251,14 @@ func LoadData(sessionNumber int) ([]GameToHtml, error) {
 	if err != nil {
 		return gameDataToHtml, fmt.Errorf("failed to unmarshal JSON data: %w", err)
 	}
+	// Get answers, get score and determine next games
+	if sessionNumber > 1 {
 
+	}
 	// Process data (example: print it)
+	//fmt.Println("sessions = ", sessions)
+	//fmt.Println("progression = ", progression)
+	//fmt.Println("sessionNumber = ", sessionNumber)
 	sectorDetails := loadSessionData(sessions, progression, sessionNumber)
 	//fmt.Println("sectorDetails = ", sectorDetails)
 
