@@ -26,7 +26,7 @@ function selectAnswer(element) {
     }
 }
 
-function storeAnswerNew(itemSelector, templateClass, mainwordtext, answer) {
+function storeAnswer(templateClass, mainwordtext, answer) {
     let qdiv = document.querySelector(`${templateClass}.i_${currentQuestion}`);
     var question = qdiv.parentElement.querySelector('h1').textContent;
     
@@ -41,7 +41,7 @@ function storeAnswerNew(itemSelector, templateClass, mainwordtext, answer) {
         //audioData = null;
     }
     else if (templateClass.startsWith(".SelectOption") || templateClass.startsWith(".RecallImageChoice") ) {
-        var result = chosenOption(itemSelector, templateClass);
+        var result = chosenOption(templateClass);
         answers.push({question:question, mainwordtext: mainwordtext, answer: result});
         // storeAnswerOption(question, mainwordoption, imageName)
     }
@@ -58,21 +58,21 @@ function storeAnswerOption(question, mainwordtext, answer) {
     answers.push({question:question, mainwordtext: mainwordtext, answer: answer});
 }
 
-function storeAnswer(button, itemSelector, question, index) {
-    let item = button.closest(itemSelector); 
+// function storeAnswer(button, itemSelector, question, index) {
+//     let item = button.closest(itemSelector); 
     
-    // Determine the selected word
-    let selectedWord = null;
-    let wordElements = item.querySelectorAll('.speak-word');
-    wordElements.forEach(word => {
-        if (word.classList.contains('selected')) {
-            selectedWord = word.textContent;
-        }
-    });
+//     // Determine the selected word
+//     let selectedWord = null;
+//     let wordElements = item.querySelectorAll('.speak-word');
+//     wordElements.forEach(word => {
+//         if (word.classList.contains('selected')) {
+//             selectedWord = word.textContent;
+//         }
+//     });
     
-    answers.push({question:question, index: index, selectedWord: selectedWord });
-    console.log(answers);
-} 
+//     answers.push({question:question, index: index, selectedWord: selectedWord });
+//     console.log(answers);
+// } 
 
 function storeAnswersPairs(selector, question) {
     // Get the container element using the provided selector
@@ -82,9 +82,6 @@ function storeAnswersPairs(selector, question) {
     container.querySelectorAll('.dropzone').forEach(function(dropzone) {
         var word1 = dropzone.querySelector('.speak-word').innerText;
         var word2 = dropzone.querySelector('.speak-word[draggable="true"]').innerText;
-
-        // var pair = {};
-        // pair[word1] = word2;
 
         answeredPairs.push({question:question, "column1":word1, "column2":word2});
     });
@@ -100,6 +97,7 @@ function submitAnswers(gameNum) {
     let lastPath = pathArray[pathArray.length - 1];
     console.log('Submitting answers for session ', lastPath);
     console.log('Submitting answers for game ', gameNum);
+    console.log('Answers: ', JSON.stringify(answers));
     fetch(`/answers/${lastPath}/${gameNum}`, {
         method: 'POST',
         headers: {

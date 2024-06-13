@@ -103,7 +103,7 @@ function updateQuestion(back = false, templateClass, currentQuestion) {
 }
 
 
-function chosenOption(itemSelector, templateClass) {
+function chosenOption(templateClass) {
     // Find the selected option
     var selectedAnswers = document.querySelectorAll(`${templateClass}.i_${currentQuestion} .selected`);
     
@@ -166,8 +166,8 @@ function nextQuestion(itemSelector, mainwordtext, answer) {
     //     alert("Please answer");
     //     return;
     // }
-
-    storeAnswerNew(itemSelector, templateClass, mainwordtext, answer);
+    console.log("mainwordtext = ", mainwordtext)
+    storeAnswer(templateClass, mainwordtext, answer);
 
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
@@ -244,7 +244,7 @@ function nextQuestionMemory(itemSelector, mainwordtext, answer) {
         return;
     }
 
-    storeAnswerNew(itemSelector, templateClass, mainwordtext, answer);
+    storeAnswer(templateClass, mainwordtext, answer);
 
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
