@@ -11,12 +11,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Σόδα"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Σι \n\n γά"],
+            "text": ["Σι", "γά"],
             "image": false,
             "audio": false
         },
@@ -25,12 +25,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Σιγά"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Δό \n\n ρι"],
+            "text": ["Δό","ρι"],
             "image": false,
             "audio": false
         },
@@ -39,12 +39,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Δόρι"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Δό \n\n ντι"],
+            "text": ["Δό","ντι"],
             "image": false,
             "audio": false
         },
@@ -53,12 +53,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Δόντι"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Τού \n\n λι"],
+            "text": ["Τού", "λι"],
             "image": false,
             "audio": false
         },
@@ -67,12 +67,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Τούλι"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Τά \n\n πα"],
+            "text": ["Τά","πα"],
             "image": false,
             "audio": false
         },
@@ -81,12 +81,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Τάπα"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Γά \n\n τα"],
+            "text": ["Γά", "τα"],
             "image": false,
             "audio": false
         },
@@ -95,12 +95,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Γάτα"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Γό \n\n μα"],
+            "text": ["Γό", "μα"],
             "image": false,
             "audio": false
         },
@@ -109,12 +109,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Γόμα"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Κά \n\n πα"],
+            "text": ["Κά","πα"],
             "image": false,
             "audio": false
         },
@@ -123,12 +123,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Κάπα"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Κό \n\n ρη"],
+            "text": ["Κό","ρη"],
             "image": false,
             "audio": false
         },
@@ -137,12 +137,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Κόρη"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Λου \n\n ρί"],
+            "text": ["Λου","ρί"],
             "image": false,
             "audio": false
         },
@@ -151,12 +151,12 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Λουρί"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Μέ \n\n λι"],
+            "text": ["Μέ","λι"],
             "image": false,
             "audio": false
         },
@@ -165,14 +165,20 @@
             "image": false,
             "audio": false
         },
-        "answer": []
+        "answer": ["Μέλι"]
     },
     {
         "question": ["Πες τη λέξη που σχηματίζεται."],
         "mainWord": {
-            "text": ["Μά \n\n να"],
+            "text": ["Μά","να"],
             "image": false,
             "audio": false
-        }
+        },        
+        "options": {
+            "text": [""],
+            "image": false,
+            "audio": false
+        },
+        "answer": ["Μάνα"]
     }
 ]

@@ -7,6 +7,7 @@ const stopwatches = {};
 let currentQuestion = 0;
 let totalQuestions = getTotalQuestions();
 const displayTime = 4000; // 4 seconds
+let matchedPairs = {};
 
 hideExercises();
 

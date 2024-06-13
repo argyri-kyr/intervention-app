@@ -27,6 +27,8 @@
                         {{$imageMainword := index .MainWord.Image}}
                         {{$imageOptions := index .Options.Image}}
 
+                        {{$mainwordtext := .MainWord.Text}}
+
                         {{range .MainWord.Text}}
                             {{if and $audioMainword $imageMainword}}
                                 <div class="speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png"></div>
@@ -54,32 +56,42 @@
                         {{end}}
                         </div>
                             
-                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item')">Επόμενο</button>
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item', '{{$mainwordtext}}')">Επόμενο</button>
                         </div>    
                     {{end}}
 
 
                 {{else if eq $template "MatchMultipleOptions"}}
                     {{range $index, $_ := .Games}}
-                        <div class="{{$template}} i_{{$index}}">
-                            <div id = "{{$template}}-column-column1" class="{{$template}}-column t_{{$index}}">
+                        {{if eq $index 0}}
+                            <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
+                        {{else}}
+                            <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideOutToLeft; display: none;">
+                        {{end}}
+                        {{$question := index .Question 0}}
+                        <h1>{{$question}}</h1>
+                        {{$audioMainword := index .MainWord.Audio}}
+                        {{$audioOptions := index .Options.Audio}}
+                        {{$imageMainword := index .MainWord.Image}}
+                        {{$imageOptions := index .Options.Image}}
 
-                                {{$question := index .Question 0}}
-                                <h1>{{$question}}</h1>
-
-                                {{range .Column1}}
-                                    <div class="dropzone">
-                                        <div class="speak-word" onclick="speak('{{.}}')">{{.}}</div>
-                                    </div>
-                                {{end}}
-                            </div>
-                            <div id = "{{$template}}-column-column2" class="{{$template}}-column t_{{$index}}">
-                                {{range $itemindex, $_ := .Column2}}
-                                    <div id="{{$template}}-{{$itemindex}}" class="speak-word" draggable="true" ondragstart="drag(event)" onclick="speak('{{.}}')">{{.}}</div>
-                                {{end}}
-                            </div>
+                        {{$mainwordtext := .MainWord.Text}}
+                
+                        <div id="{{$template}}-column-column1" class="{{$template}}-column t_{{$index}}">
+                            {{range .MainWord.Text}}
+                                <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                    <div class="speak-word" draggable="true" ondragstart="drag(event)" onclick="speak('{{.}}')">{{.}}</div>
+                                </div>
+                            {{end}}
                         </div>
-                        <button class="nextButton" onclick="nextQuestion('.{{$template}}.t_{{$index}}')">Επόμενο</button>
+                        <div id="{{$template}}-column-column2" class="{{$template}}-column t_{{$index}}">
+                            {{range $itemindex, $_ := .Options.Text}}
+                                <div id="{{$template}}-{{$itemindex}}" class="speak-word" draggable="true" ondragstart="drag(event)" onclick="speak('{{.}}')">{{.}}</div>
+                            {{end}}
+                        </div>
+                       
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item')">Επόμενο</button>
+                        </div>
                     {{end}}
 
 
@@ -125,6 +137,9 @@
                         <h1>{{$question}}</h1>
                         {{$audioMainword := index .MainWord.Audio}}
                         {{$audioOptions := index .Options.Audio}}
+                        {{$imageMainword := index .MainWord.Image}}
+                        {{$imageOptions := index .Options.Image}}
+
                         {{$length := len .MainWord.Text}}
 
                         {{$mainwordtext := .MainWord.Text}}
@@ -132,20 +147,30 @@
                         <!-- When there are a lot of Text(s) then it is 2.1.1 we want the button to be clicked only once and do not show text -->
                         {{if eq $length 1 }} <!--1.2.2, 4.1.1-->
                             {{range .MainWord.Text}}
-                                {{if $audioMainword}}
-                                <div class="speak-word main-sentence" onclick="speak('{{.}}')">{{.}}</div>
+                                {{if and $audioMainword $imageMainword}}
+                                    <div class="speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png"></div>
+                                {{else if and $audioMainword (not $imageMainword)}}
+                                    <div class="speak-word image-word" onclick="speak('{{.}}')">{{.}}</div>
+                                {{else if and $imageMainword (not $audioMainword)}}
+                                    <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
                                 {{else}}
-                                <div class="main-sentence">{{.}}</div>
+                                    <div class="main-sentence">{{.}}</div>
                                 {{end}}
                             {{end}}
                         {{else}} <!--2.1.1, 18.1.1-->
-                            {{range .MainWord.Text}}
-                                {{if $audioMainword}}
-                                <div class="speak-word main-sentence" onclick="speak('{{.}}')">{{.}}</div>
-                                {{else}}
-                                <div class="{{$template}} main-sentence">{{.}}</div>
+                            <div class="{{$template}}-item-mainwordText">
+                                {{range .MainWord.Text}}
+                                    {{if and $audioMainword $imageMainword}}
+                                        <div class="speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png"></div>
+                                    {{else if and $audioMainword (not $imageMainword)}}
+                                        <div class="speak-word image-word" onclick="speak('{{.}}')">{{.}}</div>
+                                    {{else if and $imageMainword (not $audioMainword)}}
+                                        <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                    {{else}}
+                                        <div class="main-sentence">{{.}}</div>
+                                    {{end}}
                                 {{end}}
-                            {{end}}
+                            </div>
                         {{end}}
 
                         <div class="{{$template}}-answers">

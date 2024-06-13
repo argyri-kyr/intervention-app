@@ -38,18 +38,40 @@ function extractIndexFromClassName(className) {
 }
 
 
+// Function to handle drag start
 function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
+// Function to allow drop
 function allowDrop(ev) {
     ev.preventDefault();
 }
 
+// Function to handle drop
 function drop(ev) {
     ev.preventDefault();
-    var data = ev.dataTransfer.getData("text"); 
-    ev.target.appendChild(document.getElementById(data));    
+    var data = ev.dataTransfer.getData("text");
+    var dropTarget = ev.target;
+    console.log("dropTarget = ", dropTarget);
+
+    // Check if the drop area already contains a child element
+    if (dropTarget.children.length === 1) {
+        // Append the dropped element
+        dropTarget.appendChild(document.getElementById(data));
+
+        var texts = Array.from(dropTarget.children).map(child => {
+            var onclickValue = child.getAttribute('onclick');
+            var textMatch = onclickValue.match(/speak\('([^']+)'\)/);
+            return textMatch ? textMatch[1] : '';
+        });
+        console.log("texts = ", texts)
+        matchedPairs[texts[0]] = texts[1];
+        console.log("matchedPairs = ", matchedPairs)
+    } else {
+        // Prevent dropping another element
+        console.log("Drop area already contains an element.");
+    }
 }
 
 // Function to start the stopwatch for a given template

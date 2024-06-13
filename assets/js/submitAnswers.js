@@ -26,7 +26,7 @@ function selectAnswer(element) {
     }
 }
 
-function storeAnswerNew(templateClass, mainwordtext, answer) {
+function storeAnswerNew(itemSelector, templateClass, mainwordtext, answer) {
     let qdiv = document.querySelector(`${templateClass}.i_${currentQuestion}`);
     var question = qdiv.parentElement.querySelector('h1').textContent;
     
@@ -41,13 +41,8 @@ function storeAnswerNew(templateClass, mainwordtext, answer) {
         //audioData = null;
     }
     else if (templateClass.startsWith(".SelectOption") || templateClass.startsWith(".RecallImageChoice") ) {
-        var result = chosenOption(templateClass);
-        var imageName = result.imageName;
-        var mainwordoption = result.mainWordText;
-        console.log("result = ", result)
-        console.log("imageName = ", imageName)
-        console.log("mainwordoption = ", mainwordoption)
-        answers.push({question:question, mainwordtext: mainwordoption, answer: imageName});
+        var result = chosenOption(itemSelector, templateClass);
+        answers.push({question:question, mainwordtext: mainwordtext, answer: result});
         // storeAnswerOption(question, mainwordoption, imageName)
     }
 
@@ -125,4 +120,22 @@ function submitAnswers(gameNum) {
     }).catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
     });
+}
+
+
+// Function to retrieve matched pairs
+function getMatchedPairs() {
+    return matchedPairs;
+}
+
+// Function to display matched pairs
+function showMatchedPairs() {
+    let pairs = getMatchedPairs();
+    console.log("Matched pairs: ", pairs);
+
+    // Optionally, display pairs in the UI or process them as needed
+    for (let column1Id in pairs) {
+        let column2Id = pairs[column1Id];
+        console.log(`Matched: ${column1Id} with ${column2Id}`);
+    }
 }

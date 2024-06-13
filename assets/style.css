@@ -86,7 +86,7 @@ body {
 
 .dropzone {
     border: 1px solid #aaa;
-    width: 660px;
+    width: 750px;
     margin-bottom: 13px;
     margin-left: -30px;
 }
@@ -166,6 +166,25 @@ h1::after {
     text-decoration: none;
     transition: background-color 0.3s ease;
     margin-inline: 60px;
+}
+
+.AudioRecord-item-mainwordText {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Adjust the gap between items */
+}
+.AudioRecord-item-mainwordText .image-word {
+    max-width: 200px; /* Adjust the maximum width as needed */
+    max-height: 200px; /* Adjust the maximum height as needed */
+    overflow: hidden; /* Hide overflow content if any */
+    flex-basis: calc(33.33% - 10px); /* Initial width of each item, minus half the gap */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+}
+
+.AudioRecord-answers{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .SelectOption-answers button:hover {
@@ -537,11 +556,6 @@ button:hover {
     height: 20px;
 }
 
-.AudioRecord-answers{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 .button-record img {
     width: 50px;

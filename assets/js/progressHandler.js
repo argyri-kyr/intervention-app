@@ -43,7 +43,17 @@ function nextExercise() {
 }
 
 function updateQuestion(back = false, templateClass, currentQuestion) {
-    let questions = document.querySelectorAll(templateClass);
+    // let questions = document.querySelectorAll(templateClass);
+    let parentTemplateName = templateClass.split('-')[0];
+    let parentTemplates = document.querySelectorAll(parentTemplateName);
+
+    // Iterate over each parent template to find the visible one
+    let visibleParentTemplate = Array.from(parentTemplates).find(parentTemplate => {
+        return window.getComputedStyle(parentTemplate).display !== "none";
+    });
+
+    questions = visibleParentTemplate.querySelectorAll(templateClass);
+    
     let curQ, nexQ = 0;
     if (back) {
         curQ = currentQuestion + 1;
@@ -54,8 +64,8 @@ function updateQuestion(back = false, templateClass, currentQuestion) {
     }
     console.log(`Questions: ${questions.length} next:${nexQ}`);
     totalQuestions = questions.length;
-    let currQuestion = document.querySelector(`${templateClass}.i_${curQ}`);
-    let nextQuestion = document.querySelector(`${templateClass}.i_${nexQ}`);
+    let currQuestion = visibleParentTemplate.querySelector(`${templateClass}.i_${curQ}`);
+    let nextQuestion = visibleParentTemplate.querySelector(`${templateClass}.i_${nexQ}`);
 
     // Stop the current stopwatch
     const currStopwatch = currQuestion.querySelector('.stopwatch');
@@ -93,46 +103,31 @@ function updateQuestion(back = false, templateClass, currentQuestion) {
 }
 
 
-function chosenOption(templateClass) {
+function chosenOption(itemSelector, templateClass) {
     // Find the selected option
-    var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
-    console.log("selectedAnswer = ", selectedAnswer)
-    console.log("templateClass = ", templateClass)
+    var selectedAnswers = document.querySelectorAll(`${templateClass}.i_${currentQuestion} .selected`);
     
     // Define an object to store the selected option and image name
-    var result = {
-        mainWordText: null,
-        imageName: null
-    };
+    var result = []
 
-    // Deselect all options
-    // var options = document.querySelectorAll('.option');
-    // options.forEach(function(opt) {
-    //     opt.classList.remove('selected');
-    // });
+    if (selectedAnswers) {
+        // selectedAnswer.classList.add('selected');
+        selectedAnswers.forEach(selectedAnswer => {
 
+            selectedAnswer.classList.add('selected');
+            var isImage = selectedAnswer.querySelector('img') !== null;
 
-    if (selectedAnswer) {
-        selectedAnswer.classList.add('selected');
-
-        // Retrieve the main word text
-        var mainWordTextElement = selectedAnswer.closest('.SelectOption-item').querySelector('.main-sentence, .speak-word');
-        if (mainWordTextElement) {
-            result.mainWordText = mainWordTextElement.textContent.trim();
-        }
+            if (isImage) {
+                var selectedImageSrc = selectedAnswer.querySelector('img').getAttribute('src');
+                var imageName = selectedImageSrc.substring(selectedImageSrc.lastIndexOf('/') + 1);
+                imageName = decodeURIComponent(imageName);
+                result.push(imageName)
+                
+            } else {
+                console.log("Selected item is not an image");
+            }
         
-        console.log("selectedAnswer = ", selectedAnswer)
-        var isImage = selectedAnswer.querySelector('img') !== null;
-
-        if (isImage) {
-            var selectedImageSrc = selectedAnswer.querySelector('img').getAttribute('src');
-            var imageName = selectedImageSrc.substring(selectedImageSrc.lastIndexOf('/') + 1);
-            console.log("Selected image name:", imageName);
-            result.imageName = decodeURIComponent(imageName);
-            
-        } else {
-            console.log("Selected item is not an image");
-        }
+        });
     }
 
     return result;
@@ -142,8 +137,20 @@ function chosenOption(templateClass) {
 
 function nextQuestion(itemSelector, mainwordtext, answer) {
     let templateClass = itemSelector;
-    let questions = document.querySelectorAll(templateClass);
     var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
+
+    let parentTemplateName = itemSelector.split('-')[0];
+    let parentTemplates = document.querySelectorAll(parentTemplateName);
+
+    // Iterate over each parent template to find the visible one
+    let visibleParentTemplate = Array.from(parentTemplates).find(parentTemplate => {
+        return window.getComputedStyle(parentTemplate).display !== "none";
+    });
+
+    questions = visibleParentTemplate.querySelectorAll(itemSelector);
+
+    console.log("templateClass = ", templateClass)
+    console.log("visibleParentTemplate = ", visibleParentTemplate)
 
     //Check if next button is pressed without give an answer
     if ((templateClass.startsWith(".AudioRecord")) && (audioData === null)) {
@@ -160,7 +167,7 @@ function nextQuestion(itemSelector, mainwordtext, answer) {
     //     return;
     // }
 
-    storeAnswerNew(templateClass, mainwordtext, answer);
+    storeAnswerNew(itemSelector, templateClass, mainwordtext, answer);
 
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
@@ -227,7 +234,6 @@ function updateMemoryChoiceTemplate(choice, automatic, nextButtons) {
 
 // Define your nextQuestionMemory function
 function nextQuestionMemory(itemSelector, mainwordtext, answer) {
-    console.log("mainwordtext = ", mainwordtext)
     let templateClass = itemSelector;
     let questions = document.querySelectorAll(templateClass);
     const nextButtons = document.querySelectorAll('.nextButton-textreading');
@@ -238,7 +244,7 @@ function nextQuestionMemory(itemSelector, mainwordtext, answer) {
         return;
     }
 
-    storeAnswerNew(templateClass, mainwordtext, answer);
+    storeAnswerNew(itemSelector, templateClass, mainwordtext, answer);
 
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
@@ -292,3 +298,4 @@ function initializeRecallImageChoice() {
     //     });
     // });
 }
+
