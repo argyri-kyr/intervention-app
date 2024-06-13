@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -16,26 +15,6 @@ import (
 )
 
 const gamesPerSession = 4
-
-func decodeAudio(base64data string) {
-	// Split the base64 string. The actual data is after the comma.
-	splitData := strings.Split(base64data, ",")
-	if len(splitData) != 2 {
-		log.Fatalf("Invalid base64 data")
-	}
-
-	// Decode the base64 string
-	data, err := base64.StdEncoding.DecodeString(splitData[1])
-	if err != nil {
-		log.Fatalf("Failed to decode base64 string: %v", err)
-	}
-
-	// Write the data to an ogg file
-	err = os.WriteFile("output.ogg", data, 0644)
-	if err != nil {
-		log.Fatalf("Failed to write to file: %v", err)
-	}
-}
 
 func storeAnswers(answers []Answer, sessionNumber int, gameNumber int) {
 	log.Println("Storing answers for session", sessionNumber, "and game", gameNumber)
@@ -309,31 +288,38 @@ func LoadData(sessionNumber int) ([]GameToHtml, error) {
 			ps_gameNumber := 0
 			me_gameNumber := 0
 			switch sector {
-				case "phonological_awareness":
-					currentTemplate = progression.PhonologicalAwareness[pa_gameNumber].Template
-					pa_gameNumber++
-				case "decoding":
-					currentTemplate = progression.Decoding[de_gameNumber].Template
-					de_gameNumber++
-				case "reading_comprehension":
-					currentTemplate = progression.ReadingComprehension[rc_gameNumber].Template
-					rc_gameNumber++
-				case "processing_speed":
-					currentTemplate = progression.ProcessingSpeed[ps_gameNumber].Template
-					ps_gameNumber++
-				case "memory":
-					currentTemplate = progression.Memory[me_gameNumber].Template
-					me_gameNumber++
+			case "phonological_awareness":
+				currentTemplate = progression.PhonologicalAwareness[pa_gameNumber].Template
+				pa_gameNumber++
+			case "decoding":
+				currentTemplate = progression.Decoding[de_gameNumber].Template
+				de_gameNumber++
+			case "reading_comprehension":
+				currentTemplate = progression.ReadingComprehension[rc_gameNumber].Template
+				rc_gameNumber++
+			case "processing_speed":
+				currentTemplate = progression.ProcessingSpeed[ps_gameNumber].Template
+				ps_gameNumber++
+			case "memory":
+				currentTemplate = progression.Memory[me_gameNumber].Template
+				me_gameNumber++
 			}
-			if currentTemplate == "AudioRecord" {
-				log.Println("Audio record template, exit")
-				//TODO: Audio should be decoded from answers, operator to listen to it and mark the score
-				//decodeAudio(answers[0].Answer)
-				continue
-			}
+
 			// log.Println("Progression: ", progression[sessions[sessionNumber-1].Sectors[gameNumber]])
 			// log.Println("Has progression: ", progression.)
 			answers, err := loadAnswers(sessionNumber-1, gameNumber)
+			if currentTemplate == "AudioRecord" {
+				log.Println("Audio record template, exit")
+				//TODO: Audio should be decoded from answers, operator to listen to it and mark the score
+				for _, answer := range answers {
+					filename := answer.MainwordText
+					filename = strings.ReplaceAll(filename, "[", "")
+					filename = strings.ReplaceAll(filename, "]", "")
+					filename = strings.TrimSpace(filename)
+					decodeAudio(answer.Answer, filename)
+				}
+				continue
+			}
 			if err != nil {
 				log.Println("Error loading answers:", err)
 				continue
