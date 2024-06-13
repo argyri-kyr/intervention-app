@@ -401,17 +401,27 @@ func LoadData(sessionNumber int) ([]GameToHtml, error) {
 			fmt.Println("Sector: ", sessions[sessionNumber-2].Sectors[gameNumber-1])
 			sector := sessions[sessionNumber-2].Sectors[gameNumber-1]
 			currentTemplate := ""
+			pa_gameNumber := 0
+			de_gameNumber := 0
+			rc_gameNumber := 0
+			ps_gameNumber := 0
+			me_gameNumber := 0
 			switch sector {
-			case "phonological_awareness":
-				currentTemplate = progression.PhonologicalAwareness[gameNumber-1].Template
-			case "decoding":
-				currentTemplate = progression.Decoding[gameNumber-1].Template
-			case "reading_comprehension":
-				currentTemplate = progression.ReadingComprehension[gameNumber-1].Template
-			case "processing_speed":
-				currentTemplate = progression.ProcessingSpeed[gameNumber-1].Template
-			case "memory":
-				currentTemplate = progression.Memory[gameNumber-1].Template
+				case "phonological_awareness":
+					currentTemplate = progression.PhonologicalAwareness[pa_gameNumber].Template
+					pa_gameNumber++
+				case "decoding":
+					currentTemplate = progression.Decoding[de_gameNumber].Template
+					de_gameNumber++
+				case "reading_comprehension":
+					currentTemplate = progression.ReadingComprehension[rc_gameNumber].Template
+					rc_gameNumber++
+				case "processing_speed":
+					currentTemplate = progression.ProcessingSpeed[ps_gameNumber].Template
+					ps_gameNumber++
+				case "memory":
+					currentTemplate = progression.Memory[me_gameNumber].Template
+					me_gameNumber++
 			}
 			if currentTemplate == "AudioRecord" {
 				fmt.Println("Audio record template, exit")
