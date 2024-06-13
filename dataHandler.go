@@ -16,6 +16,8 @@ import (
 	"strings"
 )
 
+const gamesPerSession = 4
+
 func decodeAudio(base64data string) {
 	// Split the base64 string. The actual data is after the comma.
 	splitData := strings.Split(base64data, ",")
@@ -42,7 +44,7 @@ func storeAnswers(answers []Answer, sessionNumber int, gameNumber int) {
 	if err != nil {
 		log.Fatalf("Failed to encode answers to JSON: %v", err)
 	}
-	filename := fmt.Sprintf("%d_%d_answers.json", sessionNumber, gameNumber)
+	filename := fmt.Sprintf("answers/%d_%d_answers.json", sessionNumber, gameNumber)
 	err = os.WriteFile(filename, jsonData, 0644)
 	if err != nil {
 		log.Fatalf("Failed to write answers to JSON file: %v", err)
@@ -52,24 +54,41 @@ func storeAnswers(answers []Answer, sessionNumber int, gameNumber int) {
 func compareSlices(a []string, b string) bool {
 	trimmedb := strings.ReplaceAll(b, "[", "")
 	trimmedb = strings.ReplaceAll(trimmedb, "]", "")
-	bSlice := strings.Split(trimmedb, " ")
+	bSlice := strings.Split(trimmedb, ",")
+
 	if len(a) != len(bSlice) {
+		// fmt.Println("a:", len(a))
+		// fmt.Println("b:", len(bSlice))
+		// fmt.Println("Lengths do not match")
 		return false
 	}
+
+	for i, v := range a {
+		a[i] = strings.TrimSpace(v)
+	}
 	sort.Strings(a)
+
+	for i, v := range bSlice {
+		bSlice[i] = strings.TrimSpace(v)
+	}
 	sort.Strings(bSlice)
+	// fmt.Println("a:", a)
+	// fmt.Println("b:", bSlice)
 	for i, v := range a {
 		if v != bSlice[i] {
+			// fmt.Println("v:", v)
+			// fmt.Println("bSlice[i]:", bSlice[i])
+			// fmt.Println("Mismatch at index", i)
 			return false
 		}
 	}
 	return true
 }
 
-func getScore(sessions []Sessions, progression Progression, sessionNumber int, answers []Answer) float64 {
+func getScore(sessions []Sessions, progression Progression, sessionNumber int, gameNumber int, answers []Answer) float64 {
 	fmt.Println("Calculating score for session", sessionNumber)
 	sectorDetails := loadSessionData(sessions, progression, sessionNumber)
-	gameData, err := loadAllGameDate(sectorDetails)
+	gameData, err := loadAllGameData(sectorDetails)
 	if err != nil {
 		fmt.Println("Error loading game data:", err)
 	}
@@ -81,42 +100,52 @@ func getScore(sessions []Sessions, progression Progression, sessionNumber int, a
 		// fmt.Println("Answer:", answer)
 		for _, games := range gameData {
 			// fmt.Println("Games:", games)
-			if games[0].Question[0] == answer.Question {
+			if games[gameNumber-1].Question[0] == answer.Question {
 				// fmt.Println("Found game")
 				selectedGames = games
-				maxExamples = sectorDetails[0].MaxExamples
+				// fmt.Println(sectorDetails[gameNumber-1])
+				maxExamples = sectorDetails[gameNumber-1].MaxExamples
+				// fmt.Println("Max examples:", maxExamples, " for game number:", gameNumber)
 				break
 			}
 		}
 	}
 
-	//fmt.Println("Selected games:", selectedGames)
-	answerIndex := 0
-	for _, game := range selectedGames {
-		//fmt.Println("Game:", game)
-		//Find the answer for the game
-		//fmt.Println("Game: ", game.MainWord.Text, " and answer: ", answers[answerIndex].MainwordText)
-		if compareSlices(game.MainWord.Text, answers[answerIndex].MainwordText) {
-			//fmt.Println("Found Mainword match")
-			//Check if the answer is correct
-			fmt.Println("Question: ", game.Question[0], " and submitted question: ", answers[answerIndex].Question)
-			fmt.Println("Options: ", game.MainWord.Text, " and submitted options: ", answers[answerIndex].MainwordText)
-			fmt.Println("Answer: ", game.Answer[0], " and submitted answer: ", answers[answerIndex].Answer)
-			if game.Answer[0] == answers[answerIndex].Answer {
-				fmt.Println("Correct answer")
-				score++
-			}
-			answerIndex++
-			if answerIndex == len(answers) {
-				// Get the MaxExamples for the sector, in order to calculate the score in %
-				score = (score / float64(maxExamples)) * 100
-				fmt.Println("Score:", score)
-				return score
+	for _, answer := range answers {
+		for _, game := range selectedGames {
+			fmt.Println("MainWord:", game.MainWord.Text, " and submitted MainWord:", answer.MainwordText)
+			if compareSlices(game.MainWord.Text, answer.MainwordText) {
+				//Check if the answer is correct
+				// fmt.Println("Question: ", game.Question[0], " and submitted question: ", answers[answerIndex].Question)
+				// fmt.Println("Options: ", game.MainWord.Text, " and submitted options: ", answers[answerIndex].MainwordText)
+				submittedAnswers := strings.Split(answer.Answer, ",")
+				correctOptionAnswer := 0
+				for s := range submittedAnswers {
+					for a := range game.Answer {
+						trimmedAnswer := strings.ReplaceAll(submittedAnswers[s], "[", "")
+						trimmedAnswer = strings.ReplaceAll(trimmedAnswer, "]", "")
+						trimmedAnswer = strings.ReplaceAll(trimmedAnswer, ".png", "")
+						fmt.Println("Answer: ", game.Answer[a], " and submitted answer: ", trimmedAnswer)
+						if game.Answer[a] == trimmedAnswer {
+							correctOptionAnswer++
+						}
+					}
+				}
+				if correctOptionAnswer == len(game.Answer) {
+					fmt.Println("Correct answer")
+					score++
+					continue
+				}
 			}
 		}
 	}
-	//decodeAudio(answers[0].Answer)
+
+	// fmt.Println("All answers checked")
+	// Get the MaxExamples for the sector, in order to calculate the score in %
+	score = (score / float64(maxExamples)) * 100
+	fmt.Println("Score:", score)
 	return score
+	//decodeAudio(answers[0].Answer)
 }
 
 func HandleAnswer(w http.ResponseWriter, r *http.Request) {
@@ -229,7 +258,7 @@ func getRandomElements(gameSlice []Game, count int) ([]Game, []int) {
 	return selectedGames, selectedIndices
 }
 
-func loadAllGameDate(sectorDetails []SectorDetails) (map[int][]Game, error) {
+func loadAllGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 	gameData := make(map[int][]Game)
 	counter := 1
 	for _, detail := range sectorDetails {
@@ -314,7 +343,7 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 
 func loadAnswers(sessionNumber int, gameNumber int) ([]Answer, error) {
 	fmt.Println("Loading answers for session", sessionNumber, "and game", gameNumber)
-	filename := fmt.Sprintf("%d_%d_answers.json", sessionNumber, gameNumber)
+	filename := fmt.Sprintf("answers/%d_%d_answers.json", sessionNumber, gameNumber)
 	file, err := os.Open(filename)
 	if err != nil {
 		return nil, err
@@ -323,7 +352,7 @@ func loadAnswers(sessionNumber int, gameNumber int) ([]Answer, error) {
 	byteValue, _ := ioutil.ReadAll(file)
 	var answers []Answer
 	json.Unmarshal(byteValue, &answers)
-	fmt.Println("Answers for game", gameNumber, ":", answers)
+	//fmt.Println("Answers for game", gameNumber, ":", answers)
 	return answers, nil
 }
 
@@ -367,16 +396,41 @@ func LoadData(sessionNumber int) ([]GameToHtml, error) {
 	// Get answers, get score and determine next games
 	if sessionNumber > 1 {
 		//Load answers
-		for gameNumber := 1; gameNumber <= 5; gameNumber++ {
+		for gameNumber := 1; gameNumber <= gamesPerSession; gameNumber++ {
+			fmt.Println("Checking game number ", gameNumber, " for session ", sessionNumber-1)
+			fmt.Println("Sector: ", sessions[sessionNumber-2].Sectors[gameNumber-1])
+			sector := sessions[sessionNumber-2].Sectors[gameNumber-1]
+			currentTemplate := ""
+			switch sector {
+			case "phonological_awareness":
+				currentTemplate = progression.PhonologicalAwareness[gameNumber-1].Template
+			case "decoding":
+				currentTemplate = progression.Decoding[gameNumber-1].Template
+			case "reading_comprehension":
+				currentTemplate = progression.ReadingComprehension[gameNumber-1].Template
+			case "processing_speed":
+				currentTemplate = progression.ProcessingSpeed[gameNumber-1].Template
+			case "memory":
+				currentTemplate = progression.Memory[gameNumber-1].Template
+			}
+			if currentTemplate == "AudioRecord" {
+				fmt.Println("Audio record template, exit")
+				//TODO: Audio should be decoded from answers, operator to listen to it and mark the score
+				//decodeAudio(answers[0].Answer)
+				continue
+			}
+			// fmt.Println("Progression: ", progression[sessions[sessionNumber-1].Sectors[gameNumber]])
+			// fmt.Println("Has progression: ", progression.)
 			answers, err := loadAnswers(sessionNumber-1, gameNumber)
 			if err != nil {
 				fmt.Println("Error loading answers:", err)
 				continue
 			}
-			fmt.Println()
+
 			//Get score
-			score := getScore(sessions, progression, gameNumber, answers)
+			score := getScore(sessions, progression, sessionNumber-1, gameNumber, answers)
 			fmt.Println("Score for game", gameNumber, ":", score)
+			os.Exit(1)
 		}
 		//Set progression per sector
 	}

@@ -34,7 +34,10 @@ func serveData(w http.ResponseWriter, r *http.Request) {
 	// 	fmt.Println(g.Template)
 	// }
 	// Parse the HTML template
-	tmpl, err := template.New(htmlFile).ParseFiles(htmlFile)
+	funcMap := template.FuncMap{
+		"join": strings.Join,
+	}
+	tmpl, err := template.New(htmlFile).Funcs(funcMap).ParseFiles(htmlFile)
 	if err != nil {
 		log.Fatalf("Failed to parse the HTML template: %v", err)
 	}

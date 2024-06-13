@@ -306,13 +306,19 @@ h1::after {
 }
 
 .main-sentence.image-word {
-    width: 25%; 
     height: auto; 
     margin-top: 10px;
     padding-top: 10px; 
     text-align: center;
     box-sizing: border-box;
     background-color: rgba(81, 15, 234, 0);
+}
+
+.RecallImageChoice-choice1-options.main-sentence.image-word {
+    width: 25%;
+}
+.RecallImageChoice-choice2-options.main-sentence.image-word {
+    width: 25%;
 }
 
 .main-sentence.image-word img {

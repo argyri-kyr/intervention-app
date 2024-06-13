@@ -31,11 +31,11 @@
 
                         {{range .MainWord.Text}}
                             {{if and $audioMainword $imageMainword}}
-                                <div class="speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png"></div>
+                                <div class="speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                             {{else if and $audioMainword (not $imageMainword)}}
                                 <div class="speak-word image-word" onclick="speak('{{.}}')">{{.}}</div>
                             {{else if and $imageMainword (not $audioMainword)}}
-                                <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                             {{else}}
                                 <div class="main-sentence">{{.}}</div>
                             {{end}}
@@ -44,11 +44,11 @@
                         {{range .Options.Text}}
                             <div class="option" onclick="selectOption(this)">
                                 {{if and $audioOptions $imageOptions}}
-                                    <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);"><img src="/assets/words/{{.}}.png"></div>
+                                    <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                 {{else if and $audioOptions (not $imageOptions)}}
                                     <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);">{{.}}</div>
                                 {{else if and $imageOptions (not $audioOptions)}}
-                                    <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                    <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                 {{else}}
                                     <div class="main-sentence">{{.}}</div>
                                 {{end}}
@@ -148,11 +148,11 @@
                         {{if eq $length 1 }} <!--1.2.2, 4.1.1-->
                             {{range .MainWord.Text}}
                                 {{if and $audioMainword $imageMainword}}
-                                    <div class="speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png"></div>
+                                    <div class="speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                 {{else if and $audioMainword (not $imageMainword)}}
                                     <div class="speak-word image-word" onclick="speak('{{.}}')">{{.}}</div>
                                 {{else if and $imageMainword (not $audioMainword)}}
-                                    <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                    <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                 {{else}}
                                     <div class="main-sentence">{{.}}</div>
                                 {{end}}
@@ -165,7 +165,7 @@
                                     {{else if and $audioMainword (not $imageMainword)}}
                                         <div class="speak-word image-word" onclick="speak('{{.}}')">{{.}}</div>
                                     {{else if and $imageMainword (not $audioMainword)}}
-                                        <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                        <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                     {{else}}
                                         <div class="main-sentence">{{.}}</div>
                                     {{end}}
@@ -187,7 +187,7 @@
                         {{$imageMainword := index .MainWord.Image}}
                         {{$imageOptions := index .Options.Image}}
 
-                        {{$mainwordtext := .MainWord.Text}}
+                        {{$mainwordtext := join .MainWord.Text ", "}}
 
                         <div class="RecallImageChoice-item i_{{$index}}" id="item_i{{$index}}" data-template-index="{{$index}}" style="display: none;">
                             
@@ -196,11 +196,11 @@
                                 <h1>{{$question}}</h1>
                                 {{range $game.MainWord.Text}}
                                     {{if and $audioMainword $imageMainword}}
-                                        <div class="RecallImageChoice-choice1-options speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png"></div>
+                                        <div class="RecallImageChoice-choice1-options speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                     {{else if and $audioMainword (not $imageMainword)}}
                                         <div class="RecallImageChoice-choice1-options speak-word image-word" onclick="speak('{{.}}')">{{.}}</div>
                                     {{else if and $imageMainword (not $audioMainword)}}
-                                        <div class="RecallImageChoice-choice1-options main-sentence image-word"><img src="/assets/words/{{.}}.png"></div>
+                                        <div class="RecallImageChoice-choice1-options main-sentence image-word"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                     {{else}}
                                         <div class="RecallImageChoice-choice1-options main-sentence">{{.}}</div>
                                     {{end}}
@@ -212,11 +212,11 @@
                                 <h1>{{$question}}</h1>
                                 {{range $game.Options.Text}}
                                     {{if and $audioOptions $imageOptions}}
-                                        <div class="RecallImageChoice-choice2-options speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);"><img src="/assets/words/{{.}}.png"></div>
+                                        <div class="RecallImageChoice-choice2-options speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                     {{else if and $audioOptions (not $imageOptions)}}
                                         <div class="RecallImageChoice-choice2-options speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);">{{.}}</div>
                                     {{else if and $imageOptions (not $audioOptions)}}
-                                        <div class="RecallImageChoice-choice2-options main-sentence image-word" onclick="selectAnswer(this)"><img src="/assets/words/{{.}}.png"></div>
+                                        <div class="RecallImageChoice-choice2-options main-sentence image-word" onclick="selectAnswer(this)"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                     {{else}}
                                         <div class="RecallImageChoice-choice2-options main-sentence">{{.}}</div>
                                     {{end}}

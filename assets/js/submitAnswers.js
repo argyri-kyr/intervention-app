@@ -42,12 +42,15 @@ function storeAnswer(templateClass, mainwordtext, answer) {
     }
     else if (templateClass.startsWith(".SelectOption") || templateClass.startsWith(".RecallImageChoice") ) {
         var result = chosenOption(templateClass);
-        answers.push({question:question, mainwordtext: mainwordtext, answer: result});
+        answers.push({question: question, mainwordtext: mainwordtext, answer: result.join(',')});
         // storeAnswerOption(question, mainwordoption, imageName)
+    }
+    else if (templateClass.startsWith(".RecallImageChoice")) {
+        var result = chosenOption(templateClass);
+        answers.push({question: question, mainwordtext: mainwordtext, answer: result.join(',')});
     }
 
     console.log("answers = ", answers)
-    
 }
 
 function storeAnswerAudioRecord(question, mainwordtext, answer) {
@@ -118,6 +121,8 @@ function submitAnswers(gameNum) {
     }).catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
     });
+    //RESET ANSWERS
+    answers = [];
 }
 
 
