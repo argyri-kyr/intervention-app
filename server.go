@@ -1,15 +1,18 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 )
 
 const basePath = "./data"
 const htmlFile = "exercises.html"
+const serverPort = "8080"
 
 func serveData(w http.ResponseWriter, r *http.Request) {
 	sessionNumber := 1
@@ -54,6 +57,16 @@ func serveData(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	logFile, err := os.OpenFile("server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	if err != nil {
+		log.Fatalf("Failed to open log file: %v", err)
+	}
+	defer logFile.Close()
+
+	// Set the output destination of the standard logger to the log file
+	log.SetOutput(logFile)
+
 	http.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 	http.HandleFunc("/exercises/", serveData)
 	http.HandleFunc("/answers/", HandleAnswer)
@@ -61,8 +74,10 @@ func main() {
 		http.ServeFile(w, r, "index.html")
 	})
 
-	log.Println("Starting server on port 8080")
-	err1 := http.ListenAndServe(":8080", nil)
+	log.Println("Starting server on port", serverPort)
+	fmt.Println("Starting server on port", serverPort)
+	fmt.Printf("Access app at http://localhost:%s/exercises/1\n", serverPort)
+	err1 := http.ListenAndServe(":"+serverPort, nil)
 	if err1 != nil {
 		log.Fatalf("Failed to start server: %v", err1)
 	}

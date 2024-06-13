@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -39,7 +38,7 @@ func decodeAudio(base64data string) {
 }
 
 func storeAnswers(answers []Answer, sessionNumber int, gameNumber int) {
-	fmt.Println("Storing answers for session", sessionNumber, "and game", gameNumber)
+	log.Println("Storing answers for session", sessionNumber, "and game", gameNumber)
 	jsonData, err := json.Marshal(answers)
 	if err != nil {
 		log.Fatalf("Failed to encode answers to JSON: %v", err)
@@ -49,103 +48,6 @@ func storeAnswers(answers []Answer, sessionNumber int, gameNumber int) {
 	if err != nil {
 		log.Fatalf("Failed to write answers to JSON file: %v", err)
 	}
-}
-
-func compareSlices(a []string, b string) bool {
-	trimmedb := strings.ReplaceAll(b, "[", "")
-	trimmedb = strings.ReplaceAll(trimmedb, "]", "")
-	bSlice := strings.Split(trimmedb, ",")
-
-	if len(a) != len(bSlice) {
-		// fmt.Println("a:", len(a))
-		// fmt.Println("b:", len(bSlice))
-		// fmt.Println("Lengths do not match")
-		return false
-	}
-
-	for i, v := range a {
-		a[i] = strings.TrimSpace(v)
-	}
-	sort.Strings(a)
-
-	for i, v := range bSlice {
-		bSlice[i] = strings.TrimSpace(v)
-	}
-	sort.Strings(bSlice)
-	// fmt.Println("a:", a)
-	// fmt.Println("b:", bSlice)
-	for i, v := range a {
-		if v != bSlice[i] {
-			// fmt.Println("v:", v)
-			// fmt.Println("bSlice[i]:", bSlice[i])
-			// fmt.Println("Mismatch at index", i)
-			return false
-		}
-	}
-	return true
-}
-
-func getScore(sessions []Sessions, progression Progression, sessionNumber int, gameNumber int, answers []Answer) float64 {
-	fmt.Println("Calculating score for session", sessionNumber)
-	sectorDetails := loadSessionData(sessions, progression, sessionNumber)
-	gameData, err := loadAllGameData(sectorDetails)
-	if err != nil {
-		fmt.Println("Error loading game data:", err)
-	}
-
-	score := 0.0
-	maxExamples := 0
-	var selectedGames []Game
-	for _, answer := range answers {
-		// fmt.Println("Answer:", answer)
-		for _, games := range gameData {
-			// fmt.Println("Games:", games)
-			if games[gameNumber-1].Question[0] == answer.Question {
-				// fmt.Println("Found game")
-				selectedGames = games
-				// fmt.Println(sectorDetails[gameNumber-1])
-				maxExamples = sectorDetails[gameNumber-1].MaxExamples
-				// fmt.Println("Max examples:", maxExamples, " for game number:", gameNumber)
-				break
-			}
-		}
-	}
-
-	for _, answer := range answers {
-		for _, game := range selectedGames {
-			fmt.Println("MainWord:", game.MainWord.Text, " and submitted MainWord:", answer.MainwordText)
-			if compareSlices(game.MainWord.Text, answer.MainwordText) {
-				//Check if the answer is correct
-				// fmt.Println("Question: ", game.Question[0], " and submitted question: ", answers[answerIndex].Question)
-				// fmt.Println("Options: ", game.MainWord.Text, " and submitted options: ", answers[answerIndex].MainwordText)
-				submittedAnswers := strings.Split(answer.Answer, ",")
-				correctOptionAnswer := 0
-				for s := range submittedAnswers {
-					for a := range game.Answer {
-						trimmedAnswer := strings.ReplaceAll(submittedAnswers[s], "[", "")
-						trimmedAnswer = strings.ReplaceAll(trimmedAnswer, "]", "")
-						trimmedAnswer = strings.ReplaceAll(trimmedAnswer, ".png", "")
-						fmt.Println("Answer: ", game.Answer[a], " and submitted answer: ", trimmedAnswer)
-						if game.Answer[a] == trimmedAnswer {
-							correctOptionAnswer++
-						}
-					}
-				}
-				if correctOptionAnswer == len(game.Answer) {
-					fmt.Println("Correct answer")
-					score++
-					continue
-				}
-			}
-		}
-	}
-
-	// fmt.Println("All answers checked")
-	// Get the MaxExamples for the sector, in order to calculate the score in %
-	score = (score / float64(maxExamples)) * 100
-	fmt.Println("Score:", score)
-	return score
-	//decodeAudio(answers[0].Answer)
 }
 
 func HandleAnswer(w http.ResponseWriter, r *http.Request) {
@@ -166,13 +68,13 @@ func HandleAnswer(w http.ResponseWriter, r *http.Request) {
 		}
 		// Perform actions with sessionNumber and gameNumber
 	}
-	fmt.Printf("Handling answers for session %d and game %d\n", sessionNumber, gameNumber)
+	log.Printf("Handling answers for session %d and game %d\n", sessionNumber, gameNumber)
 
 	var answers []Answer
 	err := json.NewDecoder(r.Body).Decode(&answers)
-	fmt.Println("Answers:", r.Body)
+	log.Println("Answers:", r.Body)
 	if err != nil {
-		fmt.Println("Failed to decode JSON body")
+		log.Println("Failed to decode JSON body")
 		return
 	}
 	storeAnswers(answers, sessionNumber, gameNumber)
@@ -207,7 +109,7 @@ func loadSessionData(sessions []Sessions, progression Progression, sessionNumber
 						firstElement = progression.ProcessingSpeed[0]
 					}
 				default:
-					fmt.Printf("Unknown sector: %s\n", sector)
+					log.Printf("Unknown sector: %s\n", sector)
 					continue
 				}
 
@@ -262,7 +164,7 @@ func loadAllGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 	gameData := make(map[int][]Game)
 	counter := 1
 	for _, detail := range sectorDetails {
-		//fmt.Println("Sector", detail.Sector)
+		//log.Println("Sector", detail.Sector)
 		sector := detail.Sector
 		section := detail.Section
 		difficulty := detail.Difficulty
@@ -272,13 +174,13 @@ func loadAllGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 
 		// Check if the path exists
 		if _, err := os.Stat(datafilePath); os.IsNotExist(err) {
-			fmt.Printf("File does not exist: %s\n", datafilePath)
+			log.Printf("File does not exist: %s\n", datafilePath)
 			continue
 		}
 
 		file, err := os.Open(datafilePath)
 		if err != nil {
-			return nil, fmt.Errorf("file exists but failed to open: %w", err)
+			log.Fatalf("file exists but failed to open: %v", err)
 		}
 		defer file.Close()
 
@@ -286,7 +188,7 @@ func loadAllGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 		decoder := json.NewDecoder(file)
 		err = decoder.Decode(&gameSlice)
 		if err != nil {
-			return nil, fmt.Errorf("failed to decode JSON data: %w", err)
+			log.Fatalf("failed to decode JSON data: %v", err)
 		}
 
 		// Append games to the appropriate array in gameData
@@ -301,7 +203,7 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 	gameData := make(map[int][]Game)
 	counter := 1
 	for _, detail := range sectorDetails {
-		//fmt.Println("Sector", detail.Sector)
+		//log.Println("Sector", detail.Sector)
 		sector := detail.Sector
 		section := detail.Section
 		difficulty := detail.Difficulty
@@ -312,13 +214,13 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 
 		// Check if the path exists
 		if _, err := os.Stat(datafilePath); os.IsNotExist(err) {
-			fmt.Printf("File does not exist: %s\n", datafilePath)
+			log.Printf("File does not exist: %s\n", datafilePath)
 			continue
 		}
 
 		file, err := os.Open(datafilePath)
 		if err != nil {
-			return nil, fmt.Errorf("file exists but failed to open: %w", err)
+			log.Fatalf("file exists but failed to open: %v", err)
 		}
 		defer file.Close()
 
@@ -326,12 +228,12 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 		decoder := json.NewDecoder(file)
 		err = decoder.Decode(&gameSlice)
 		if err != nil {
-			return nil, fmt.Errorf("failed to decode JSON data: %w", err)
+			log.Fatalf("failed to decode JSON data: %v", err)
 		}
 
 		selectedGames, _ := getRandomElements(gameSlice, maxExamples)
-		// fmt.Println("\n\nselectedIndices = ", selectedIndices)
-		// fmt.Println("\n\nrandomGames = ", selectedGames)
+		// log.Println("\n\nselectedIndices = ", selectedIndices)
+		// log.Println("\n\nrandomGames = ", selectedGames)
 
 		// Append games to the appropriate array in gameData
 		gameData[counter] = append(gameData[counter], selectedGames...)
@@ -342,7 +244,7 @@ func loadGameData(sectorDetails []SectorDetails) (map[int][]Game, error) {
 }
 
 func loadAnswers(sessionNumber int, gameNumber int) ([]Answer, error) {
-	fmt.Println("Loading answers for session", sessionNumber, "and game", gameNumber)
+	log.Println("Loading answers for session", sessionNumber, "and game", gameNumber)
 	filename := fmt.Sprintf("answers/%d_%d_answers.json", sessionNumber, gameNumber)
 	file, err := os.Open(filename)
 	if err != nil {
@@ -352,53 +254,53 @@ func loadAnswers(sessionNumber int, gameNumber int) ([]Answer, error) {
 	byteValue, _ := ioutil.ReadAll(file)
 	var answers []Answer
 	json.Unmarshal(byteValue, &answers)
-	//fmt.Println("Answers for game", gameNumber, ":", answers)
+	//log.Println("Answers for game", gameNumber, ":", answers)
 	return answers, nil
 }
 
 func LoadData(sessionNumber int) ([]GameToHtml, error) {
-	fmt.Println("Loading data for session number:", sessionNumber)
+	log.Println("Loading data for session number:", sessionNumber)
 	var gameDataToHtml []GameToHtml
 	// Load sessions data
 	sessionsFilePath := filepath.Join(basePath, "sessions.json")
 	sessionsFile, err := os.Open(sessionsFilePath)
 	if err != nil {
-		return gameDataToHtml, fmt.Errorf("failed to open file: %w", err)
+		log.Fatalf("failed to open file: %v", err)
 	}
 	defer sessionsFile.Close()
 	var sessions []Sessions
 	bytes, err := io.ReadAll(sessionsFile)
 	if err != nil {
-		return gameDataToHtml, fmt.Errorf("failed to read file: %w", err)
+		log.Fatalf("failed to read file: %v", err)
 	}
 	err = json.Unmarshal(bytes, &sessions)
 	if err != nil {
-		return gameDataToHtml, fmt.Errorf("failed to unmarshal JSON data: %w", err)
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
 	}
 
 	// Load progressions data
 	progressionsFilePath := filepath.Join(basePath, "progression.json")
 	progressionsFile, err := os.Open(progressionsFilePath)
 	if err != nil {
-		return gameDataToHtml, fmt.Errorf("failed to open file: %w", err)
+		log.Fatalf("failed to open file: %v", err)
 	}
 	defer progressionsFile.Close()
 
 	var progression Progression
 	bytes, err = io.ReadAll(progressionsFile)
 	if err != nil {
-		return gameDataToHtml, fmt.Errorf("failed to read file: %w", err)
+		log.Fatalf("failed to read file: %v", err)
 	}
 	err = json.Unmarshal(bytes, &progression)
 	if err != nil {
-		return gameDataToHtml, fmt.Errorf("failed to unmarshal JSON data: %w", err)
+		log.Fatalf("failed to unmarshal JSON data: %v", err)
 	}
 	// Get answers, get score and determine next games
 	if sessionNumber > 1 {
 		//Load answers
 		for gameNumber := 1; gameNumber <= gamesPerSession; gameNumber++ {
-			fmt.Println("Checking game number ", gameNumber, " for session ", sessionNumber-1)
-			fmt.Println("Sector: ", sessions[sessionNumber-2].Sectors[gameNumber-1])
+			log.Println("Checking game number ", gameNumber, " for session ", sessionNumber-1)
+			log.Println("Sector: ", sessions[sessionNumber-2].Sectors[gameNumber-1])
 			sector := sessions[sessionNumber-2].Sectors[gameNumber-1]
 			currentTemplate := ""
 			pa_gameNumber := 0
@@ -424,43 +326,42 @@ func LoadData(sessionNumber int) ([]GameToHtml, error) {
 					me_gameNumber++
 			}
 			if currentTemplate == "AudioRecord" {
-				fmt.Println("Audio record template, exit")
+				log.Println("Audio record template, exit")
 				//TODO: Audio should be decoded from answers, operator to listen to it and mark the score
 				//decodeAudio(answers[0].Answer)
 				continue
 			}
-			// fmt.Println("Progression: ", progression[sessions[sessionNumber-1].Sectors[gameNumber]])
-			// fmt.Println("Has progression: ", progression.)
+			// log.Println("Progression: ", progression[sessions[sessionNumber-1].Sectors[gameNumber]])
+			// log.Println("Has progression: ", progression.)
 			answers, err := loadAnswers(sessionNumber-1, gameNumber)
 			if err != nil {
-				fmt.Println("Error loading answers:", err)
+				log.Println("Error loading answers:", err)
 				continue
 			}
 
 			//Get score
 			score := getScore(sessions, progression, sessionNumber-1, gameNumber, answers)
-			fmt.Println("Score for game", gameNumber, ":", score)
-			os.Exit(1)
+			log.Println("Score for game", gameNumber, ":", score)
 		}
 		//Set progression per sector
 	}
 	// Process data (example: print it)
-	//fmt.Println("sessions = ", sessions)
-	//fmt.Println("progression = ", progression)
-	//fmt.Println("sessionNumber = ", sessionNumber)
+	//log.Println("sessions = ", sessions)
+	//log.Println("progression = ", progression)
+	//log.Println("sessionNumber = ", sessionNumber)
 	//TODO: Progression per sector
 	sectorDetails := loadSessionData(sessions, progression, sessionNumber)
-	//fmt.Println("sectorDetails = ", sectorDetails)
+	//log.Println("sectorDetails = ", sectorDetails)
 
 	// Load game data based on sector details
 	gameData, err := loadGameData(sectorDetails)
-	//fmt.Println("gameData = ", gameData)
+	//log.Println("gameData = ", gameData)
 	for i := 0; i < len(gameData); i++ {
 		gameDataToHtml = append(gameDataToHtml, GameToHtml{Template: sectorDetails[i].Template, Games: gameData[i+1]})
 	}
 
 	if err != nil {
-		return nil, fmt.Errorf("error loading game data: %w", err)
+		log.Fatalf("error loading game data: %v", err)
 	}
 
 	return gameDataToHtml, nil

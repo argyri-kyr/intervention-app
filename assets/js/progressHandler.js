@@ -106,17 +106,12 @@ function updateQuestion(back = false, templateClass, currentQuestion) {
 function chosenOption(templateClass) {
     // Find the selected option
     var selectedAnswers = document.querySelectorAll(`${templateClass}.i_${currentQuestion} .selected`);
-    
     // Define an object to store the selected option and image name
     var result = []
-
     if (selectedAnswers) {
-        // selectedAnswer.classList.add('selected');
         selectedAnswers.forEach(selectedAnswer => {
-
             selectedAnswer.classList.add('selected');
             var isImage = selectedAnswer.querySelector('img') !== null;
-
             if (isImage) {
                 var selectedImageSrc = selectedAnswer.querySelector('img').getAttribute('src');
                 var imageName = selectedImageSrc.substring(selectedImageSrc.lastIndexOf('/') + 1);
@@ -126,17 +121,19 @@ function chosenOption(templateClass) {
             } else {
                 console.log("Selected item is not an image");
             }
-        
         });
     }
-
     return result;
 }
 
 
 
-function nextQuestion(itemSelector, mainwordtext, answer) {
+function nextQuestion(itemSelector, mainwordtext, answer) {   
     let templateClass = itemSelector;
+    if (templateClass.startsWith(".RecallImageChoice")) {
+        nextQuestionMemory(itemSelector, mainwordtext, answer);
+        return;
+    }
     var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
 
     let parentTemplateName = itemSelector.split('-')[0];

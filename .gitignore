@@ -2,3 +2,5 @@ launch.json
 answers.json
 *.ogg
 *.exe
+answers/*
+*.log
