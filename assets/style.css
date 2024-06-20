@@ -85,15 +85,18 @@ body {
 }
 
 .dropzone {
-    border: 1px solid #aaa;
-    width: 750px;
+    padding: 10px;
+    border: 1px solid #888686;
+    width: 745px;
     margin-bottom: 13px;
     margin-left: -30px;
+    padding-left: 35px;
 }
 
 .dropzone > .speak-word {
     margin: 0px;
     width: 250px;
+    margin-right: 30px;
 }
 
 .phonologic-rhyme-pair-answer button {
@@ -131,6 +134,7 @@ h1::after {
     height: 5px; /* Height of the border */
     background-color: #333; /* Color of the border */
 }
+
 
 .CorrectOption-answers-item {
     margin-top: 40px;

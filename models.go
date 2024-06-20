@@ -65,3 +65,19 @@ type Answer struct {
 	MainwordText string `json:"mainwordtext"`
 	Answer       string `json:"answer"`
 }
+
+// Edw apothikebw ana sector poia paradeigmata xrhsimopoihsa wste an sto epomeno session meinv se kapoio tomea sto idio epipedo na mporw na dikelsw alla paradeigmata apo thn askhsh na tou parousiasw
+type SectorSelectedIndices struct {
+	Sector          string `json:"sector"`
+	SelectedIndices []int  `json:"selected_indices"`
+}
+
+// afth h domi apothikebei poia askhsh xrhsimopoihthike se kathe session ana sector, dhladh:
+// session 1 tha einai: phonologic:1, decoding:1, ...
+// session 2 tha exw:
+// analoga ean sto phonologic pige sto epomeno stadio(score>80%) tote tha exw phonologic:2 kai an sto decoding den pernaei sto epomeno stadio tha exw decoding:2
+type SessionSectorLevel struct {
+	Sector      string  `json:"sector"`      // current sector
+	SectorLevel int     `json:"sectorlevel"` // current sector level
+	Score       float64 `json:"score"`       // last(previous) score
+}

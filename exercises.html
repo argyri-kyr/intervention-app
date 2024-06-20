@@ -44,9 +44,9 @@
                         {{range .Options.Text}}
                             <div class="option" onclick="selectOption(this)">
                                 {{if and $audioOptions $imageOptions}}
-                                    <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
+                                    <div class="speak-word image-word" onclick="speak('{{.}}')"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                 {{else if and $audioOptions (not $imageOptions)}}
-                                    <div class="speak-word image-word" onclick="speak('{{.}}') ;  selectAnswer(this);">{{.}}</div>
+                                    <div class="speak-word image-word" onclick="speak('{{.}}')">{{.}}</div>
                                 {{else if and $imageOptions (not $audioOptions)}}
                                     <div class="main-sentence image-word"><img src="/assets/words/{{.}}.png" alt="{{.}}"></div>
                                 {{else}}
@@ -61,7 +61,7 @@
                     {{end}}
 
 
-                {{else if eq $template "MatchMultipleOptions"}}
+                    {{else if eq $template "MatchMultipleOptions"}}
                     {{range $index, $_ := .Games}}
                         {{if eq $index 0}}
                             <div class="{{$template}}-item i_{{$index}}" style="animation: 0.6s ease 0s 1 normal forwards running slideInFromRight; display: block;">
@@ -74,23 +74,23 @@
                         {{$audioOptions := index .Options.Audio}}
                         {{$imageMainword := index .MainWord.Image}}
                         {{$imageOptions := index .Options.Image}}
-
+                
                         {{$mainwordtext := .MainWord.Text}}
                 
-                        <div id="{{$template}}-column-column1" class="{{$template}}-column t_{{$index}}">
+                        <div id="{{$template}}-column-column1" class="{{$template}}-column1 t_{{$index}}">
                             {{range .MainWord.Text}}
                                 <div class="dropzone" ondrop="drop(event)" ondragover="allowDrop(event)">
                                     <div class="speak-word" draggable="true" ondragstart="drag(event)" onclick="speak('{{.}}')">{{.}}</div>
                                 </div>
                             {{end}}
                         </div>
-                        <div id="{{$template}}-column-column2" class="{{$template}}-column t_{{$index}}">
+                        <div id="{{$template}}-column-column2" class="{{$template}}-column2 t_{{$index}}">
                             {{range $itemindex, $_ := .Options.Text}}
-                                <div id="{{$template}}-{{$itemindex}}" class="speak-word" draggable="true" ondragstart="drag(event)" onclick="speak('{{.}}')">{{.}}</div>
+                                <div id="{{$template}}-{{$index}}-{{$itemindex}}" class="speak-word" draggable="true" ondragstart="drag(event)" onclick="speak('{{.}}')">{{.}}</div>
                             {{end}}
                         </div>
-                       
-                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item')">Επόμενο</button>
+                
+                        <button class="nextButton" onclick="nextQuestion('.{{$template}}-item', '{{$mainwordtext}}')">Επόμενο</button>
                         </div>
                     {{end}}
 
@@ -173,8 +173,8 @@
                             </div>
                         {{end}}
 
-                        <div class="{{$template}}-answers">
-                            <button class="button-record" onclick="toggleRecording(this)"><img src="/assets/icons/mic.svg"></button>
+                        <div class="{{$template}}-answers" onclick="selectOption(this)">
+                                <button class="button-record" onclick="toggleRecording(this)"><img src="/assets/icons/mic.svg"></button>
                         </div>
                         <button class="nextButton" onclick="nextQuestion('.{{$template}}-item', '{{$mainwordtext}}')">Επόμενο</button>
                     </div>

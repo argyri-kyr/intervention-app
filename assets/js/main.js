@@ -13,16 +13,16 @@ hideExercises();
 
 let answeredPairs = [];
 
-// Add event listeners to word elements to handle selection
-let wordElements = document.querySelectorAll('.speak-word');
-wordElements.forEach(word => {
-    word.addEventListener('click', function() {
-        // Remove 'selected' class from all other words
-        wordElements.forEach(w => w.classList.remove('selected'));
-        // Add 'selected' class to the clicked word
-        word.classList.add('selected');
-    });
-});
+// // Add event listeners to word elements to handle selection
+// let wordElements = document.querySelectorAll('.speak-word');
+// wordElements.forEach(word => {
+//     word.addEventListener('click', function() {
+//         // Remove 'selected' class from all other words
+//         wordElements.forEach(w => w.classList.remove('selected'));
+//         // Add 'selected' class to the clicked word
+//         word.classList.add('selected');
+//     });
+// });
 
 // Add event listeners to the dropzones
 var dropzones = document.querySelectorAll('.dropzone');

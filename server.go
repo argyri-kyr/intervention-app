@@ -29,7 +29,7 @@ func serveData(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	gameData, err := LoadData(sessionNumber)
+	gameData, _, err := LoadData(sessionNumber)
 	if err != nil {
 		log.Fatalf("Failed to load data: %v", err)
 	}

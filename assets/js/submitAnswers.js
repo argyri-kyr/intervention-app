@@ -40,9 +40,15 @@ function storeAnswer(templateClass, mainwordtext, answer) {
         //submitAnswers();
         //audioData = null;
     }
-    else if (templateClass.startsWith(".SelectOption") || templateClass.startsWith(".RecallImageChoice") ) {
+    else if (templateClass.startsWith(".SelectOption")) {
         var result = chosenOption(templateClass);
-        answers.push({question: question, mainwordtext: mainwordtext, answer: result.join(',')});
+        console.log("result = ", result)
+        answers.push({question: question, mainwordtext: mainwordtext, answer: result});
+        // storeAnswerOption(question, mainwordoption, imageName)
+    }
+    else if (templateClass.startsWith(".MatchMultipleOptions")) {
+        answers.push({question:question, mainwordtext: mainwordtext, answer: matchedPairs});
+        matchedPairs = {};
         // storeAnswerOption(question, mainwordoption, imageName)
     }
     else if (templateClass.startsWith(".RecallImageChoice")) {
@@ -129,16 +135,4 @@ function submitAnswers(gameNum) {
 // Function to retrieve matched pairs
 function getMatchedPairs() {
     return matchedPairs;
-}
-
-// Function to display matched pairs
-function showMatchedPairs() {
-    let pairs = getMatchedPairs();
-    console.log("Matched pairs: ", pairs);
-
-    // Optionally, display pairs in the UI or process them as needed
-    for (let column1Id in pairs) {
-        let column2Id = pairs[column1Id];
-        console.log(`Matched: ${column1Id} with ${column2Id}`);
-    }
 }

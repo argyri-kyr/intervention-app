@@ -119,7 +119,9 @@ function chosenOption(templateClass) {
                 result.push(imageName)
                 
             } else {
-                console.log("Selected item is not an image");
+                const textContent = selectedAnswer.textContent.trim();
+                result.push(textContent)
+                console.log("textContent = ", textContent);
             }
         });
     }
@@ -130,12 +132,7 @@ function chosenOption(templateClass) {
 
 function nextQuestion(itemSelector, mainwordtext, answer) {   
     let templateClass = itemSelector;
-    if (templateClass.startsWith(".RecallImageChoice")) {
-        nextQuestionMemory(itemSelector, mainwordtext, answer);
-        return;
-    }
-    var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
-
+    
     let parentTemplateName = itemSelector.split('-')[0];
     let parentTemplates = document.querySelectorAll(parentTemplateName);
 
@@ -143,37 +140,70 @@ function nextQuestion(itemSelector, mainwordtext, answer) {
     let visibleParentTemplate = Array.from(parentTemplates).find(parentTemplate => {
         return window.getComputedStyle(parentTemplate).display !== "none";
     });
+    console.log("visibleParentTemplate = ", visibleParentTemplate)
 
     questions = visibleParentTemplate.querySelectorAll(itemSelector);
 
-    console.log("templateClass = ", templateClass)
-    console.log("visibleParentTemplate = ", visibleParentTemplate)
+    const nextButtons = document.querySelectorAll('.nextButton-textreading');
+
 
     //Check if next button is pressed without give an answer
-    if ((templateClass.startsWith(".AudioRecord")) && (audioData === null)) {
-        alert("Please record your answer");
-        return;
+    if ( templateClass.startsWith(".AudioRecord") ) {
+        var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
+        console.log("selectedAnswer = ", selectedAnswer)
+        if (selectedAnswer==null) {
+            alert("Please record your answer");
+            return;
+        }
     }
-    if ((templateClass.startsWith(".SelectOption")) && (selectedAnswer===null)) {
-        alert("Please give an answer");
-        return;
+    if ( templateClass.startsWith(".SelectOption") ) {
+        var selectedAnswers = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
+        console.log("selectedAnswers = ", selectedAnswers)
+        console.log("selectedAnswers.length = ", selectedAnswers.length)
+        if (selectedAnswers.length===0) {
+            alert("Please give an answer");
+            return;
+        }
+    }
+    if ( templateClass.startsWith(".RecallImageChoice") ) {
+        let questions = document.querySelectorAll(templateClass);
+        var selectedAnswers = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
+        // console.log("selectedAnswers = ", selectedAnswers)
+        // console.log("selectedAnswers.length = ", selectedAnswers.length)
+        if (templateClass.startsWith(".RecallImageChoice")) {
+            alert("Please choose 2 options");
+            return;
+        }
     }
     //if (templateClass.startsWith(".CorrectOption"))
     //     ((!templateClass.startsWith(".CorrectOption")) && (!selectedAnswer))) {
     //     alert("Please answer");
     //     return;
     // }
-    console.log("mainwordtext = ", mainwordtext)
+
     storeAnswer(templateClass, mainwordtext, answer);
+
 
     if (currentQuestion === questions.length - 1) {
         currentQuestion = 0;
         nextExercise();
+
+        if ( templateClass.startsWith(".RecallImageChoice") ) {
+                // Display the first item of the next template
+                const items = document.querySelectorAll(`.RecallImageChoice-item.i_${currentQuestion}`);
+                const item = items[0];
+                item.style.display = 'block';
+                updateMemoryChoiceTemplate(1, true, nextButtons);
+        }
+
         totalQuestions = getTotalQuestions();
         updateProgressBar();
         return;
     }
     currentQuestion = (currentQuestion + 1) % questions.length;
+    if ( templateClass.startsWith(".RecallImageChoice") ) {
+        updateMemoryChoiceTemplate(1, true, nextButtons);
+    }
     updateQuestion(false, templateClass, currentQuestion);
     updateProgressBar();
 
@@ -229,41 +259,41 @@ function updateMemoryChoiceTemplate(choice, automatic, nextButtons) {
     }
 }
 
-// Define your nextQuestionMemory function
-function nextQuestionMemory(itemSelector, mainwordtext, answer) {
-    let templateClass = itemSelector;
-    let questions = document.querySelectorAll(templateClass);
-    const nextButtons = document.querySelectorAll('.nextButton-textreading');
-    var selectedAnswer = document.querySelector(`${templateClass}.i_${currentQuestion} .selected`);
+// // Define your nextQuestionMemory function
+// function nextQuestionMemory(itemSelector, mainwordtext, answer) {
+//     let templateClass = itemSelector;
+//     let questions = document.querySelectorAll(templateClass);
+//     const nextButtons = document.querySelectorAll('.nextButton-textreading');
+//     var selectedAnswers = document.querySelectorAll(`${templateClass}.i_${currentQuestion} .selected`);
 
-    if ((templateClass.startsWith(".RecallImageChoice")) && (selectedAnswer===null)) {
-        alert("Please give an answer");
-        return;
-    }
+//     if ((templateClass.startsWith(".RecallImageChoice")) && (selectedAnswers.length<2)) {
+//         alert("Please give an answer");
+//         return;
+//     }
 
-    storeAnswer(templateClass, mainwordtext, answer);
+//     storeAnswer(templateClass, mainwordtext, answer);
 
-    if (currentQuestion === questions.length - 1) {
-        currentQuestion = 0;
+//     if (currentQuestion === questions.length - 1) {
+//         currentQuestion = 0;
         
-        nextExercise(); // You need to define this function
+//         nextExercise(); // You need to define this function
 
-        // Display the first item of the next template
-        const items = document.querySelectorAll(`.RecallImageChoice-item.i_${currentQuestion}`);
-        const item = items[0];
-        item.style.display = 'block';
-        updateMemoryChoiceTemplate(1, true, nextButtons);
+//         // Display the first item of the next template
+//         const items = document.querySelectorAll(`.RecallImageChoice-item.i_${currentQuestion}`);
+//         const item = items[0];
+//         item.style.display = 'block';
+//         updateMemoryChoiceTemplate(1, true, nextButtons);
 
-        updateProgressBar(); // You need to define this function
-        return;
-    }
+//         updateProgressBar(); // You need to define this function
+//         return;
+//     }
     
-    currentQuestion = (currentQuestion + 1) % questions.length;
-    console.log()
-    updateMemoryChoiceTemplate(1, true, nextButtons);
-    updateQuestion(false, itemSelector, currentQuestion); // You need to define this function
-    updateProgressBar(); // You need to define this function
-}
+//     currentQuestion = (currentQuestion + 1) % questions.length;
+//     console.log()
+//     updateMemoryChoiceTemplate(1, true, nextButtons);
+//     updateQuestion(false, itemSelector, currentQuestion); // You need to define this function
+//     updateProgressBar(); // You need to define this function
+// }
 
 // Define your initialization function
 function initializeRecallImageChoice() {

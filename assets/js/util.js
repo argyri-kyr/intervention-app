@@ -53,24 +53,17 @@ function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     var dropTarget = ev.target;
-    console.log("dropTarget = ", dropTarget);
 
     // Check if the drop area already contains a child element
     if (dropTarget.children.length === 1) {
         // Append the dropped element
         dropTarget.appendChild(document.getElementById(data));
 
-        var texts = Array.from(dropTarget.children).map(child => {
-            var onclickValue = child.getAttribute('onclick');
-            var textMatch = onclickValue.match(/speak\('([^']+)'\)/);
-            return textMatch ? textMatch[1] : '';
-        });
-        console.log("texts = ", texts)
-        matchedPairs[texts[0]] = texts[1];
-        console.log("matchedPairs = ", matchedPairs)
+        storePairsFromDrop(dropTarget);
+
     } else {
         // Prevent dropping another element
-        console.log("Drop area already contains an element.");
+        // console.log("Drop area already contains an element.");
     }
 }
 
@@ -98,4 +91,22 @@ function selectOption(option) {
     
     // Select the clicked option
     option.classList.add('selected');
+}
+
+function storePairsFromDrop(dropTarget) {
+    var texts = Array.from(dropTarget.children).map(child => {
+        var onclickValue = child.getAttribute('onclick');
+        var textMatch = onclickValue.match(/speak\('([^']+)'\)/);
+        return textMatch ? textMatch[1] : '';
+    });
+
+    // Iterate over matchedPairs to find and delete the matching pair
+    for (let key in matchedPairs) {
+        if (matchedPairs[key] === texts[1]) {
+            delete matchedPairs[key];
+        }
+    }
+
+    matchedPairs[texts[0]] = texts[1];
+
 }
